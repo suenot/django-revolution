@@ -4,7 +4,7 @@ Zone-based API client generator settings
 """
 
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from pydantic import BaseModel, Field, ConfigDict
 
 
@@ -45,21 +45,22 @@ class DjangoRevolutionConfig(BaseModel):
         return self.model_dump(mode='json', exclude_none=True)
 
 
-def get_revolution_config(project_root: Path, zones: Dict[str, ZoneConfig], debug: bool = False) -> Dict[str, Any]:
+def get_revolution_config(project_root: Path, zones: Dict[str, ZoneConfig], debug: bool = False, monorepo: Optional[MonorepoConfig] = None) -> Dict[str, Any]:
     """Get Django Revolution configuration as dictionary."""
     
-    # Calculate monorepo path relative to project root
-    monorepo_path = project_root.parent / 'monorepo'
+    # If monorepo config is not provided, disable it
+    if monorepo is None:
+        monorepo = MonorepoConfig(
+            enabled=False,
+            path="",
+            api_package_path=""
+        )
     
     config = DjangoRevolutionConfig(
         api_prefix='apix',
         debug=debug,
         auto_install_deps=True,
-        monorepo=MonorepoConfig(
-            enabled=True,
-            path=str(monorepo_path),
-            api_package_path='packages/api/src'
-        ),
+        monorepo=monorepo,
         zones=zones
     )
     

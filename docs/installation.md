@@ -17,10 +17,12 @@ Simple installation steps. No complex configuration. Auto-installs everything.
 
 ## 🚀 Quick Install
 
-### Install Package
+Just run:
 
 ```bash
 pip install django-revolution
+# or
+poetry add django-revolution
 ```
 
 ### Add to Django

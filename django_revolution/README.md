@@ -15,6 +15,7 @@
 - ⚙️ Generate strongly typed clients with **one command**
 - 🔐 Built-in support for **Bearer tokens**, refresh logic, and API keys
 - 🔄 Zero config for **Swagger/OpenAPI URLs**, **frontend integration**, and **monorepos**
+- 🎯 **Optional monorepo integration** - works with or without monorepo structure
 
 > No boilerplate. No manual sync. Just clean clients in seconds.
 
@@ -101,8 +102,17 @@ zones = {
     )
 }
 
-# One function - full configuration!
+# Option 1: Without monorepo (simplest)
 config = get_revolution_config(project_root=Path.cwd(), zones=zones)
+
+# Option 2: With monorepo integration
+from django_revolution.app_config import MonorepoConfig
+monorepo = MonorepoConfig(
+    enabled=True,
+    path=str(Path.cwd().parent / 'monorepo'),
+    api_package_path='packages/api/src'
+)
+config = get_revolution_config(project_root=Path.cwd(), zones=zones, monorepo=monorepo)
 ```
 
 **Benefits:**
@@ -112,6 +122,7 @@ config = get_revolution_config(project_root=Path.cwd(), zones=zones)
 - ✅ **Environment-aware** - Auto-detects paths and settings
 - ✅ **IDE support** - Autocomplete and error checking
 - ✅ **Production-ready** - Optimized for client generation
+- ✅ **Flexible** - Works with or without monorepo
 
 ## 🚀 5-Minute Setup
 
@@ -173,6 +184,7 @@ class SpectacularConfig(BaseModel):
 from django_revolution.app_config import (
     DjangoRevolutionConfig,
     ZoneConfig,
+    MonorepoConfig,
     get_revolution_config
 )
 
@@ -210,9 +222,17 @@ def create_revolution_config(env) -> Dict[str, Any]:
         )
     }
 
-    # One function call - everything configured!
+    # Option 1: Without monorepo (simplest setup)
     project_root = env.root_dir
     return get_revolution_config(project_root=project_root, zones=zones, debug=env.debug)
+    
+    # Option 2: With monorepo integration
+    # monorepo = MonorepoConfig(
+    #     enabled=True,
+    #     path=str(env.root_dir.parent / 'monorepo'),
+    #     api_package_path='packages/api/src'
+    # )
+    # return get_revolution_config(project_root=project_root, zones=zones, debug=env.debug, monorepo=monorepo)
 ```
 
 ### 4. Generate Clients
@@ -226,14 +246,17 @@ python manage.py revolution --zones client admin
 
 # TypeScript only
 python manage.py revolution --typescript
+
+# Without monorepo sync
+python manage.py revolution --no-monorepo
 ```
 
 ## 🧬 What Does It Generate?
 
 | Language       | Location                            | Structure                                                 |
 | -------------- | ----------------------------------- | --------------------------------------------------------- |
-| **TypeScript** | `monorepo/packages/api/typescript/` | `public/`, `admin/` → `index.ts`, `types.ts`, `services/` |
-| **Python**     | `monorepo/packages/api/python/`     | `public/`, `admin/` → `client.py`, `models/`, `setup.py`  |
+| **TypeScript** | `openapi/clients/typescript/`       | `public/`, `admin/` → `index.ts`, `types.ts`, `services/` |
+| **Python**     | `openapi/clients/python/`           | `public/`, `admin/` → `client.py`, `models/`, `setup.py`  |
 
 💡 Each zone gets its own NPM/PyPI-style package. Ready to publish or import.
 
@@ -324,6 +347,9 @@ python manage.py revolution --typescript
 python manage.py revolution --python
 python manage.py revolution --no-archive
 
+# Monorepo options
+python manage.py revolution --no-monorepo
+
 # Utility commands
 python manage.py revolution --status
 python manage.py revolution --list-zones
@@ -349,9 +375,30 @@ The standalone CLI provides an interactive interface with:
 - 📊 Real-time progress tracking
 - ✅ Generation summary with results table
 
-## 🪆 Monorepo-Friendly
+## 🪆 Monorepo Integration (Optional)
 
-Django Revolution **automatically configures** your monorepo:
+Django Revolution **optionally integrates** with your monorepo:
+
+### With Monorepo
+
+```python
+# settings.py - With monorepo integration
+from django_revolution.app_config import MonorepoConfig
+
+monorepo = MonorepoConfig(
+    enabled=True,
+    path=str(BASE_DIR.parent.parent / 'monorepo'),
+    api_package_path='packages/api/src'
+)
+
+DJANGO_REVOLUTION = get_revolution_config(
+    project_root=BASE_DIR, 
+    zones=zones, 
+    monorepo=monorepo
+)
+```
+
+**Auto-generated monorepo structure:**
 
 ```yaml
 # pnpm-workspace.yaml (auto-generated)
@@ -370,6 +417,22 @@ packages:
   }
 }
 ```
+
+### Without Monorepo
+
+```python
+# settings.py - Without monorepo (simplest)
+DJANGO_REVOLUTION = get_revolution_config(
+    project_root=BASE_DIR, 
+    zones=zones
+)
+```
+
+**Generated locally:**
+
+- `openapi/clients/typescript/` - TypeScript clients
+- `openapi/clients/python/` - Python clients
+- `openapi/archive/` - Versioned archives
 
 ## 🔧 Configuration
 
@@ -427,8 +490,17 @@ zones = {
     )
 }
 
-# One function - full configuration!
+# Option 1: Without monorepo (simplest)
 config = get_revolution_config(project_root=Path.cwd(), zones=zones)
+
+# Option 2: With monorepo integration
+from django_revolution.app_config import MonorepoConfig
+monorepo = MonorepoConfig(
+    enabled=True,
+    path=str(Path.cwd().parent / 'monorepo'),
+    api_package_path='packages/api/src'
+)
+config = get_revolution_config(project_root=Path.cwd(), zones=zones, monorepo=monorepo)
 ```
 
 ### **Legacy Configuration** (for backward compatibility)
@@ -469,6 +541,7 @@ export DJANGO_REVOLUTION_AUTO_INSTALL_DEPS=true
 - **Teams** needing consistent API client generation
 - **Projects** requiring zone-based API organization
 - **Automated CI/CD** pipelines
+- **Simple projects** without monorepo (optional integration)
 
 ### ❌ Not For
 
@@ -529,7 +602,7 @@ summary = generator.generate_all(zones=['public', 'admin'])
 | --------------------------------- | ------------------ | ---------------------------- | --------------------- | -------- | ------------ |
 | **Zone-based architecture**       | ✅ **UNIQUE**      | ❌                           | ❌                    | ✅       | ❌           |
 | **Automatic URL generation**      | ✅ **UNIQUE**      | ❌                           | ❌                    | ❌       | ❌           |
-| **Monorepo integration**          | ✅ **UNIQUE**      | ❌                           | ❌                    | ✅       | ❌           |
+| **Monorepo integration**          | ✅ **OPTIONAL**    | ❌                           | ❌                    | ✅       | ❌           |
 | **Django management commands**    | ✅ **UNIQUE**      | ❌                           | ❌                    | ❌       | ❌           |
 | **Archive management**            | ✅ **UNIQUE**      | ❌                           | ❌                    | ❌       | ❌           |
 | **TypeScript + Python clients**   | ✅                 | ✅                           | ✅                    | ✅       | ✅           |
@@ -548,7 +621,7 @@ summary = generator.generate_all(zones=['public', 'admin'])
 Use `setHeaders()` or `setApiKey()` to inject custom logic.
 
 **Q: Can I use this in non-monorepo setups?**  
-Absolutely. Monorepo is optional.
+Absolutely! Monorepo integration is completely optional. Just don't pass the `monorepo` parameter.
 
 **Q: What if I need only TypeScript clients?**  
 Use `--typescript` flag to generate only TS clients.
@@ -561,6 +634,9 @@ Simply import and use: `from django_revolution.drf_config import create_drf_conf
 
 **Q: Are the Pydantic configs type-safe?**  
 Yes! Full Pydantic v2 validation with IDE autocomplete and error checking.
+
+**Q: How do I disable monorepo integration?**  
+Either don't pass the `monorepo` parameter to `get_revolution_config()`, or use the `--no-monorepo` flag when running the command.
 
 ## 🤝 Contributing
 

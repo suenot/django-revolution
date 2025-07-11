@@ -17,6 +17,16 @@ Complete guide for using Django Revolution to generate and use API clients.
 
 ## 🚀 Basic Usage
 
+### Installation
+
+Just run:
+
+```bash
+pip install django-revolution
+# or
+poetry add django-revolution
+```
+
 ### Generate Clients
 
 ```bash

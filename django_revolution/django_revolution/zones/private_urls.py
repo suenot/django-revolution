@@ -7,5 +7,5 @@ from django.urls import path, include
 
 # Zone-specific URL patterns for private
 urlpatterns = [
-    path("api/private_api/", include("django_sample.apps.private_api.urls")),
+    path("apix/private_api/", include("apps.private_api.urls")),
 ]

@@ -52,8 +52,12 @@ Complete documentation for Django Revolution - the fastest way to generate TypeS
 
 ### Installation
 
+Just run:
+
 ```bash
 pip install django-revolution
+# or
+poetry add django-revolution
 ```
 
 ### Basic Setup

@@ -5,6 +5,7 @@ Common utilities for logging, error handling, and system operations.
 """
 
 import logging
+import os
 import subprocess
 import shutil
 from pathlib import Path
@@ -404,12 +405,12 @@ def get_django_manage_py() -> Optional[Path]:
         possible_paths = []
     
     # Add common locations
-    possible_paths.extend([
-        Path.cwd() / "manage.py",
-        Path.cwd().parent / "manage.py",
-        Path.cwd() / "backend" / "manage.py",
-        Path.cwd() / "django" / "manage.py",
-    ])
+    # Recursive search for manage.py (up to 3 levels)
+    for root, dirs, files in os.walk(Path.cwd()):
+        if "manage.py" in files:
+            possible_paths.append(Path(root) / "manage.py")
+            break
+
     
     for path in possible_paths:
         if path.exists() and path.is_file():

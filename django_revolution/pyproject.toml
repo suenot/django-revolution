@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-revolution"
-version = "1.0.5"
+version = "1.0.6"
 description = "Zone-based API architecture for Django. Install and go."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -47,6 +47,8 @@ dependencies = [
     "questionary>=2.0.0",
     "rich>=13.0.0",
     "datamodel-code-generator>=0.31.0",
+    "django-filter>=22.0.0",
+    "djangorestframework-simplejwt>=5.0.0",
 ]
 
 [project.optional-dependencies]
@@ -58,12 +60,12 @@ dev = [
     "mypy>=0.800",
     "build>=1.0.0",
     "twine>=4.0.0",
-]
+    "questionary>=2.0.0",
 ]
 
 [project.urls]
 "Homepage" = "https://unrealos.com"
-"Documentation" = "https://github.com/markolofsen/django-revolution"
+"Repository" = "https://github.com/markolofsen/django-revolution"
 "Documentation" = "https://django-revolution.readthedocs.io/"
 
 [project.scripts]
@@ -96,9 +98,14 @@ extend-exclude = '''
 '''
 
 [tool.mypy]
-python_version = "1.0.5"
+python_version = "1.0.6"
 check_untyped_defs = true
 ignore_missing_imports = true
 warn_unused_ignores = true
 warn_redundant_casts = true
 warn_unused_configs = true
+
+[tool.poetry.group.dev.dependencies]
+build = "^1.2.2.post1"
+twine = "^6.1.0"
+

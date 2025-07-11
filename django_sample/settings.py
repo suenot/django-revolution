@@ -27,8 +27,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'django_revolution',
     # Test apps
-    'django_sample.apps.public_api',
-    'django_sample.apps.private_api',
+    'apps.public_api',
+    'apps.private_api',
 ]
 
 MIDDLEWARE = [
@@ -102,64 +102,65 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Django REST Framework
-REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-    ],
-}
-
-# DRF Spectacular
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Django Revolution Test API',
-    'DESCRIPTION': 'Test API for Django Revolution',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-}
-
 # Django Revolution Configuration
-DJANGO_REVOLUTION = {
-    'api_prefix': 'api',
-    'debug': True,
-    'auto_install_deps': False,  # Disable for testing
-    'zones': {
-        'public': {
-            'apps': ['django_sample.apps.public_api'],
-            'title': 'Public API',
-            'description': 'Public API for testing',
-            'public': True,
-            'auth_required': False
-        },
-        'private': {
-            'apps': ['django_sample.apps.private_api'],
-            'title': 'Private API',
-            'description': 'Private API for testing',
-            'public': False,
-            'auth_required': True
-        }
-    },
-    'output': {
-        'base_directory': str(BASE_DIR / 'tests' / 'openapi'),
-        'schemas_directory': 'schemas',
-        'clients_directory': 'clients',
-    },
-    'generators': {
-        'typescript': {
-            'enabled': True,
-            'output_directory': str(BASE_DIR / 'tests' / 'openapi' / 'clients' / 'typescript'),
-        },
-        'python': {
-            'enabled': True,
-            'output_directory': str(BASE_DIR / 'tests' / 'openapi' / 'clients' / 'python'),
-        }
-    },
-    'monorepo': {
-        'enabled': True,
-        'path': str(BASE_DIR.parent.parent / 'monorepo'),
-        'api_package_path': 'packages/api/src'
+# ======================================
+
+# 1. DRF + Spectacular Configuration (like in services.py)
+from django_revolution.drf_config import create_drf_config
+
+drf_config = create_drf_config(
+    title="Django Revolution Test API",
+    description="Test API for Django Revolution with zone-based architecture",
+    version="1.0.0",
+    schema_path_prefix="/api/",
+    enable_browsable_api=True,
+    enable_throttling=True,
+)
+
+# Apply DRF and Spectacular settings
+settings_dict = drf_config.get_django_settings()
+REST_FRAMEWORK = settings_dict['REST_FRAMEWORK']
+SPECTACULAR_SETTINGS = settings_dict['SPECTACULAR_SETTINGS']
+
+# 2. Zone Configuration (like in revolution.py)
+from django_revolution.app_config import ZoneConfig, get_revolution_config
+
+def create_revolution_config() -> dict:
+    """Get Django Revolution configuration as dictionary."""
+    
+    # Define zones with typed Pydantic models
+    zones = {
+        'public': ZoneConfig(
+            apps=['apps.public_api'],
+            title='Public API',
+            description='Public API for testing - users and posts',
+            public=True,
+            auth_required=False,
+            version='v1',
+            path_prefix='public'
+        ),
+        'private': ZoneConfig(
+            apps=['apps.private_api'],
+            title='Private API',
+            description='Private API for testing - categories, products, orders',
+            public=False,
+            auth_required=True,
+            version='v1',
+            path_prefix='private'
+        )
     }
-} 
+    
+    # Option 1: With monorepo (uncomment to enable)
+    # from django_revolution.app_config import MonorepoConfig
+    # monorepo = MonorepoConfig(
+    #     enabled=True,
+    #     path=str(BASE_DIR.parent.parent.parent / 'monorepo'),
+    #     api_package_path='packages/api/src'
+    # )
+    # return get_revolution_config(project_root=BASE_DIR, zones=zones, debug=DEBUG, monorepo=monorepo)
+    
+    # Option 2: Without monorepo (current setup)
+    return get_revolution_config(project_root=BASE_DIR, zones=zones, debug=DEBUG)
+
+# Apply Django Revolution settings
+DJANGO_REVOLUTION = create_revolution_config() 
