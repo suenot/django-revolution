@@ -1,8 +1,21 @@
+%%README.LLM id=django-revolution-troubleshooting%%
+
 # Troubleshooting Guide
 
-This guide helps you resolve common issues when building Django Revolution documentation.
+**Fix common Django Revolution issues quickly.**
 
-## Common Issues
+## 🎯 Purpose
+
+Quick solutions for common problems when using Django Revolution.
+
+## ✅ Rules
+
+- Check status first: `python manage.py revolution --status`
+- Use verbose output for debugging: `--verbosity=3`
+- Validate configuration before generating: `--validate`
+- Clean and retry if needed: `--clean`
+
+## 🚨 Common Issues
 
 ### 1. Sphinx 8.x Compatibility Issues
 
@@ -79,7 +92,7 @@ pip install -e ".[docs]"
 export PYTHONPATH=$PYTHONPATH:$(pwd)/..
 ```
 
-## Build Commands
+## 🔧 Build Commands
 
 ### Clean Build
 
@@ -100,7 +113,7 @@ sphinx-build -b html . _build/html -v
 sphinx-build -b html . _build/html -W
 ```
 
-## Environment Issues
+## 🌍 Environment Issues
 
 ### Python Version Conflicts
 
@@ -128,7 +141,7 @@ conda activate docs
 pip install -r requirements.txt
 ```
 
-## ReadTheDocs Specific Issues
+## 📚 ReadTheDocs Specific Issues
 
 ### Build Failures on ReadTheDocs
 
@@ -154,7 +167,7 @@ myst-parser==3.0.1
 docutils==0.21.2
 ```
 
-## Performance Issues
+## ⚡ Performance Issues
 
 ### Slow Builds
 
@@ -186,7 +199,7 @@ make clean
 make html
 ```
 
-## Getting Help
+## 🛠️ Getting Help
 
 ### Check Logs
 
@@ -217,7 +230,7 @@ sphinx-build -b html . _build/html --dry-run
 - **ReadTheDocs Support**: https://readthedocs.org/support/
 - **GitHub Issues**: https://github.com/markolofsen/django-revolution/issues
 
-## Quick Fixes
+## 🔄 Quick Fixes
 
 ### Reset Everything
 
@@ -249,6 +262,82 @@ pip --version
 pip freeze | grep -E "(sphinx|docutils|myst)"
 ```
 
+## 🎯 Django Revolution Specific Issues
+
+### Command Not Found
+
+**Problem**: `python manage.py revolution` not found
+
+**Solution**:
+
+```bash
+# Check installation
+pip list | grep django-revolution
+
+# Reinstall if needed
+pip install --force-reinstall django-revolution
+
+# Check Django settings
+python manage.py check
+```
+
+### Zone Configuration Errors
+
+**Problem**: Zone validation fails
+
+**Solution**:
+
+```bash
+# Validate configuration
+python manage.py revolution --validate
+
+# Check zone definitions
+python manage.py revolution --list-zones
+
+# Check if apps exist
+python manage.py check
+```
+
+### Generation Fails
+
+**Problem**: Client generation fails
+
+**Solution**:
+
+```bash
+# Check status
+python manage.py revolution --status
+
+# Install dependencies
+python manage.py revolution --install-deps
+
+# Force regeneration
+python manage.py revolution --force
+
+# Clean and retry
+python manage.py revolution --clean
+python manage.py revolution
+```
+
+### Import Errors in Generated Clients
+
+**Problem**: Can't import generated clients
+
+**Solution**:
+
+```bash
+# Check if clients were generated
+ls -la monorepo/packages/api/typescript/public/
+
+# Regenerate clients
+python manage.py revolution --force
+
+# Check package.json dependencies
+cat monorepo/packages/api/typescript/public/package.json
+```
+
 ---
 
 **💡 Tip**: Most issues can be resolved by using the exact versions specified in `requirements.txt` and ensuring a clean build environment.
+
+%%END%%

@@ -70,6 +70,25 @@ zone = ZoneModel(
 - `middleware: Optional[List[str]]`
 - `path_prefix: Optional[str]`
 
+### ZoneManager
+
+Manages API zones and URL pattern generation.
+
+```python
+from django_revolution.zones import ZoneManager
+
+manager = ZoneManager(config)
+zone_patterns = manager.get_zone_urls()
+```
+
+**Methods:**
+
+- `get_zone_urls() -> List[Any]` - Generate URL patterns for all zones
+- `get_zone_schema_urls() -> List[Any]` - Get schema URLs for all zones
+- `create_zone_urlconf_module(zone_name: str, zone: ZoneModel) -> str` - Create URL conf module
+- `create_zone_schema_patterns(zone_name: str, zone: ZoneModel) -> List[Any]` - Create schema patterns
+- `get_app_urls(apps_list: List[str], prefix: str = None) -> List[Any]` - Generate URL patterns for apps
+
 ### ZoneDetector
 
 Auto-detects zones from Django configuration.
@@ -84,9 +103,11 @@ zones = detector.detect_zones()  # Returns Dict[str, ZoneModel]
 **Methods:**
 
 - `detect_zones() -> Dict[str, ZoneModel]`
+- `detect_zones_from_django_config() -> Dict[str, ZoneModel]`
 - `get_zone_names() -> List[str]`
 - `get_zone(name: str) -> Optional[ZoneModel]`
 - `validate_zone(zone_name: str) -> bool`
+- `validate_zone_apps(zone_name: str) -> bool`
 - `get_zones_summary() -> Dict[str, Any]`
 
 ### OpenAPIGenerator
@@ -102,22 +123,22 @@ summary = generator.generate_all()  # Generate all clients
 
 **Methods:**
 
-- `generate_all(zones: Optional[List[str]] = None) -> GenerationSummary`
-- `detect_zones() -> Dict[str, ZoneModel]`
-- `generate_schemas_for_zones(zones: Dict[str, ZoneModel]) -> Dict[str, Path]`
-- `generate_typescript_clients(zones, schemas) -> Dict[str, GenerationResult]`
-- `generate_python_clients(zones, schemas) -> Dict[str, GenerationResult]`
-- `archive_clients(zones, ts_results, py_results) -> Dict[str, Any]`
-- `get_status() -> Dict[str, Any]`
+- `generate_all(zones: Optional[List[str]] = None, archive: bool = True) -> GenerationSummary`
+- `generate_schemas(zones: Optional[List[str]] = None) -> Dict[str, Path]`
+- `generate_typescript_clients(schemas, zones) -> Dict[str, GenerationResult]`
+- `generate_python_clients(schemas, zones) -> Dict[str, GenerationResult]`
+- `archive_clients(typescript_results, python_results) -> Dict[str, Any]`
+- `sync_to_monorepo() -> Dict[str, bool]`
+- `validate_environment() -> bool`
 - `clean_output() -> bool`
+- `get_status() -> Dict[str, Any]`
 
 ### GenerationSummary
 
 Result summary from client generation.
 
 ```python
-from dataclasses import dataclass
-from typing import Dict
+from django_revolution.config import GenerationSummary
 
 @dataclass
 class GenerationSummary:

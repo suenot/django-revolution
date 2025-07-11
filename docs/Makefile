@@ -22,7 +22,7 @@ help:
 # Custom targets for Django Revolution documentation
 
 install-deps:
-	/usr/bin/python3 -m pip install sphinx==7.4.7 docutils==0.21.2 sphinx-rtd-theme myst-parser
+	/usr/bin/python3 -m pip install sphinx==7.4.7 docutils==0.21.2 sphinx-rtd-theme myst-parser sphinx-autodoc-typehints sphinx-copybutton sphinx-tabs sphinx-panels
 
 clean:
 	rm -rf $(BUILDDIR)
@@ -75,4 +75,12 @@ watch:
 # ReadTheDocs specific
 rtd: install-deps
 	$(SPHINXBUILD) -b html $(SPHINXOPTS) $(SOURCEDIR) $(BUILDDIR)/html
-	@echo "ReadTheDocs build finished. The HTML pages are in $(BUILDDIR)/html." 
+	@echo "ReadTheDocs build finished. The HTML pages are in $(BUILDDIR)/html."
+
+# Quality assurance
+qa: linkcheck spelling
+	@echo "Quality assurance checks completed."
+
+# Full build with all checks
+all: clean install-deps html linkcheck spelling
+	@echo "Full build with all checks completed." 

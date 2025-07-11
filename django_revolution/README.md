@@ -365,8 +365,8 @@ packages:
 ```json
 {
   "dependencies": {
-    "@unrealos/public-api-client": "workspace:*",
-    "@unrealos/admin-api-client": "workspace:*"
+    "@markolofsen/public-api-client": "workspace:*",
+    "@markolofsen/admin-api-client": "workspace:*"
   }
 }
 ```
@@ -566,7 +566,7 @@ Yes! Full Pydantic v2 validation with IDE autocomplete and error checking.
 
 ```bash
 # Development setup
-git clone https://github.com/unrealos/django-revolution.git
+git clone https://github.com/markolofsen/django-revolution.git
 cd django-revolution
 pip install -e ".[dev]"
 

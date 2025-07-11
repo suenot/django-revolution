@@ -17,25 +17,26 @@ Understand Django Revolution's modular architecture. Clean components, clear sep
 
 ## 🏗️ Core Components
 
-### Zone Detection (`zones.py`)
+### Zone Management (`zones/`)
 
+- **ZoneManager** - Manages API zones and URL pattern generation
 - **ZoneDetector** - Auto-finds zones from Django `api.config.APIConfig`
-- **Zone** - Dataclass representing individual zone configuration
+- **Zone** - Pydantic model representing individual zone configuration
 - **ZoneConfig** - Base configuration for defining zones
-- **ZoneManager** - Generates URL patterns and manages zone routing
 
-### URL Management (`urls/`)
+### URL Integration (`urls_integration.py`)
 
-- **get_urls()** - Main entry point for URL generation
-- **URLLogger** - Rich console logging with emojis and progress
-- **URLAnalyzer** - Analyzes URL patterns and provides insights
-- **ZoneManager** - Creates zone-specific URL patterns
+- **add_revolution_urls()** - Main entry point for URL generation
+- **get_revolution_urlpatterns()** - Get URL patterns for integration
+- **get_revolution_urls_info()** - Get URL information and metadata
 
 ### OpenAPI Generation (`openapi/`)
 
 - **OpenAPIGenerator** - Orchestrates the entire generation process
 - **HeyAPITypeScriptGenerator** - TypeScript client generation using HeyAPI
 - **PythonClientGenerator** - Python client generation using openapi-python-client
+- **ArchiveManager** - Manages client archiving and packaging
+- **MonorepoSync** - Handles monorepo synchronization
 - **Template System** - Jinja2 templates for custom client generation
 - **Auto-installer** - Automatically installs npm dependencies
 
@@ -146,18 +147,25 @@ zipfile.ZipFile(archive_path, 'w')
 django_revolution/
 ├── __init__.py                    # Main exports
 ├── apps.py                       # Django app configuration
-├── zones.py                      # Zone management
-├── urls/
-│   ├── __init__.py               # URL generation entry point
-│   ├── utils.py                  # URLLogger, URLAnalyzer
-│   └── zones.py                  # ZoneManager re-export
+├── config.py                     # Pydantic configuration models
+├── utils.py                      # Utilities and helpers
+├── cli.py                        # Standalone CLI interface
+├── urls_integration.py           # URL integration helpers
+├── drf_config.py                 # DRF configuration
+├── zones/
+│   ├── __init__.py               # ZoneManager, ZoneDetector
+│   ├── public_urls.py            # Generated public zone URLs
+│   ├── private_urls.py           # Generated private zone URLs
+│   ├── admin_urls.py             # Generated admin zone URLs
+│   └── ...                       # Other generated zone URLs
 ├── openapi/
 │   ├── __init__.py               # OpenAPI exports
 │   ├── generator.py              # Main OpenAPI orchestrator
 │   ├── heyapi_ts.py             # TypeScript generator
 │   ├── python_client.py         # Python generator
-│   ├── utils.py                 # Logger, ErrorHandler, auto-install
-│   ├── zones.py                 # Zone detection re-export
+│   ├── archive_manager.py       # Archive management
+│   ├── monorepo_sync.py         # Monorepo synchronization
+│   ├── utils.py                 # OpenAPI utilities
 │   └── templates/               # Jinja2 templates
 │       ├── __init__.py.j2       # Python package template
 │       ├── index.ts.j2          # TypeScript index template
@@ -166,49 +174,6 @@ django_revolution/
 └── management/
     └── commands/
         └── revolution.py         # Django management command
-```
-
-## 🔄 Process Flow Detail
-
-### Initialization Phase
-
-```python
-# When Django starts:
-1. DjangoRevolutionConfig.ready() called
-2. ensure_directories() creates output folders
-3. ZoneDetector.setup_django() validates Django environment
-4. URLLogger initialized for rich console output
-```
-
-### Zone Discovery Phase
-
-```python
-# When command runs:
-1. ZoneDetector.detect_zones() scans for api.config.APIConfig
-2. Validates zone configuration (apps exist, no duplicates)
-3. Creates Zone objects with full metadata
-4. Logs discovered zones with rich formatting
-```
-
-### Schema Generation Phase
-
-```python
-# For each zone:
-1. create_zone_urlconf_module() generates dynamic URL module
-2. Django spectacular extracts OpenAPI schema
-3. Schema saved to openapi/schemas/{zone_name}.yaml
-4. Progress logged with success/failure indicators
-```
-
-### Client Generation Phase
-
-```python
-# For each zone:
-1. HeyAPITypeScriptGenerator.generate() creates TS client
-2. PythonClientGenerator.generate() creates Python client
-3. Template files rendered with Jinja2
-4. Files counted and logged
-5. Clients archived to ZIP files
 ```
 
 ## 🛠️ Configuration System
@@ -278,12 +243,11 @@ class APIConfig(ZoneConfig):
 ### Custom Zone Types
 
 ```python
-# Extend Zone dataclass for custom functionality
-@dataclass
-class CustomZone(Zone):
+# Extend ZoneModel for custom functionality
+class CustomZoneModel(ZoneModel):
     """Custom zone with additional features."""
     rate_limit: Optional[str] = None
-    custom_middleware: List[str] = field(default_factory=list)
+    custom_middleware: List[str] = Field(default_factory=list)
 
     def get_rate_limit_config(self):
         # Custom rate limiting logic
@@ -348,35 +312,6 @@ logger.info("🔍 Detecting zones...")
 logger.success("✅ Generated TypeScript client for customer zone")
 logger.error("❌ Failed to generate schema for admin zone")
 logger.warning("⚠️ Node.js not found, skipping TypeScript generation")
-```
-
-## 🚀 Performance Optimizations
-
-### Parallel Processing
-
-```python
-# Generate multiple clients simultaneously (future enhancement)
-with ThreadPoolExecutor() as executor:
-    typescript_futures = [executor.submit(ts_gen.generate, zone) for zone in zones]
-    python_futures = [executor.submit(py_gen.generate, zone) for zone in zones]
-```
-
-### Caching
-
-```python
-# Cache zone detection results
-@lru_cache(maxsize=1)
-def detect_zones():
-    # Expensive zone detection only runs once
-    return zone_detector.detect_zones()
-```
-
-### Incremental Generation
-
-```python
-# Only regenerate if schema changed (future enhancement)
-if schema_file.stat().st_mtime > client_dir_mtime:
-    generate_client(zone, schema_file)
 ```
 
 %%END%%

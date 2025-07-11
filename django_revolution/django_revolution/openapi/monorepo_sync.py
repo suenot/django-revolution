@@ -174,7 +174,7 @@ class MonorepoSync:
                     package_data = json.load(f)
                 
                 # Update for monorepo workspace
-                package_data['name'] = f"@unrealos/{zone_name}-api-client"
+                package_data['name'] = f"@unrealos{zone_name}-api-client"
                 package_data['private'] = True  # Monorepo packages are usually private
                 package_data['version'] = "workspace:*"
                 

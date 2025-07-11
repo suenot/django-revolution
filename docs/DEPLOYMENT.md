@@ -1,16 +1,23 @@
-# Documentation Deployment Guide
+%%README.LLM id=django-revolution-deployment%%
 
-This guide explains how to deploy Django Revolution documentation to ReadTheDocs.
+# Deployment Guide
 
-## Prerequisites
+**Deploy Django Revolution documentation to ReadTheDocs.**
 
-1. **GitHub Repository**: Your code must be in a public GitHub repository
-2. **ReadTheDocs Account**: Sign up at [readthedocs.org](https://readthedocs.org)
-3. **Documentation Structure**: Ensure your docs are properly structured
+## 🎯 Purpose
 
-## Quick Setup
+Complete guide for deploying documentation to ReadTheDocs with automatic builds.
 
-### 1. Connect Repository to ReadTheDocs
+## ✅ Rules
+
+- Documentation builds automatically on GitHub push
+- ReadTheDocs detects `.readthedocs.yml` configuration
+- All dependencies must be in `pyproject.toml`
+- Use Sphinx 7.x for compatibility
+
+## 🚀 Quick Setup
+
+### 1. Connect Repository
 
 1. Go to [readthedocs.org](https://readthedocs.org)
 2. Click "Import a Project"
@@ -18,11 +25,12 @@ This guide explains how to deploy Django Revolution documentation to ReadTheDocs
 4. Select your `django-revolution` repository
 5. Click "Next"
 
-### 2. Configure Build Settings
+### 2. Automatic Configuration
 
-ReadTheDocs will automatically detect the `.readthedocs.yml` file and use these settings:
+ReadTheDocs automatically detects and uses:
 
 ```yaml
+# .readthedocs.yml (auto-detected)
 version: 2
 
 build:
@@ -44,13 +52,13 @@ sphinx:
 
 ### 3. Build Documentation
 
-ReadTheDocs will automatically:
+ReadTheDocs automatically:
 
-- Install your package with `pip install -e ".[docs]"`
-- Build documentation using Sphinx
-- Deploy to `https://your-project.readthedocs.io/`
+- Installs your package with `pip install -e ".[docs]"`
+- Builds documentation using Sphinx
+- Deploys to `https://your-project.readthedocs.io/`
 
-## Manual Deployment
+## 🔧 Manual Deployment
 
 ### Local Build
 
@@ -76,11 +84,11 @@ make rtd
 rsync -av _build/html/ user@server:/path/to/docs/
 ```
 
-## Configuration Options
+## ⚙️ Configuration Options
 
 ### Environment Variables
 
-You can set these in ReadTheDocs project settings:
+Set these in ReadTheDocs project settings:
 
 ```bash
 # Build environment
@@ -100,7 +108,7 @@ READTHEDOCS_CONDA_ENV=docs
 3. Update DNS records to point to ReadTheDocs
 4. Configure SSL certificate
 
-## Troubleshooting
+## 🚨 Troubleshooting
 
 ### Common Issues
 
@@ -140,7 +148,7 @@ grep -r "html_theme" docs/conf.py
 - **Sphinx Documentation**: [https://www.sphinx-doc.org/](https://www.sphinx-doc.org/)
 - **GitHub Issues**: [https://github.com/markolofsen/django-revolution/issues](https://github.com/markolofsen/django-revolution/issues)
 
-## Advanced Configuration
+## 🔧 Advanced Configuration
 
 ### Multiple Versions
 
@@ -152,7 +160,7 @@ ReadTheDocs automatically builds documentation for:
 
 ### Custom Build Commands
 
-You can override build commands in ReadTheDocs settings:
+Override build commands in ReadTheDocs settings:
 
 ```bash
 # Pre-build commands
@@ -172,7 +180,7 @@ Enable Google Analytics in ReadTheDocs settings:
 html_theme_options = { 'analytics_id': 'G-XXXXXXXXXX', }
 ```
 
-## Maintenance
+## 🛠️ Maintenance
 
 ### Regular Tasks
 
@@ -187,7 +195,7 @@ html_theme_options = { 'analytics_id': 'G-XXXXXXXXXX', }
 - **User Feedback**: Monitor GitHub issues for documentation problems
 - **Analytics**: Review ReadTheDocs analytics for popular pages
 
-## Best Practices
+## 📋 Best Practices
 
 ### Documentation Structure
 
@@ -217,10 +225,12 @@ docs/
 - Tag releases to trigger documentation builds
 - Review documentation in pull requests
 
-## Support
+## 📞 Support
 
 For help with documentation deployment:
 
 - **ReadTheDocs Documentation**: [https://docs.readthedocs.io/](https://docs.readthedocs.io/)
 - **Sphinx Documentation**: [https://www.sphinx-doc.org/](https://www.sphinx-doc.org/)
 - **Project Issues**: [https://github.com/markolofsen/django-revolution/issues](https://github.com/markolofsen/django-revolution/issues)
+
+%%END%%

@@ -1,16 +1,30 @@
+%%README.LLM id=django-revolution-docs-readme%%
+
 # Django Revolution Documentation
 
-This directory contains the documentation for Django Revolution, built with Sphinx and hosted on ReadTheDocs.
+**Local documentation development guide.**
 
-## Quick Start
+## 🎯 Purpose
 
-### 1. Install Dependencies
+Build and serve Django Revolution documentation locally for development.
+
+## ✅ Rules
+
+- Use `make` commands for all operations
+- Install dependencies first: `make install-deps`
+- Build HTML: `make html`
+- Serve locally: `make serve`
+- Clean builds: `make clean`
+
+## 🚀 Quick Start
+
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Build Documentation
+### Build Documentation
 
 ```bash
 # Build HTML documentation
@@ -20,7 +34,7 @@ make html
 sphinx-build -b html . _build/html
 ```
 
-### 3. View Documentation
+### View Documentation
 
 ```bash
 # Serve locally
@@ -30,7 +44,7 @@ make serve
 open _build/html/index.html
 ```
 
-## Development
+## 🛠️ Development
 
 ### Watch Mode
 
@@ -49,74 +63,82 @@ make clean
 make clean && make html
 ```
 
-### Link Checking
+### Quality Checks
 
 ```bash
 # Check all links
 make linkcheck
-```
 
-### Spell Checking
-
-```bash
 # Check spelling
 make spelling
+
+# Run all quality checks
+make qa
 ```
 
-## Structure
+### Full Build
+
+```bash
+# Complete build with all checks
+make all
+```
+
+## 📁 Structure
 
 ```
 docs/
 ├── conf.py              # Sphinx configuration
 ├── index.md             # Main documentation page
-├── installation.md      # Installation guide
-├── cli.md              # CLI reference
+├── INSTALLATION.md      # Installation guide
+├── USAGE.md             # Usage guide
+├── CLI.md               # CLI reference
+├── API_REFERENCE.md     # API documentation
+├── ARCHITECTURE.md      # Architecture guide
+├── DEPLOYMENT.md        # Deployment guide
+├── TROUBLESHOOTING.md   # Troubleshooting guide
 ├── requirements.txt     # Documentation dependencies
-├── Makefile            # Build commands
-└── README.md           # This file
+├── Makefile             # Build commands
+└── README.md            # This file
 ```
 
-## ReadTheDocs Integration
+## 🌐 ReadTheDocs Integration
 
 ### Automatic Builds
 
-This documentation is automatically built and deployed to ReadTheDocs when:
+Documentation builds automatically on:
 
-1. Code is pushed to the `main` branch
-2. A new tag is created
-3. A pull request is opened
+- Push to `main` branch
+- New tag creation
+- Pull request creation
 
 ### Configuration
 
-The `.readthedocs.yml` file in the project root configures the build process:
+`.readthedocs.yml` in project root:
 
 ```yaml
 version: 2
-
 build:
   os: ubuntu-22.04
   tools:
     python: '3.11'
-
 python:
   install:
     - method: pip
       path: .
       extra_requirements:
         - docs
-
 sphinx:
   configuration: docs/conf.py
   fail_on_warning: true
 ```
 
-## Contributing
+## 🛠️ Contributing
 
 ### Adding New Pages
 
-1. Create a new `.md` file in the `docs/` directory
-2. Add it to the navigation in `conf.py`
-3. Update the index page if needed
+1. Create new `.md` file in `docs/` directory (use UPPERCASE for key docs)
+2. Add to navigation in `index.md` toctree
+3. Update file tree above if needed
 
 ### Writing Style
 
@@ -138,13 +160,11 @@ make html
 make serve
 ```
 
-## Troubleshooting
+## 🚨 Troubleshooting
 
 ### Common Issues
 
 #### Import Errors
-
-If you get import errors when building:
 
 ```bash
 # Install the package in development mode
@@ -155,8 +175,6 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)/..
 ```
 
 #### Theme Issues
-
-If the theme doesn't load:
 
 ```bash
 # Reinstall theme
@@ -177,7 +195,7 @@ sphinx-build -b html . _build/html -W
 sphinx-build -b html . _build/html -v
 ```
 
-## Deployment
+## 🚀 Deployment
 
 ### Manual Deployment
 
@@ -191,11 +209,13 @@ rsync -av _build/html/ user@server:/path/to/docs/
 
 ### ReadTheDocs
 
-The documentation is automatically deployed to ReadTheDocs at:
+Documentation automatically deploys to:
 https://django-revolution.readthedocs.io/
 
-## Support
+## 📞 Support
 
 - **Documentation Issues**: [GitHub Issues](https://github.com/markolofsen/django-revolution/issues)
 - **ReadTheDocs Issues**: [ReadTheDocs Support](https://readthedocs.org/support/)
 - **Sphinx Issues**: [Sphinx Documentation](https://www.sphinx-doc.org/)
+
+%%END%%

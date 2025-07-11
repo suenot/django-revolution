@@ -1,298 +1,208 @@
+%%README.LLM id=django-revolution-installation%%
+
 # Installation Guide
 
-## Prerequisites
+**Get Django Revolution running in 2 minutes.**
 
-Before installing Django Revolution, make sure you have:
+## 🎯 Purpose
 
-- **Python 3.8+**
-- **Django 4.0+**
-- **Django REST Framework 3.14+**
-- **drf-spectacular** (for OpenAPI schema generation)
+Simple installation steps. No complex configuration. Auto-installs everything.
 
-## Quick Installation
+## ✅ Rules
 
-### 1. Install Django Revolution
+- Python 3.8+ required
+- Django 4.0+ required
+- Auto-installs npm dependencies (HeyAPI, openapi-python-client)
+- Works with existing Django projects
+
+## 🚀 Quick Install
+
+### Install Package
 
 ```bash
 pip install django-revolution
 ```
 
-### 2. Add to Django Settings
+### Add to Django
 
 ```python
 # settings.py
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
-    # Third-party apps
-    'rest_framework',
-    'drf_spectacular',
-    'django_revolution',  # Add this line
+    'django_revolution',
+    # your existing apps
 ]
 ```
 
-### 3. Configure Django Revolution
-
-```python
-# settings.py
-from django_revolution.app_config import ZoneConfig, get_revolution_config
-from pathlib import Path
-
-# Define your API zones
-zones = {
-    'public': ZoneConfig(
-        apps=['accounts', 'billing', 'payments', 'support', 'public'],
-        title='Public API',
-        description='API for public client applications',
-        public=True,
-        auth_required=False,
-        version='v1',
-        path_prefix='public'
-    ),
-    'admin': ZoneConfig(
-        apps=['admin_panel', 'analytics', 'services'],
-        title='Admin API',
-        description='Administrative API endpoints',
-        public=False,
-        auth_required=True,
-        version='v1',
-        path_prefix='admin'
-    )
-}
-
-# Get Django Revolution configuration
-REVOLUTION_CONFIG = get_revolution_config(
-    project_root=Path.cwd(),
-    zones=zones,
-    debug=DEBUG
-)
-```
-
-### 4. Add URLs
-
-```python
-# urls.py
-from django.contrib import admin
-from django.urls import path, include
-from django_revolution import add_revolution_urls
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    # Your other URLs...
-]
-
-# Add Django Revolution URLs
-urlpatterns = add_revolution_urls(urlpatterns)
-```
-
-### 5. Generate Clients
+### Test Installation
 
 ```bash
-# Generate all clients
-python manage.py revolution
-
-# Generate specific zones
-python manage.py revolution --zones public admin
-
-# TypeScript only
-python manage.py revolution --typescript
+python manage.py revolution --status
 ```
 
-## Advanced Installation
+**Done!** Django Revolution auto-installs dependencies when first used.
 
-### Using Poetry
+## 🔧 Verify Installation
+
+### Check Version & Status
 
 ```bash
-# Add to pyproject.toml
-poetry add django-revolution
-
-# Or add to dependencies
-poetry add --group dev django-revolution
+python manage.py revolution --status
 ```
 
-### Using Pipenv
+### List Available Commands
 
 ```bash
-pipenv install django-revolution
+python manage.py revolution --help
 ```
 
-### Development Installation
+### Install Dependencies
 
 ```bash
-# Clone the repository
-git clone https://github.com/markolofsen/django-revolution.git
+python manage.py revolution --install-deps
+```
+
+### List Zones
+
+```bash
+python manage.py revolution --list-zones
+```
+
+## 📦 Auto-Installed Dependencies
+
+**Automatically installed when needed:**
+
+- `@hey-api/openapi-ts` - TypeScript client generation
+- `openapi-python-client` - Python client generation
+- `drf-spectacular` - OpenAPI schema generation (via pip)
+
+**Pre-installed with package:**
+
+- `Django>=3.2` - Web framework
+- `djangorestframework>=3.12.0` - API framework
+- `Jinja2>=3.0.0` - Template engine
+- `PyYAML>=6.0` - YAML processing
+
+## 🛠️ Advanced Installation
+
+### From Source
+
+```bash
+git clone https://github.com/django-revolution/django-revolution.git
 cd django-revolution
-
-# Install in development mode
-pip install -e ".[dev]"
-
-# Run tests
-pytest
+pip install -e .
 ```
 
-## Configuration Options
+### With Poetry
+
+```bash
+poetry add django-revolution
+```
+
+### With Requirements File
+
+```bash
+# requirements.txt
+django-revolution>=1.0.3
+
+pip install -r requirements.txt
+```
+
+## 🚨 Troubleshooting
+
+### Node.js Not Found
+
+Django Revolution auto-installs npm packages but requires Node.js:
+
+```bash
+# Ubuntu/Debian
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# macOS with Homebrew
+brew install node
+
+# Windows with Chocolatey
+choco install nodejs
+```
+
+### Permission Errors
+
+```bash
+# Fix npm permissions (Linux/macOS)
+sudo chown -R $(whoami) ~/.npm
+```
+
+### Import Errors
+
+```bash
+# Check installation
+python -c "import django_revolution; print('✅ Django Revolution installed')"
+
+# Reinstall if needed
+pip uninstall django-revolution
+pip install django-revolution
+```
+
+### Generation Fails
+
+```bash
+# Check detailed status
+python manage.py revolution --status
+
+# Install dependencies manually
+python manage.py revolution --install-deps
+
+# Clean and retry
+python manage.py revolution --clean
+python manage.py revolution
+```
+
+## ⚙️ Configuration
+
+### Optional Django Settings
+
+```python
+# settings.py (optional customization)
+REVOLUTION_CONFIG = {
+    'output_dir': 'openapi',           # Default: 'openapi'
+    'auto_install_deps': True,         # Default: True
+    'typescript_enabled': True,        # Default: True
+    'python_enabled': True,            # Default: True
+    'archive_clients': True,           # Default: True
+}
+```
 
 ### Environment Variables
 
 ```bash
-# Debug mode
-export DJANGO_REVOLUTION_DEBUG=true
+# Skip auto-installation of dependencies
+export DJANGO_REVOLUTION_NO_AUTO_INSTALL=1
 
-# API prefix
-export DJANGO_REVOLUTION_API_PREFIX=apix
-
-# Auto-install dependencies
-export DJANGO_REVOLUTION_AUTO_INSTALL_DEPS=true
+# Custom output directory
+export DJANGO_REVOLUTION_OUTPUT_DIR=/custom/path
 ```
 
-### Manual Configuration
+## 📋 System Requirements
 
-```python
-# settings.py
-REVOLUTION_CONFIG = {
-    'debug': True,
-    'api_prefix': 'apix',
-    'auto_install_deps': True,
-    'zones': {
-        'zone_name': {
-            'apps': ['app1', 'app2'],           # Required
-            'title': 'Human Readable Title',    # Optional
-            'description': 'Zone description',  # Optional
-            'public': True,                     # Optional
-            'auth_required': False,             # Optional
-            'rate_limit': '1000/hour',          # Optional
-            'permissions': ['perm1', 'perm2'],  # Optional
-            'version': 'v1',                    # Optional
-            'prefix': 'custom_prefix',          # Optional
-            'cors_enabled': False,              # Optional
-        }
-    },
-    'generators': {
-        'typescript': {
-            'output_dir': 'monorepo/packages/api/typescript',
-            'package_name': '@myorg/api-client',
-            'custom_templates': './templates/typescript'
-        },
-        'python': {
-            'output_dir': 'monorepo/packages/api/python',
-            'package_name': 'myorg-api-client',
-            'custom_templates': './templates/python'
-        }
-    }
-}
-```
+### Minimum Requirements
 
-## Monorepo Setup
+- Python 3.8+
+- Django 3.2+
+- 100MB free disk space
+- Internet connection (for dependency installation)
 
-### 1. Initialize Monorepo
+### Recommended
 
-```bash
-# Create monorepo structure
-mkdir my-monorepo
-cd my-monorepo
+- Python 3.11+
+- Django 4.2+
+- Node.js 18+ (for TypeScript generation)
+- 500MB free disk space
 
-# Initialize pnpm workspace
-pnpm init
-```
+### Supported Platforms
 
-### 2. Configure Workspace
+- ✅ Linux (Ubuntu, CentOS, Alpine)
+- ✅ macOS (Intel & Apple Silicon)
+- ✅ Windows 10/11
+- ✅ Docker containers
 
-```yaml
-# pnpm-workspace.yaml
-packages:
-  - 'packages/*'
-  - 'apps/*'
-  - 'backend/*'
-```
-
-### 3. Generate Clients
-
-```bash
-# From backend directory
-cd backend
-python manage.py revolution
-
-# This will create:
-# - packages/api/typescript/
-# - packages/api/python/
-```
-
-### 4. Install Generated Packages
-
-```bash
-# In monorepo root
-pnpm install
-
-# The generated packages will be available as workspace dependencies
-```
-
-## Troubleshooting
-
-### Common Issues
-
-#### 1. Import Error: No module named 'django_revolution'
-
-```bash
-# Make sure Django Revolution is installed
-pip install django-revolution
-
-# Check if it's in INSTALLED_APPS
-python manage.py check
-```
-
-#### 2. drf-spectacular not found
-
-```bash
-# Install drf-spectacular
-pip install drf-spectacular
-
-# Add to INSTALLED_APPS
-INSTALLED_APPS = [
-    'drf_spectacular',
-    'django_revolution',
-]
-```
-
-#### 3. Zone configuration error
-
-```python
-# Make sure all apps in zones exist
-INSTALLED_APPS = [
-    'accounts',
-    'billing',
-    'payments',
-    # ... all apps referenced in zones
-]
-```
-
-#### 4. Permission denied on output directory
-
-```bash
-# Check directory permissions
-ls -la monorepo/packages/api/
-
-# Create directory if it doesn't exist
-mkdir -p monorepo/packages/api/typescript
-mkdir -p monorepo/packages/api/python
-```
-
-### Getting Help
-
-- **Documentation**: [https://django-revolution.readthedocs.io/](https://django-revolution.readthedocs.io/)
-- **Issues**: [https://github.com/markolofsen/django-revolution/issues](https://github.com/markolofsen/django-revolution/issues)
-- **Discussions**: [https://github.com/markolofsen/django-revolution/discussions](https://github.com/markolofsen/django-revolution/discussions)
-
-## Next Steps
-
-After installation, check out:
-
-- [CLI Reference](cli.md) - All available commands
-- Configuration Guide - Detailed configuration options (coming soon)
-- Zone Management - How to organize your API into zones (coming soon)
-- TypeScript Integration - Using generated TypeScript clients (coming soon)
-- Python Integration - Using generated Python clients (coming soon)
+%%END%%

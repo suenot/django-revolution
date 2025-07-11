@@ -1,8 +1,21 @@
+%%README.LLM id=django-revolution-cli%%
+
 # CLI Reference
 
-Django Revolution provides both Django management commands and a standalone CLI tool.
+**Complete command reference for Django Revolution.**
 
-## Django Management Commands
+## 🎯 Purpose
+
+Reference for all Django Revolution commands and options.
+
+## ✅ Rules
+
+- Use `python manage.py revolution` for Django integration
+- Use `django-revolution` for standalone CLI
+- All commands support help with `--help`
+- Commands are idempotent and safe to run multiple times
+
+## 🚀 Django Management Commands
 
 ### Basic Commands
 
@@ -172,7 +185,7 @@ Use a custom configuration file.
 python manage.py revolution --config ./custom_revolution_config.py
 ```
 
-## Standalone CLI
+## 🎯 Standalone CLI
 
 ### Interactive CLI
 
@@ -245,7 +258,7 @@ django-revolution clean
 django-revolution zones
 ```
 
-## Command Line Options
+## 📋 Command Line Options
 
 ### Global Options
 
@@ -275,7 +288,7 @@ django-revolution zones
 | `--package-name` | Custom package name     | `--package-name @myorg/api` |
 | `--templates`    | Custom templates        | `--templates ./templates`   |
 
-## Examples
+## 🧪 Examples
 
 ### Development Workflow
 
@@ -325,7 +338,7 @@ python manage.py revolution --config ./custom_config.py
 python manage.py revolution --project-root /path/to/django/project
 ```
 
-## Exit Codes
+## 🔧 Exit Codes
 
 | Code | Meaning             |
 | ---- | ------------------- |
@@ -336,7 +349,7 @@ python manage.py revolution --project-root /path/to/django/project
 | 4    | Generation error    |
 | 5    | Permission error    |
 
-## Environment Variables
+## 🌍 Environment Variables
 
 You can also control behavior via environment variables:
 
@@ -354,7 +367,7 @@ export DJANGO_REVOLUTION_VERBOSITY=2
 export DJANGO_REVOLUTION_FORCE=true
 ```
 
-## Troubleshooting
+## 🚨 Troubleshooting
 
 ### Common Issues
 
@@ -398,3 +411,5 @@ python manage.py revolution --help
 # Show help for specific command
 python manage.py revolution generate --help
 ```
+
+%%END%%

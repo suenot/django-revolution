@@ -1,32 +1,117 @@
-# Documentation
+%%README.LLM id=django-revolution-github%%
 
-This directory contains documentation for the PyPI packages in the backend.
+# Django Revolution
 
-## Structure
+**Zone-based API client generator for Django projects**
 
-- `django_revolution/` - Documentation for Django Revolution package
+## 🎯 Purpose
 
-## Building Documentation
+A powerful Django framework extension that revolutionizes web development with modern patterns, enhanced tooling, and streamlined workflows.
 
-Each package has its own documentation directory with a Makefile for building and serving.
+## ✅ Rules
 
-### Django Revolution
+- Define zones in `api/config.py` or Django settings
+- Use `python manage.py revolution` for generation
+- Auto-installs dependencies (HeyAPI, openapi-python-client)
+- Supports monorepo integration
+- Archives clients with versioning
+
+## 🚀 Features
+
+- **Zone-Based API Organization** - Organize APIs into logical zones with clear boundaries
+- **Multi-Language Client Generation** - TypeScript and Python clients with type safety
+- **Automatic OpenAPI Schemas** - Generate OpenAPI 3.0 schemas automatically
+- **Seamless Django Integration** - Zero configuration, works out of the box
+- **Monorepo Support** - Intelligent synchronization with monorepo structures
+
+## 📦 Installation
 
 ```bash
-cd django_revolution
+pip install django-revolution
+```
+
+## 🛠️ Quick Start
+
+```python
+# settings.py
+INSTALLED_APPS = [
+    'django_revolution',
+    # ... your other apps
+]
+
+# Optional: Configure zones
+DJANGO_REVOLUTION = {
+    'zones': {
+        'client': {
+            'apps': ['src.accounts', 'src.billing'],
+            'title': 'Client API',
+            'public': True,
+        }
+    }
+}
+```
+
+### Generate Clients
+
+```bash
+# Auto-detects zones and generates all clients
+python manage.py revolution
+
+# Generate specific zones
+python manage.py revolution --zones public private
+
+# TypeScript only
+python manage.py revolution --typescript
+```
+
+### Use Generated Clients
+
+```typescript
+// TypeScript
+import { client } from './openapi/clients/typescript/public';
+const users = await client.sdk.users.list();
+```
+
+```python
+# Python
+from openapi.clients.python.public import PublicAPI
+api = PublicAPI(base_url="https://api.example.com")
+users = api.users.list()
+```
+
+## 📚 Documentation
+
+Comprehensive documentation is available at [ReadTheDocs](https://django-revolution.readthedocs.io/).
+
+### Local Development
+
+```bash
+cd docs
 make html      # Build HTML documentation
 make serve     # Build and serve on http://localhost:8000
 make clean     # Clean build artifacts
 ```
 
-## Requirements
+## 🔧 Requirements
 
 - Python 3.9+
-- Sphinx 7.4.7
-- docutils 0.21.2
-- sphinx-rtd-theme
-- myst-parser
+- Django 4.0+
+- Node.js 18+ (for TypeScript generation)
+- Sphinx 7.4.7 (for documentation)
+- docutils 0.21.2 (for documentation)
 
-## Deployment
+## 🤝 Contributing
 
-Documentation can be deployed to ReadTheDocs by connecting the repository and configuring the build settings in `.readthedocs.yml`.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- 📖 [Documentation](https://django-revolution.readthedocs.io/)
+- 🐛 [Issue Tracker](https://github.com/markolofsen/django-revolution/issues)
+- 💬 [Discussions](https://github.com/markolofsen/django-revolution/discussions)
+
+%%END%%
