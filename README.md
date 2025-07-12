@@ -81,35 +81,24 @@ users = api.users.list()
 
 Comprehensive documentation is available at [GitHub Pages](https://markolofsen.github.io/django-revolution/).
 
-### Local Development
-
-```bash
-cd docs
-make html      # Build HTML documentation
-make serve     # Build and serve on http://localhost:8000
-make clean     # Clean build artifacts
-```
-
 ## 🔧 Requirements
 
 - Python 3.9+
 - Django 4.0+
 - Node.js 18+ (for TypeScript generation)
-- Sphinx 7.4.7 (for documentation)
-- docutils 0.21.2 (for documentation)
 
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-## 📄 License
+## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Non-Commercial License - see [LICENSE](LICENSE) file for details.
+
+For commercial use, please contact Unrealos Inc. at licensing@unrealos.com
 
 ## 🆘 Support
 
 - 📖 [Documentation](https://markolofsen.github.io/django-revolution/)
 - 🐛 [Issue Tracker](https://github.com/markolofsen/django-revolution/issues)
 - 💬 [Discussions](https://github.com/markolofsen/django-revolution/discussions)
-
-%%END%%
