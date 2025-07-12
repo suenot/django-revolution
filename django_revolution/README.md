@@ -5,7 +5,7 @@
 [![PyPI version](https://badge.fury.io/py/django-revolution.svg)](https://badge.fury.io/py/django-revolution)
 [![Python Support](https://img.shields.io/pypi/pyversions/django-revolution.svg)](https://pypi.org/project/django-revolution/)
 [![Django Support](https://img.shields.io/pypi/djversions/django-revolution.svg)](https://pypi.org/project/django-revolution/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/license-Non--Commercial-red.svg)](LICENSE)
 
 ## ✨ What is Django Revolution?
 
@@ -660,7 +660,9 @@ isort django_revolution/
 
 ## 📝 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+Non-Commercial License - see [LICENSE](LICENSE) file for details.
+
+For commercial use, please contact Unrealos Inc. at licensing@unrealos.com
 
 ---
 
