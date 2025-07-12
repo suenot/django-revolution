@@ -1,5 +1,3 @@
-%%README.LLM id=django-revolution-github%%
-
 # Django Revolution
 
 **Zone-based API client generator for Django projects**
