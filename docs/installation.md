@@ -1,23 +1,13 @@
-%%README.LLM id=django-revolution-installation%%
+---
+layout: default
+title: Installation
+---
 
 # Installation Guide
 
 **Get Django Revolution running in 2 minutes.**
 
-## 🎯 Purpose
-
-Simple installation steps. No complex configuration. Auto-installs everything.
-
-## ✅ Rules
-
-- Python 3.8+ required
-- Django 4.0+ required
-- Auto-installs npm dependencies (HeyAPI, openapi-python-client)
-- Works with existing Django projects
-
-## 🚀 Quick Install
-
-Just run:
+## Quick Install
 
 ```bash
 pip install django-revolution
@@ -43,7 +33,7 @@ python manage.py revolution --status
 
 **Done!** Django Revolution auto-installs dependencies when first used.
 
-## 🔧 Verify Installation
+## Verify Installation
 
 ### Check Version & Status
 
@@ -69,7 +59,7 @@ python manage.py revolution --install-deps
 python manage.py revolution --list-zones
 ```
 
-## 📦 Auto-Installed Dependencies
+## Auto-Installed Dependencies
 
 **Automatically installed when needed:**
 
@@ -83,13 +73,15 @@ python manage.py revolution --list-zones
 - `djangorestframework>=3.12.0` - API framework
 - `Jinja2>=3.0.0` - Template engine
 - `PyYAML>=6.0` - YAML processing
+- `django-filter>=22.0.0` - Filtering support
+- `djangorestframework-simplejwt>=5.0.0` - JWT authentication
 
-## 🛠️ Advanced Installation
+## Advanced Installation
 
 ### From Source
 
 ```bash
-git clone https://github.com/django-revolution/django-revolution.git
+git clone https://github.com/markolofsen/django-revolution.git
 cd django-revolution
 pip install -e .
 ```
@@ -104,12 +96,12 @@ poetry add django-revolution
 
 ```bash
 # requirements.txt
-django-revolution>=1.0.3
+django-revolution>=1.0.6
 
 pip install -r requirements.txt
 ```
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Node.js Not Found
 
@@ -159,13 +151,13 @@ python manage.py revolution --clean
 python manage.py revolution
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Optional Django Settings
 
 ```python
 # settings.py (optional customization)
-REVOLUTION_CONFIG = {
+DJANGO_REVOLUTION = {
     'output_dir': 'openapi',           # Default: 'openapi'
     'auto_install_deps': True,         # Default: True
     'typescript_enabled': True,        # Default: True
@@ -184,7 +176,7 @@ export DJANGO_REVOLUTION_NO_AUTO_INSTALL=1
 export DJANGO_REVOLUTION_OUTPUT_DIR=/custom/path
 ```
 
-## 📋 System Requirements
+## System Requirements
 
 ### Minimum Requirements
 
@@ -198,13 +190,7 @@ export DJANGO_REVOLUTION_OUTPUT_DIR=/custom/path
 - Python 3.11+
 - Django 4.2+
 - Node.js 18+ (for TypeScript generation)
-- 500MB free disk space
 
-### Supported Platforms
+---
 
-- ✅ Linux (Ubuntu, CentOS, Alpine)
-- ✅ macOS (Intel & Apple Silicon)
-- ✅ Windows 10/11
-- ✅ Docker containers
-
-%%END%%
+[← Back to Home](index.html) | [Next: Usage →](usage.html)

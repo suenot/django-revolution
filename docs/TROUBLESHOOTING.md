@@ -1,343 +1,334 @@
-%%README.LLM id=django-revolution-troubleshooting%%
+---
+layout: default
+title: Troubleshooting
+---
 
-# Troubleshooting Guide
+# Troubleshooting
 
-**Fix common Django Revolution issues quickly.**
+**Common issues and solutions for Django Revolution.**
 
-## 🎯 Purpose
+## Installation Issues
 
-Quick solutions for common problems when using Django Revolution.
+### ImportError: No module named 'django_revolution'
 
-## ✅ Rules
-
-- Check status first: `python manage.py revolution --status`
-- Use verbose output for debugging: `--verbosity=3`
-- Validate configuration before generating: `--validate`
-- Clean and retry if needed: `--clean`
-
-## 🚨 Common Issues
-
-### 1. Sphinx 8.x Compatibility Issues
-
-**Problem**: `ImportError: cannot import name 'roles' from 'docutils.parsers.rst'`
-
-**Cause**: Sphinx 8.x has breaking changes with docutils compatibility.
+**Problem**: Django Revolution is not installed or not in Python path.
 
 **Solution**:
 
 ```bash
-# Downgrade to Sphinx 7.x
-pip install "sphinx<8.0" "docutils>=0.20,<0.22" --force-reinstall
+# Install Django Revolution
+pip install django-revolution
 
-# Or use the fixed requirements
-pip install -r requirements.txt
+# Verify installation
+python -c "import django_revolution; print('✅ Installed')"
 ```
 
-### 2. Missing Dependencies
+### ModuleNotFoundError: No module named 'django_filters'
 
-**Problem**: `ModuleNotFoundError` for sphinx packages
+**Problem**: Missing dependencies.
 
 **Solution**:
 
 ```bash
-# Install all dependencies
-make install-deps
+# Install missing dependencies
+pip install django-filter djangorestframework-simplejwt
 
-# Or install manually
-pip install sphinx sphinx-rtd-theme myst-parser
+# Or let Django Revolution install them
+python manage.py revolution --install-deps
 ```
 
-### 3. Permission Issues
+## Configuration Issues
 
-**Problem**: Permission denied when building
+### Zone Configuration Error
+
+**Problem**: Invalid zone configuration in settings.
+
+**Solution**:
+
+```python
+# settings.py - Correct format
+DJANGO_REVOLUTION = {
+    'zones': {
+        'public': {
+            'apps': ['accounts', 'billing'],  # List of apps
+            'title': 'Public API',
+            'description': 'Public endpoints',
+            'public': True,
+            'auth_required': False,
+            'version': 'v1',
+            'path_prefix': 'public'
+        }
+    }
+}
+```
+
+### URL Integration Error
+
+**Problem**: URLs not properly integrated.
+
+**Solution**:
+
+```python
+# urls.py - Correct integration
+from django_revolution.urls_integration import add_revolution_urls
+
+urlpatterns = [
+    # Your existing URLs
+]
+
+# Add Django Revolution URLs
+urlpatterns = add_revolution_urls(urlpatterns)
+```
+
+## Generation Issues
+
+### Command Not Found: revolution
+
+**Problem**: Django management command not recognized.
 
 **Solution**:
 
 ```bash
-# Check directory permissions
-ls -la _build/
-
-# Create directories if needed
-mkdir -p _build/html
-mkdir -p _static
-```
-
-### 4. Theme Issues
-
-**Problem**: Theme not loading or styling broken
-
-**Solution**:
-
-```bash
-# Reinstall theme
-pip install --force-reinstall sphinx-rtd-theme
-
-# Clear cache and rebuild
-make clean
-make html
-```
-
-### 5. Import Errors
-
-**Problem**: Cannot import Django Revolution modules
-
-**Solution**:
-
-```bash
-# Install package in development mode
-cd ..
-pip install -e ".[docs]"
-
-# Or add to PYTHONPATH
-export PYTHONPATH=$PYTHONPATH:$(pwd)/..
-```
-
-## 🔧 Build Commands
-
-### Clean Build
-
-```bash
-make clean
-make html
-```
-
-### Verbose Build
-
-```bash
-sphinx-build -b html . _build/html -v
-```
-
-### Debug Build
-
-```bash
-sphinx-build -b html . _build/html -W
-```
-
-## 🌍 Environment Issues
-
-### Python Version Conflicts
-
-**Problem**: Multiple Python versions causing conflicts
-
-**Solution**:
-
-```bash
-# Use virtual environment
-python -m venv docs_env
-source docs_env/bin/activate  # On Windows: docs_env\Scripts\activate
-pip install -r requirements.txt
-```
-
-### Conda Environment Issues
-
-**Problem**: Conda environment conflicts
-
-**Solution**:
-
-```bash
-# Create clean conda environment
-conda create -n docs python=3.11
-conda activate docs
-pip install -r requirements.txt
-```
-
-## 📚 ReadTheDocs Specific Issues
-
-### Build Failures on ReadTheDocs
-
-**Problem**: Builds fail on ReadTheDocs but work locally
-
-**Solution**:
-
-1. Check `.readthedocs.yml` configuration
-2. Verify all dependencies are in `pyproject.toml`
-3. Test with ReadTheDocs Docker image locally
-
-### Version Conflicts
-
-**Problem**: Different versions between local and ReadTheDocs
-
-**Solution**:
-
-```bash
-# Pin exact versions in requirements.txt
-sphinx==7.4.7
-sphinx-rtd-theme==3.0.2
-myst-parser==3.0.1
-docutils==0.21.2
-```
-
-## ⚡ Performance Issues
-
-### Slow Builds
-
-**Problem**: Documentation builds very slowly
-
-**Solution**:
-
-```bash
-# Use parallel builds
-sphinx-build -b html . _build/html -j auto
-
-# Exclude unnecessary files
-# Add to conf.py:
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'node_modules']
-```
-
-### Memory Issues
-
-**Problem**: Out of memory during build
-
-**Solution**:
-
-```bash
-# Reduce parallel jobs
-sphinx-build -b html . _build/html -j 2
-
-# Clean before building
-make clean
-make html
-```
-
-## 🛠️ Getting Help
-
-### Check Logs
-
-```bash
-# Verbose output
-make html 2>&1 | tee build.log
-
-# Check specific errors
-grep -i error build.log
-```
-
-### Common Commands
-
-```bash
-# Check Sphinx version
-sphinx-build --version
-
-# Check installed packages
-pip list | grep sphinx
-
-# Validate configuration
-sphinx-build -b html . _build/html --dry-run
-```
-
-### Resources
-
-- **Sphinx Documentation**: https://www.sphinx-doc.org/
-- **ReadTheDocs Support**: https://readthedocs.org/support/
-- **GitHub Issues**: https://github.com/markolofsen/django-revolution/issues
-
-## 🔄 Quick Fixes
-
-### Reset Everything
-
-```bash
-# Complete reset
-make clean
-pip uninstall sphinx sphinx-rtd-theme myst-parser -y
-pip install -r requirements.txt
-make html
-```
-
-### Force Reinstall
-
-```bash
-# Force reinstall all dependencies
-pip install --force-reinstall -r requirements.txt
-```
-
-### Check System
-
-```bash
-# Check Python version
-python --version
-
-# Check pip version
-pip --version
-
-# Check installed packages
-pip freeze | grep -E "(sphinx|docutils|myst)"
-```
-
-## 🎯 Django Revolution Specific Issues
-
-### Command Not Found
-
-**Problem**: `python manage.py revolution` not found
-
-**Solution**:
-
-```bash
-# Check installation
-pip list | grep django-revolution
+# Check if app is in INSTALLED_APPS
+python manage.py check
+
+# Verify command exists
+python manage.py help | grep revolution
 
 # Reinstall if needed
-pip install --force-reinstall django-revolution
-
-# Check Django settings
-python manage.py check
+pip uninstall django-revolution
+pip install django-revolution
 ```
 
-### Zone Configuration Errors
+### OpenAPI Schema Generation Fails
 
-**Problem**: Zone validation fails
+**Problem**: Schema generation errors.
 
 **Solution**:
 
 ```bash
-# Validate configuration
-python manage.py revolution --validate
-
-# Check zone definitions
-python manage.py revolution --list-zones
-
-# Check if apps exist
+# Check Django setup
 python manage.py check
+
+# Check DRF configuration
+python manage.py spectacular --help
+
+# Generate schema manually
+python manage.py spectacular --file openapi/schema.yaml
+
+# Then run revolution
+python manage.py revolution
 ```
 
-### Generation Fails
+### TypeScript Generation Fails
 
-**Problem**: Client generation fails
+**Problem**: Node.js or npm issues.
 
 **Solution**:
 
 ```bash
-# Check status
-python manage.py revolution --status
+# Check Node.js installation
+node --version
+npm --version
 
-# Install dependencies
-python manage.py revolution --install-deps
+# Install Node.js if missing
+# Ubuntu/Debian
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
-# Force regeneration
-python manage.py revolution --force
+# macOS
+brew install node
+
+# Windows
+choco install nodejs
+
+# Fix npm permissions (Linux/macOS)
+sudo chown -R $(whoami) ~/.npm
+```
+
+### Python Client Generation Fails
+
+**Problem**: Python client generation errors.
+
+**Solution**:
+
+```bash
+# Install Python dependencies
+pip install openapi-python-client
+
+# Check Python version (3.8+ required)
+python --version
 
 # Clean and retry
 python manage.py revolution --clean
 python manage.py revolution
 ```
 
-### Import Errors in Generated Clients
+## Monorepo Issues
 
-**Problem**: Can't import generated clients
+### Monorepo Sync Fails
+
+**Problem**: Cannot sync to monorepo.
 
 **Solution**:
 
 ```bash
-# Check if clients were generated
-ls -la monorepo/packages/api/typescript/public/
+# Check monorepo configuration
+python manage.py revolution --status
 
-# Regenerate clients
-python manage.py revolution --force
+# Verify project_root path
+# settings.py
+DJANGO_REVOLUTION = {
+    'monorepo': {
+        'enabled': True,
+        'project_root': BASE_DIR.parent,  # Correct path
+        'packages_dir': 'packages',
+    }
+}
 
-# Check package.json dependencies
-cat monorepo/packages/api/typescript/public/package.json
+# Skip monorepo sync if needed
+python manage.py revolution --no-monorepo
 ```
+
+### Package.json Not Found
+
+**Problem**: Missing package.json in monorepo.
+
+**Solution**:
+
+```bash
+# Create package.json if missing
+echo '{"name": "my-monorepo"}' > package.json
+
+# Or disable monorepo sync
+python manage.py revolution --no-monorepo
+```
+
+## Performance Issues
+
+### Slow Generation
+
+**Problem**: Client generation takes too long.
+
+**Solution**:
+
+```bash
+# Generate specific zones only
+python manage.py revolution --zones public
+
+# Skip archive creation
+python manage.py revolution  # No --archive flag
+
+# Skip monorepo sync
+python manage.py revolution --no-monorepo
+```
+
+### Memory Issues
+
+**Problem**: Out of memory during generation.
+
+**Solution**:
+
+```bash
+# Generate zones separately
+python manage.py revolution --zones public
+python manage.py revolution --zones private
+
+# Increase Python memory limit
+python -X maxsize=2G manage.py revolution
+```
+
+## Archive Issues
+
+### Archive Creation Fails
+
+**Problem**: Cannot create archives.
+
+**Solution**:
+
+```bash
+# Check disk space
+df -h
+
+# Check write permissions
+ls -la openapi/
+
+# Clean old archives
+python manage.py revolution --clean-archives
+
+# Try without archive
+python manage.py revolution  # No --archive flag
+```
+
+### Archive Download Fails
+
+**Problem**: Cannot download archives.
+
+**Solution**:
+
+```bash
+# List available archives
+python manage.py revolution --list-archives
+
+# Check archive format
+ls -la openapi/archive/
+
+# Download specific archive
+python manage.py revolution --download-archive 2024-01-15_10-30-00
+```
+
+## Debugging
+
+### Enable Verbose Logging
+
+```bash
+# Set debug environment variable
+export DJANGO_REVOLUTION_DEBUG=1
+
+# Run with verbose output
+python manage.py revolution --status
+```
+
+### Check Status
+
+```bash
+# Comprehensive status check
+python manage.py revolution --status
+
+# Check dependencies
+python manage.py revolution --check-deps
+
+# List zones
+python manage.py revolution --list-zones
+```
+
+### Common Error Messages
+
+| Error                                 | Cause                     | Solution                         |
+| ------------------------------------- | ------------------------- | -------------------------------- |
+| `No module named 'django_revolution'` | Not installed             | `pip install django-revolution`  |
+| `Command not found: revolution`       | App not in INSTALLED_APPS | Add to INSTALLED_APPS            |
+| `Node.js not found`                   | Node.js not installed     | Install Node.js                  |
+| `Permission denied`                   | npm permissions           | `sudo chown -R $(whoami) ~/.npm` |
+| `Schema generation failed`            | DRF configuration         | Check DRF settings               |
+| `Monorepo sync failed`                | Invalid project_root      | Check path in settings           |
+
+## Getting Help
+
+### Before Asking for Help
+
+1. **Check status**: `python manage.py revolution --status`
+2. **Check dependencies**: `python manage.py revolution --check-deps`
+3. **Enable debug**: `export DJANGO_REVOLUTION_DEBUG=1`
+4. **Check logs**: Look for error messages in output
+
+### Resources
+
+- 📖 [Documentation](https://django-revolution.readthedocs.io/)
+- 🐛 [GitHub Issues](https://github.com/markolofsen/django-revolution/issues)
+- 💬 [Discussions](https://github.com/markolofsen/django-revolution/discussions)
+- 📧 [Email Support](mailto:developers@unrealos.com)
 
 ---
 
-**💡 Tip**: Most issues can be resolved by using the exact versions specified in `requirements.txt` and ensuring a clean build environment.
-
-%%END%%
+[← Back to Architecture](architecture.html) | [Back to Home](index.html)

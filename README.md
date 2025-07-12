@@ -81,7 +81,7 @@ users = api.users.list()
 
 ## 📚 Documentation
 
-Comprehensive documentation is available at [ReadTheDocs](https://django-revolution.readthedocs.io/).
+Comprehensive documentation is available at [GitHub Pages](https://markolofsen.github.io/django-revolution/).
 
 ### Local Development
 
@@ -110,7 +110,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-- 📖 [Documentation](https://django-revolution.readthedocs.io/)
+- 📖 [Documentation](https://markolofsen.github.io/django-revolution/)
 - 🐛 [Issue Tracker](https://github.com/markolofsen/django-revolution/issues)
 - 💬 [Discussions](https://github.com/markolofsen/django-revolution/discussions)
 

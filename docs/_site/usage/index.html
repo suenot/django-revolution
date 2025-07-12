@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Usage | Django Revolution</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Usage" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Zone-based API architecture for Django. Install and go." />
+<meta property="og:description" content="Zone-based API architecture for Django. Install and go." />
+<link rel="canonical" href="http://localhost:4000/django-revolution/usage/" />
+<meta property="og:url" content="http://localhost:4000/django-revolution/usage/" />
+<meta property="og:site_name" content="Django Revolution" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Usage" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Zone-based API architecture for Django. Install and go.","headline":"Usage","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/django-revolution/assets/logo.svg"}},"url":"http://localhost:4000/django-revolution/usage/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/django-revolution/assets/css/style.css?v=">
+    <!-- Custom styles for navigation and layout -->
+<style>
+  .navigation {
+    background: #f6f8fa;
+    border-bottom: 1px solid #e1e4e8;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation li {
+    margin: 0;
+  }
+
+  .navigation a {
+    color: #586069;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .navigation a:hover {
+    background: #e1e4e8;
+    color: #24292e;
+  }
+
+  .navigation a.active {
+    background: #0366d6;
+    color: white;
+  }
+
+  /* GitHub banner styles */
+  .github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+
+  /* Custom header styles */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .page-header h1 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navigation ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navigation a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+  </head>
+
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Usage</h1>
+      <h2 class="project-tagline">Zone-based API architecture for Django. Install and go.</h2>
+      
+      
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" role="navigation">
+      <ul>
+        
+          <li>
+            <a href="/django-revolution/" 
+               >
+              Home
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/installation/" 
+               >
+              Installation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/usage/" 
+               class="active">
+              Usage
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/cli/" 
+               >
+              CLI
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/api-reference/" 
+               >
+              API Reference
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/architecture/" 
+               >
+              Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/troubleshooting/" 
+               >
+              Troubleshooting
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="usage-guide">Usage Guide</h1>
+
+<p><strong>How to use Django Revolution in your projects.</strong></p>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<h3 id="generate-clients">Generate Clients</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate all clients</span>
+python manage.py revolution
+
+<span class="c"># Generate specific zones</span>
+python manage.py revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># TypeScript only</span>
+python manage.py revolution <span class="nt">--typescript</span>
+</code></pre></div></div>
+
+<h3 id="use-typescript-clients">Use TypeScript Clients</h3>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">API</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@myorg/api-client</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">api</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">API</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://api.example.com</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Authentication</span>
+<span class="nx">api</span><span class="p">.</span><span class="nf">setToken</span><span class="p">(</span><span class="dl">'</span><span class="s1">your-access-token</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">your-refresh-token</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Call endpoints</span>
+<span class="kd">const</span> <span class="nx">profile</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">api</span><span class="p">.</span><span class="k">public</span><span class="p">.</span><span class="nf">getCurrentUser</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">products</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">api</span><span class="p">.</span><span class="k">public</span><span class="p">.</span><span class="nf">listProducts</span><span class="p">();</span>
+
+<span class="c1">// Check auth status</span>
+<span class="k">if </span><span class="p">(</span><span class="nx">api</span><span class="p">.</span><span class="nf">isAuthenticated</span><span class="p">())</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">User is logged in</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="use-python-clients">Use Python Clients</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">openapi.clients.python.public</span> <span class="kn">import</span> <span class="n">PublicAPI</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="nc">PublicAPI</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="sh">"</span><span class="s">https://api.example.com</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">api</span><span class="p">.</span><span class="nf">set_token</span><span class="p">(</span><span class="sh">"</span><span class="s">your-token-here</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Call endpoints
+</span><span class="n">profile</span> <span class="o">=</span> <span class="n">api</span><span class="p">.</span><span class="n">accounts</span><span class="p">.</span><span class="nf">get_current_user</span><span class="p">()</span>
+<span class="n">products</span> <span class="o">=</span> <span class="n">api</span><span class="p">.</span><span class="n">products</span><span class="p">.</span><span class="nf">list</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="zone-configuration">Zone Configuration</h2>
+
+<h3 id="define-zones">Define Zones</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">zones</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">apps</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">billing</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">payments</span><span class="sh">'</span><span class="p">],</span>
+            <span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Public API</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">description</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">API for public client applications</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">auth_required</span><span class="sh">'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">version</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">v1</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">path_prefix</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">public</span><span class="sh">'</span>
+        <span class="p">},</span>
+        <span class="sh">'</span><span class="s">admin</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">apps</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">admin_panel</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">analytics</span><span class="sh">'</span><span class="p">],</span>
+            <span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Admin API</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">description</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Administrative API endpoints</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">auth_required</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">version</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">v1</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">path_prefix</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">admin</span><span class="sh">'</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="zone-properties">Zone Properties</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">apps</code></td>
+      <td>list</td>
+      <td>✅</td>
+      <td>Django apps to include</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">title</code></td>
+      <td>str</td>
+      <td>❌</td>
+      <td>Human-readable title</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">description</code></td>
+      <td>str</td>
+      <td>❌</td>
+      <td>Zone description</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">public</code></td>
+      <td>bool</td>
+      <td>❌</td>
+      <td>Is zone publicly accessible</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">auth_required</code></td>
+      <td>bool</td>
+      <td>❌</td>
+      <td>Requires authentication</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">version</code></td>
+      <td>str</td>
+      <td>❌</td>
+      <td>API version (default: ‘v1’)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">path_prefix</code></td>
+      <td>str</td>
+      <td>❌</td>
+      <td>URL path prefix</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="drf--spectacular-configuration">DRF + Spectacular Configuration</h2>
+
+<h3 id="quick-setup">Quick Setup</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">DEFAULT_SCHEMA_CLASS</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">drf_spectacular.openapi.AutoSchema</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">DEFAULT_AUTHENTICATION_CLASSES</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sh">'</span><span class="s">rest_framework_simplejwt.authentication.JWTAuthentication</span><span class="sh">'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="sh">'</span><span class="s">DEFAULT_FILTER_BACKENDS</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sh">'</span><span class="s">django_filters.rest_framework.DjangoFilterBackend</span><span class="sh">'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">SPECTACULAR_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">TITLE</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">My API</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">DESCRIPTION</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">My awesome API</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">VERSION</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">1.0.0</span><span class="sh">'</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">SERVE_INCLUDE_SCHEMA</span><span class="sh">'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="url-configuration">URL Configuration</h2>
+
+<h3 id="add-revolution-urls">Add Revolution URLs</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># urls.py
+</span><span class="kn">from</span> <span class="n">django_revolution.urls_integration</span> <span class="kn">import</span> <span class="n">add_revolution_urls</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nf">path</span><span class="p">(</span><span class="sh">'</span><span class="s">admin/</span><span class="sh">'</span><span class="p">,</span> <span class="n">admin</span><span class="p">.</span><span class="n">site</span><span class="p">.</span><span class="n">urls</span><span class="p">),</span>
+    <span class="c1"># Your existing URLs...
+</span><span class="p">]</span>
+
+<span class="c1"># Add Django Revolution URLs
+</span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="nf">add_revolution_urls</span><span class="p">(</span><span class="n">urlpatterns</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="generated-urls">Generated URLs</h3>
+
+<p>Django Revolution automatically creates:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/api/{zone}/schema/</code> - Interactive Swagger UI</li>
+  <li><code class="language-plaintext highlighter-rouge">/api/{zone}/schema.yaml</code> - OpenAPI specification</li>
+  <li><code class="language-plaintext highlighter-rouge">/openapi/archive/</code> - Download generated clients</li>
+</ul>
+
+<h2 id="monorepo-integration">Monorepo Integration</h2>
+
+<h3 id="enable-monorepo-support">Enable Monorepo Support</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">zones</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># ... your zones
+</span>    <span class="p">},</span>
+    <span class="sh">'</span><span class="s">monorepo</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">enabled</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="sh">'</span><span class="s">project_root</span><span class="sh">'</span><span class="p">:</span> <span class="n">BASE_DIR</span><span class="p">.</span><span class="n">parent</span><span class="p">,</span>  <span class="c1"># Path to monorepo root
+</span>        <span class="sh">'</span><span class="s">packages_dir</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">packages</span><span class="sh">'</span><span class="p">,</span>        <span class="c1"># Where to sync clients
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="generated-structure">Generated Structure</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>monorepo/
+├── packages/
+│   ├── api-client/          # Generated TypeScript client
+│   │   ├── package.json
+│   │   └── src/
+│   └── python-client/       # Generated Python client
+│       ├── setup.py
+│       └── src/
+└── pnpm-workspace.yaml      # Auto-updated
+</code></pre></div></div>
+
+<h2 id="advanced-usage">Advanced Usage</h2>
+
+<h3 id="custom-templates">Custom Templates</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">templates</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">typescript</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">package_name</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">@myorg/api-client</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">package_version</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">1.0.0</span><span class="sh">'</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="sh">'</span><span class="s">python</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">package_name</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">myorg-api-client</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">package_version</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">1.0.0</span><span class="sh">'</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="archive-management">Archive Management</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate with archive</span>
+python manage.py revolution <span class="nt">--archive</span>
+
+<span class="c"># List archives</span>
+python manage.py revolution <span class="nt">--list-archives</span>
+
+<span class="c"># Download specific archive</span>
+python manage.py revolution <span class="nt">--download-archive</span> 2024-01-15_10-30-00
+</code></pre></div></div>
+
+<h3 id="environment-specific-configuration">Environment-Specific Configuration</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="k">if</span> <span class="n">DEBUG</span><span class="p">:</span>
+    <span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">zones</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+                <span class="sh">'</span><span class="s">apps</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">billing</span><span class="sh">'</span><span class="p">],</span>
+                <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">zones</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+                <span class="sh">'</span><span class="s">apps</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">billing</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">payments</span><span class="sh">'</span><span class="p">],</span>
+                <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="sh">'</span><span class="s">admin</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+                <span class="sh">'</span><span class="s">apps</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">admin_panel</span><span class="sh">'</span><span class="p">],</span>
+                <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="sh">'</span><span class="s">auth_required</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<ol>
+  <li><strong>Run after changes</strong>: Always run <code class="language-plaintext highlighter-rouge">python manage.py revolution</code> after modifying Django models or views</li>
+  <li><strong>Use zones</strong>: Organize your API into logical zones for better structure</li>
+  <li><strong>Version control</strong>: Commit generated clients to your repository</li>
+  <li><strong>CI/CD</strong>: Add client generation to your deployment pipeline</li>
+  <li><strong>Testing</strong>: Use generated clients in your tests for consistency</li>
+</ol>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="installation.html">← Back to Installation</a></td>
+      <td><a href="cli.html">Next: CLI Reference →</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html> 

@@ -1,317 +1,237 @@
-%%README.LLM id=django-revolution-architecture%%
+---
+layout: default
+title: Architecture
+---
 
 # Architecture
 
-**How Django Revolution works under the hood.**
+**Understanding Django Revolution's zone-based architecture.**
 
-## 🎯 Purpose
+## Overview
 
-Understand Django Revolution's modular architecture. Clean components, clear separation of concerns.
+Django Revolution introduces a **zone-based architecture** that organizes your Django API into logical, isolated sections. Each zone represents a different context or access level for your API endpoints.
 
-## ✅ Rules
+## Zone-Based Architecture
 
-- Zone-based organization
-- Auto-discovery from Django configuration
-- Industry-standard tools (HeyAPI, openapi-python-client)
-- KISS principle throughout
+### What are Zones?
 
-## 🏗️ Core Components
+Zones are logical groupings of API endpoints that share common characteristics:
 
-### Zone Management (`zones/`)
+- **Access level** (public, private, internal, admin)
+- **Authentication requirements** (none, JWT, session)
+- **Rate limiting** (different limits per zone)
+- **Documentation** (separate OpenAPI schemas)
+- **Client generation** (zone-specific clients)
 
-- **ZoneManager** - Manages API zones and URL pattern generation
-- **ZoneDetector** - Auto-finds zones from Django `api.config.APIConfig`
-- **Zone** - Pydantic model representing individual zone configuration
-- **ZoneConfig** - Base configuration for defining zones
+### Zone Types
 
-### URL Integration (`urls_integration.py`)
+#### Public Zone
 
-- **add_revolution_urls()** - Main entry point for URL generation
-- **get_revolution_urlpatterns()** - Get URL patterns for integration
-- **get_revolution_urls_info()** - Get URL information and metadata
+- **Purpose**: External-facing API endpoints
+- **Authentication**: Optional (JWT or none)
+- **Rate Limiting**: Strict
+- **Examples**: User registration, product catalog, public data
 
-### OpenAPI Generation (`openapi/`)
+#### Private Zone
 
-- **OpenAPIGenerator** - Orchestrates the entire generation process
-- **HeyAPITypeScriptGenerator** - TypeScript client generation using HeyAPI
-- **PythonClientGenerator** - Python client generation using openapi-python-client
-- **ArchiveManager** - Manages client archiving and packaging
-- **MonorepoSync** - Handles monorepo synchronization
-- **Template System** - Jinja2 templates for custom client generation
-- **Auto-installer** - Automatically installs npm dependencies
+- **Purpose**: Authenticated user endpoints
+- **Authentication**: Required (JWT)
+- **Rate Limiting**: Moderate
+- **Examples**: User profile, orders, personal data
 
-### Management Commands (`management/`)
+#### Internal Zone
 
-- **revolution** - Django management command with rich CLI interface
-- **Auto-dependency installation** - Installs HeyAPI and openapi-python-client
-- **Status checking** - Validates system state and dependencies
+- **Purpose**: Internal service communication
+- **Authentication**: Service-to-service
+- **Rate Limiting**: High
+- **Examples**: Microservice APIs, internal tools
 
-## 📊 System Flow
+#### Admin Zone
 
-```mermaid
-graph TD
-    A[Django APIConfig] --> B[ZoneDetector]
-    B --> C[Zone Objects]
-    C --> D[Schema Generator]
-    C --> E[URL Manager]
-    D --> F[OpenAPI Schemas]
-    F --> G[HeyAPI TypeScript]
-    F --> H[openapi-python-client]
-    G --> I[TypeScript Clients]
-    H --> J[Python Clients]
-    I --> K[ZIP Archives]
-    J --> K
-    E --> L[URL Patterns]
-```
+- **Purpose**: Administrative operations
+- **Authentication**: Admin users only
+- **Rate Limiting**: Low
+- **Examples**: User management, analytics, system config
 
-## 🔧 How It Works
+## Architecture Components
 
-### Zone Detection Process
+### 1. Zone Configuration
 
 ```python
-# 1. ZoneDetector scans for api.config.APIConfig
-detector = ZoneDetector(logger)
-zones = detector.detect_zones()
-
-# 2. Converts to Zone objects with validation
-for zone_name, zone_data in zones.items():
-    zone = Zone(
-        name=zone_name,  # 'public' or 'private'
-        apps=zone_data['apps'],  # ['public_api'] or ['private_api']
-        title=zone_data.get('title', zone_name.title()),
-        description=zone_data.get('description'),
-        # ... other attributes
-    )
-```
-
-### URL Generation
-
-```python
-# 1. Creates dynamic URL modules for each zone
-def create_zone_urlconf_module(zone_name, zone_config):
-    # Generates Python module with URL patterns
-
-# 2. Creates schema endpoints
-urlpatterns = [
-    path('schema/', SpectacularAPIView.as_view(urlconf=zone_urlconf)),
-    path('schema/swagger/', SpectacularSwaggerView.as_view()),
-]
-```
-
-### Schema Generation
-
-```python
-# 1. Uses Django's spectacular to generate schemas
-cmd = [
-    "python", "manage.py", "spectacular",
-    "--file", schema_file,
-    "--urlconf", zone_urlconf_module
-]
-
-# 2. Creates isolated schemas per zone
-schemas/
-├── public.yaml
-├── private.yaml
-└── partner.yaml
-```
-
-### Client Generation Pipeline
-
-```python
-# 1. TypeScript generation (HeyAPI)
-cmd = [
-    'npx', '@hey-api/openapi-ts',
-    '--input', schema_path,
-    '--output', output_dir,
-    '--client', 'legacy/fetch'
-]
-
-# 2. Python generation (openapi-python-client)
-cmd = [
-    'openapi-python-client',
-    'generate',
-    '--url', f'file://{schema_path}',
-    '--output-path', output_dir
-]
-
-# 3. Template rendering (Jinja2)
-template.render(zone_name=zone.name, apps=zone.apps)
-
-# 4. Archiving to ZIP
-zipfile.ZipFile(archive_path, 'w')
-```
-
-## 📁 Module Structure
-
-```
-django_revolution/
-├── __init__.py                    # Main exports
-├── apps.py                       # Django app configuration
-├── config.py                     # Pydantic configuration models
-├── utils.py                      # Utilities and helpers
-├── cli.py                        # Standalone CLI interface
-├── urls_integration.py           # URL integration helpers
-├── drf_config.py                 # DRF configuration
-├── zones/
-│   ├── __init__.py               # ZoneManager, ZoneDetector
-│   ├── public_urls.py            # Generated public zone URLs
-│   ├── private_urls.py           # Generated private zone URLs
-│   ├── admin_urls.py             # Generated admin zone URLs
-│   └── ...                       # Other generated zone URLs
-├── openapi/
-│   ├── __init__.py               # OpenAPI exports
-│   ├── generator.py              # Main OpenAPI orchestrator
-│   ├── heyapi_ts.py             # TypeScript generator
-│   ├── python_client.py         # Python generator
-│   ├── archive_manager.py       # Archive management
-│   ├── monorepo_sync.py         # Monorepo synchronization
-│   ├── utils.py                 # OpenAPI utilities
-│   └── templates/               # Jinja2 templates
-│       ├── __init__.py.j2       # Python package template
-│       ├── index.ts.j2          # TypeScript index template
-│       ├── package.json.j2      # NPM package template
-│       └── index_consolidated.ts.j2  # Consolidated exports
-└── management/
-    └── commands/
-        └── revolution.py         # Django management command
-```
-
-## 🛠️ Configuration System
-
-### Auto-Detection Configuration
-
-```python
-# Django Revolution auto-detects this pattern:
-# api/config.py
-from django_revolution import ZoneConfig
-
-class APIConfig(ZoneConfig):
-    zones = {
+# settings.py
+DJANGO_REVOLUTION = {
+    'zones': {
         'public': {
-            'apps': ['public_api'],          # Required
-            'title': 'Public API',           # Auto-generated if missing
-            'description': 'Public API for users and posts', # Auto-generated if missing
-            'public': True,                  # Default: True
-            'auth_required': False,          # Default: False
-            'version': 'v1',                 # Default: 'v1'
-            'path_prefix': 'public'          # Default: zone_name
+            'apps': ['accounts', 'products'],
+            'title': 'Public API',
+            'description': 'Public endpoints',
+            'public': True,
+            'auth_required': False,
+            'version': 'v1',
+            'path_prefix': 'public'
         },
         'private': {
-            'apps': ['private_api'],         # Required
-            'title': 'Private API',          # Auto-generated if missing
-            'description': 'Private API for categories and products', # Auto-generated if missing
-            'public': False,                 # Default: True
-            'auth_required': True,           # Default: False
-            'version': 'v1',                 # Default: 'v1'
-            'path_prefix': 'private'         # Default: zone_name
-        }
-    }
-```
-
-### Generated Configuration
-
-```python
-# Automatic configuration from get_config():
-{
-    'output': {
-        'base_directory': 'openapi',
-        'schemas_directory': 'schemas',
-        'clients_directory': 'clients',
-        'archive_directory_ts': 'archive/typescript',
-        'archive_directory_py': 'archive/python'
-    },
-    'generators': {
-        'typescript': {
-            'enabled': True,
-            'output_directory': 'openapi/clients/typescript',
-            'settings': {'output_format': 'prettier'}
-        },
-        'python': {
-            'enabled': True,
-            'output_directory': 'openapi/clients/python',
-            'settings': {
-                'project_name_template': 'django_revolution_{zone}',
-                'overwrite': True
-            }
+            'apps': ['orders', 'profile'],
+            'title': 'Private API',
+            'description': 'Authenticated endpoints',
+            'public': False,
+            'auth_required': True,
+            'version': 'v1',
+            'path_prefix': 'private'
         }
     }
 }
 ```
 
-## 🧩 Extension Points
+### 2. URL Structure
 
-### Custom Zone Types
+Django Revolution automatically creates a structured URL hierarchy:
 
-```python
-# Extend ZoneModel for custom functionality
-class CustomZoneModel(ZoneModel):
-    """Custom zone with additional features."""
-    rate_limit: Optional[str] = None
-    custom_middleware: List[str] = Field(default_factory=list)
-
-    def get_rate_limit_config(self):
-        # Custom rate limiting logic
-        pass
+```
+/api/
+├── public/
+│   ├── schema/          # Swagger UI
+│   ├── schema.yaml      # OpenAPI spec
+│   └── v1/              # API endpoints
+├── private/
+│   ├── schema/
+│   ├── schema.yaml
+│   └── v1/
+└── admin/
+    ├── schema/
+    ├── schema.yaml
+    └── v1/
 ```
 
-### Custom Templates
+### 3. Client Generation
 
-```python
-# Override default templates
-class CustomHeyAPIGenerator(HeyAPITypeScriptGenerator):
-    def _generate_template_files(self, zone, output_dir):
-        # Use custom templates
-        custom_templates_dir = Path('custom/templates')
-        # ... custom template rendering
+Each zone generates its own client:
+
+```
+clients/
+├── typescript/
+│   ├── public/
+│   │   ├── index.ts
+│   │   └── types.ts
+│   ├── private/
+│   │   ├── index.ts
+│   │   └── types.ts
+│   └── index.ts         # Main client
+└── python/
+    ├── public/
+    │   ├── __init__.py
+    │   └── client.py
+    ├── private/
+    │   ├── __init__.py
+    │   └── client.py
+    └── __init__.py      # Main client
 ```
 
-### Custom Generators
+## Data Flow
 
-```python
-# Add new client generators
-class SwiftClientGenerator:
-    def generate(self, zone: Zone, schema_path: str):
-        # Generate Swift client
-        pass
+### 1. Request Flow
 
-# Register in OpenAPIGenerator
-generator.swift_generator = SwiftClientGenerator(config, logger)
+```
+Client Request
+    ↓
+Zone Router (Django Revolution)
+    ↓
+Zone-specific Middleware
+    ↓
+Authentication Check
+    ↓
+Rate Limiting
+    ↓
+Django View
+    ↓
+Response
 ```
 
-## 🔍 Error Handling
+### 2. Client Generation Flow
 
-### Graceful Degradation
-
-```python
-# ErrorHandler provides consistent error management
-try:
-    result = operation()
-except Exception as e:
-    return error_handler.handle_exception(e, "Operation context")
-    # Logs error, continues with other operations
+```
+Django Models & Views
+    ↓
+Zone Detection
+    ↓
+OpenAPI Schema Generation
+    ↓
+Client Template Rendering
+    ↓
+Generated Clients
+    ↓
+Monorepo Sync (optional)
 ```
 
-### Dependency Validation
+## Benefits
 
-```python
-# Auto-installer checks and installs dependencies
-dependencies = [
-    {'name': '@hey-api/openapi-ts', 'check_cmd': ['npx', '@hey-api/openapi-ts', '--version']},
-    {'name': 'openapi-python-client', 'check_cmd': ['openapi-python-client', '--version']}
-]
+### 1. Security
 
-# Automatically installs missing dependencies
-auto_install_dependencies()
-```
+- **Isolation**: Each zone has its own security context
+- **Granular Control**: Different auth requirements per zone
+- **Rate Limiting**: Zone-specific limits
 
-### Rich Logging
+### 2. Maintainability
 
-```python
-# Logger provides beautiful console output
-logger.info("🔍 Detecting zones...")
-logger.success("✅ Generated TypeScript client for customer zone")
-logger.error("❌ Failed to generate schema for admin zone")
-logger.warning("⚠️ Node.js not found, skipping TypeScript generation")
-```
+- **Clear Structure**: Logical organization of endpoints
+- **Independent Evolution**: Zones can evolve separately
+- **Documentation**: Zone-specific documentation
 
-%%END%%
+### 3. Client Experience
+
+- **Type Safety**: Zone-specific TypeScript types
+- **IntelliSense**: Better IDE support
+- **Error Handling**: Zone-specific error handling
+
+### 4. Development
+
+- **Parallel Development**: Teams can work on different zones
+- **Testing**: Zone-specific test suites
+- **Deployment**: Independent zone deployment
+
+## Best Practices
+
+### 1. Zone Design
+
+- **Single Responsibility**: Each zone should have a clear purpose
+- **Minimal Coupling**: Zones should be as independent as possible
+- **Consistent Naming**: Use clear, descriptive zone names
+
+### 2. Security
+
+- **Principle of Least Privilege**: Grant minimum required access
+- **Regular Audits**: Review zone permissions regularly
+- **Monitoring**: Monitor zone usage and access patterns
+
+### 3. Performance
+
+- **Caching**: Zone-specific caching strategies
+- **Rate Limiting**: Appropriate limits for each zone
+- **Optimization**: Zone-specific optimizations
+
+### 4. Documentation
+
+- **Clear Descriptions**: Document each zone's purpose
+- **Examples**: Provide usage examples for each zone
+- **Migration Guides**: Document zone changes
+
+## Migration Strategy
+
+### From Monolithic API
+
+1. **Identify Zones**: Analyze existing endpoints
+2. **Create Zones**: Define zone boundaries
+3. **Move Endpoints**: Gradually move endpoints to zones
+4. **Update Clients**: Update client code to use zones
+5. **Test**: Comprehensive testing of each zone
+
+### From Microservices
+
+1. **Consolidate**: Group related services into zones
+2. **Standardize**: Use consistent patterns across zones
+3. **Optimize**: Remove redundant code and configurations
+4. **Document**: Create comprehensive documentation
+
+---
+
+[← Back to API Reference](api-reference.html) | [Next: Troubleshooting →](troubleshooting.html)

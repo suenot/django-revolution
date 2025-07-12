@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Architecture | Django Revolution</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Architecture" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Zone-based API architecture for Django. Install and go." />
+<meta property="og:description" content="Zone-based API architecture for Django. Install and go." />
+<link rel="canonical" href="http://localhost:4000/django-revolution/architecture/" />
+<meta property="og:url" content="http://localhost:4000/django-revolution/architecture/" />
+<meta property="og:site_name" content="Django Revolution" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Architecture" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Zone-based API architecture for Django. Install and go.","headline":"Architecture","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/django-revolution/assets/logo.svg"}},"url":"http://localhost:4000/django-revolution/architecture/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/django-revolution/assets/css/style.css?v=">
+    <!-- Custom styles for navigation and layout -->
+<style>
+  .navigation {
+    background: #f6f8fa;
+    border-bottom: 1px solid #e1e4e8;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation li {
+    margin: 0;
+  }
+
+  .navigation a {
+    color: #586069;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .navigation a:hover {
+    background: #e1e4e8;
+    color: #24292e;
+  }
+
+  .navigation a.active {
+    background: #0366d6;
+    color: white;
+  }
+
+  /* GitHub banner styles */
+  .github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+
+  /* Custom header styles */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .page-header h1 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navigation ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navigation a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+  </head>
+
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Architecture</h1>
+      <h2 class="project-tagline">Zone-based API architecture for Django. Install and go.</h2>
+      
+      
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" role="navigation">
+      <ul>
+        
+          <li>
+            <a href="/django-revolution/" 
+               >
+              Home
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/installation/" 
+               >
+              Installation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/usage/" 
+               >
+              Usage
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/cli/" 
+               >
+              CLI
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/api-reference/" 
+               >
+              API Reference
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/architecture/" 
+               class="active">
+              Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/troubleshooting/" 
+               >
+              Troubleshooting
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="architecture">Architecture</h1>
+
+<p><strong>Understanding Django Revolution’s zone-based architecture.</strong></p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Django Revolution introduces a <strong>zone-based architecture</strong> that organizes your Django API into logical, isolated sections. Each zone represents a different context or access level for your API endpoints.</p>
+
+<h2 id="zone-based-architecture">Zone-Based Architecture</h2>
+
+<h3 id="what-are-zones">What are Zones?</h3>
+
+<p>Zones are logical groupings of API endpoints that share common characteristics:</p>
+
+<ul>
+  <li><strong>Access level</strong> (public, private, internal, admin)</li>
+  <li><strong>Authentication requirements</strong> (none, JWT, session)</li>
+  <li><strong>Rate limiting</strong> (different limits per zone)</li>
+  <li><strong>Documentation</strong> (separate OpenAPI schemas)</li>
+  <li><strong>Client generation</strong> (zone-specific clients)</li>
+</ul>
+
+<h3 id="zone-types">Zone Types</h3>
+
+<h4 id="public-zone">Public Zone</h4>
+
+<ul>
+  <li><strong>Purpose</strong>: External-facing API endpoints</li>
+  <li><strong>Authentication</strong>: Optional (JWT or none)</li>
+  <li><strong>Rate Limiting</strong>: Strict</li>
+  <li><strong>Examples</strong>: User registration, product catalog, public data</li>
+</ul>
+
+<h4 id="private-zone">Private Zone</h4>
+
+<ul>
+  <li><strong>Purpose</strong>: Authenticated user endpoints</li>
+  <li><strong>Authentication</strong>: Required (JWT)</li>
+  <li><strong>Rate Limiting</strong>: Moderate</li>
+  <li><strong>Examples</strong>: User profile, orders, personal data</li>
+</ul>
+
+<h4 id="internal-zone">Internal Zone</h4>
+
+<ul>
+  <li><strong>Purpose</strong>: Internal service communication</li>
+  <li><strong>Authentication</strong>: Service-to-service</li>
+  <li><strong>Rate Limiting</strong>: High</li>
+  <li><strong>Examples</strong>: Microservice APIs, internal tools</li>
+</ul>
+
+<h4 id="admin-zone">Admin Zone</h4>
+
+<ul>
+  <li><strong>Purpose</strong>: Administrative operations</li>
+  <li><strong>Authentication</strong>: Admin users only</li>
+  <li><strong>Rate Limiting</strong>: Low</li>
+  <li><strong>Examples</strong>: User management, analytics, system config</li>
+</ul>
+
+<h2 id="architecture-components">Architecture Components</h2>
+
+<h3 id="1-zone-configuration">1. Zone Configuration</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">zones</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">apps</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">products</span><span class="sh">'</span><span class="p">],</span>
+            <span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Public API</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">description</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Public endpoints</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">auth_required</span><span class="sh">'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">version</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">v1</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">path_prefix</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">public</span><span class="sh">'</span>
+        <span class="p">},</span>
+        <span class="sh">'</span><span class="s">private</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">apps</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">orders</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">profile</span><span class="sh">'</span><span class="p">],</span>
+            <span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Private API</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">description</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">Authenticated endpoints</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">auth_required</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">version</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">v1</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">path_prefix</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">private</span><span class="sh">'</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="2-url-structure">2. URL Structure</h3>
+
+<p>Django Revolution automatically creates a structured URL hierarchy:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/api/
+├── public/
+│   ├── schema/          # Swagger UI
+│   ├── schema.yaml      # OpenAPI spec
+│   └── v1/              # API endpoints
+├── private/
+│   ├── schema/
+│   ├── schema.yaml
+│   └── v1/
+└── admin/
+    ├── schema/
+    ├── schema.yaml
+    └── v1/
+</code></pre></div></div>
+
+<h3 id="3-client-generation">3. Client Generation</h3>
+
+<p>Each zone generates its own client:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clients/
+├── typescript/
+│   ├── public/
+│   │   ├── index.ts
+│   │   └── types.ts
+│   ├── private/
+│   │   ├── index.ts
+│   │   └── types.ts
+│   └── index.ts         # Main client
+└── python/
+    ├── public/
+    │   ├── __init__.py
+    │   └── client.py
+    ├── private/
+    │   ├── __init__.py
+    │   └── client.py
+    └── __init__.py      # Main client
+</code></pre></div></div>
+
+<h2 id="data-flow">Data Flow</h2>
+
+<h3 id="1-request-flow">1. Request Flow</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Client Request
+    ↓
+Zone Router (Django Revolution)
+    ↓
+Zone-specific Middleware
+    ↓
+Authentication Check
+    ↓
+Rate Limiting
+    ↓
+Django View
+    ↓
+Response
+</code></pre></div></div>
+
+<h3 id="2-client-generation-flow">2. Client Generation Flow</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Django Models &amp; Views
+    ↓
+Zone Detection
+    ↓
+OpenAPI Schema Generation
+    ↓
+Client Template Rendering
+    ↓
+Generated Clients
+    ↓
+Monorepo Sync (optional)
+</code></pre></div></div>
+
+<h2 id="benefits">Benefits</h2>
+
+<h3 id="1-security">1. Security</h3>
+
+<ul>
+  <li><strong>Isolation</strong>: Each zone has its own security context</li>
+  <li><strong>Granular Control</strong>: Different auth requirements per zone</li>
+  <li><strong>Rate Limiting</strong>: Zone-specific limits</li>
+</ul>
+
+<h3 id="2-maintainability">2. Maintainability</h3>
+
+<ul>
+  <li><strong>Clear Structure</strong>: Logical organization of endpoints</li>
+  <li><strong>Independent Evolution</strong>: Zones can evolve separately</li>
+  <li><strong>Documentation</strong>: Zone-specific documentation</li>
+</ul>
+
+<h3 id="3-client-experience">3. Client Experience</h3>
+
+<ul>
+  <li><strong>Type Safety</strong>: Zone-specific TypeScript types</li>
+  <li><strong>IntelliSense</strong>: Better IDE support</li>
+  <li><strong>Error Handling</strong>: Zone-specific error handling</li>
+</ul>
+
+<h3 id="4-development">4. Development</h3>
+
+<ul>
+  <li><strong>Parallel Development</strong>: Teams can work on different zones</li>
+  <li><strong>Testing</strong>: Zone-specific test suites</li>
+  <li><strong>Deployment</strong>: Independent zone deployment</li>
+</ul>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="1-zone-design">1. Zone Design</h3>
+
+<ul>
+  <li><strong>Single Responsibility</strong>: Each zone should have a clear purpose</li>
+  <li><strong>Minimal Coupling</strong>: Zones should be as independent as possible</li>
+  <li><strong>Consistent Naming</strong>: Use clear, descriptive zone names</li>
+</ul>
+
+<h3 id="2-security">2. Security</h3>
+
+<ul>
+  <li><strong>Principle of Least Privilege</strong>: Grant minimum required access</li>
+  <li><strong>Regular Audits</strong>: Review zone permissions regularly</li>
+  <li><strong>Monitoring</strong>: Monitor zone usage and access patterns</li>
+</ul>
+
+<h3 id="3-performance">3. Performance</h3>
+
+<ul>
+  <li><strong>Caching</strong>: Zone-specific caching strategies</li>
+  <li><strong>Rate Limiting</strong>: Appropriate limits for each zone</li>
+  <li><strong>Optimization</strong>: Zone-specific optimizations</li>
+</ul>
+
+<h3 id="4-documentation">4. Documentation</h3>
+
+<ul>
+  <li><strong>Clear Descriptions</strong>: Document each zone’s purpose</li>
+  <li><strong>Examples</strong>: Provide usage examples for each zone</li>
+  <li><strong>Migration Guides</strong>: Document zone changes</li>
+</ul>
+
+<h2 id="migration-strategy">Migration Strategy</h2>
+
+<h3 id="from-monolithic-api">From Monolithic API</h3>
+
+<ol>
+  <li><strong>Identify Zones</strong>: Analyze existing endpoints</li>
+  <li><strong>Create Zones</strong>: Define zone boundaries</li>
+  <li><strong>Move Endpoints</strong>: Gradually move endpoints to zones</li>
+  <li><strong>Update Clients</strong>: Update client code to use zones</li>
+  <li><strong>Test</strong>: Comprehensive testing of each zone</li>
+</ol>
+
+<h3 id="from-microservices">From Microservices</h3>
+
+<ol>
+  <li><strong>Consolidate</strong>: Group related services into zones</li>
+  <li><strong>Standardize</strong>: Use consistent patterns across zones</li>
+  <li><strong>Optimize</strong>: Remove redundant code and configurations</li>
+  <li><strong>Document</strong>: Create comprehensive documentation</li>
+</ol>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="api-reference.html">← Back to API Reference</a></td>
+      <td><a href="troubleshooting.html">Next: Troubleshooting →</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html> 

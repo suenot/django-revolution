@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>CLI Reference | Django Revolution</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="CLI Reference" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Zone-based API architecture for Django. Install and go." />
+<meta property="og:description" content="Zone-based API architecture for Django. Install and go." />
+<link rel="canonical" href="http://localhost:4000/django-revolution/cli/" />
+<meta property="og:url" content="http://localhost:4000/django-revolution/cli/" />
+<meta property="og:site_name" content="Django Revolution" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CLI Reference" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Zone-based API architecture for Django. Install and go.","headline":"CLI Reference","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/django-revolution/assets/logo.svg"}},"url":"http://localhost:4000/django-revolution/cli/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/django-revolution/assets/css/style.css?v=">
+    <!-- Custom styles for navigation and layout -->
+<style>
+  .navigation {
+    background: #f6f8fa;
+    border-bottom: 1px solid #e1e4e8;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation li {
+    margin: 0;
+  }
+
+  .navigation a {
+    color: #586069;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .navigation a:hover {
+    background: #e1e4e8;
+    color: #24292e;
+  }
+
+  .navigation a.active {
+    background: #0366d6;
+    color: white;
+  }
+
+  /* GitHub banner styles */
+  .github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+
+  /* Custom header styles */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .page-header h1 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navigation ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navigation a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+  </head>
+
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">CLI Reference</h1>
+      <h2 class="project-tagline">Zone-based API architecture for Django. Install and go.</h2>
+      
+      
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" role="navigation">
+      <ul>
+        
+          <li>
+            <a href="/django-revolution/" 
+               >
+              Home
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/installation/" 
+               >
+              Installation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/usage/" 
+               >
+              Usage
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/cli/" 
+               class="active">
+              CLI
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/api-reference/" 
+               >
+              API Reference
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/architecture/" 
+               >
+              Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/troubleshooting/" 
+               >
+              Troubleshooting
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="cli-reference">CLI Reference</h1>
+
+<p><strong>Command-line interface for Django Revolution.</strong></p>
+
+<h2 id="basic-commands">Basic Commands</h2>
+
+<h3 id="generate-clients">Generate Clients</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate all clients</span>
+python manage.py revolution
+
+<span class="c"># Generate specific zones</span>
+python manage.py revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># TypeScript only</span>
+python manage.py revolution <span class="nt">--typescript</span>
+
+<span class="c"># Python only</span>
+python manage.py revolution <span class="nt">--python</span>
+</code></pre></div></div>
+
+<h3 id="status-and-information">Status and Information</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check status</span>
+python manage.py revolution <span class="nt">--status</span>
+
+<span class="c"># List available zones</span>
+python manage.py revolution <span class="nt">--list-zones</span>
+
+<span class="c"># Show help</span>
+python manage.py revolution <span class="nt">--help</span>
+</code></pre></div></div>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install dependencies</span>
+python manage.py revolution <span class="nt">--install-deps</span>
+
+<span class="c"># Check dependencies</span>
+python manage.py revolution <span class="nt">--check-deps</span>
+</code></pre></div></div>
+
+<h3 id="archive-management">Archive Management</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate with archive</span>
+python manage.py revolution <span class="nt">--archive</span>
+
+<span class="c"># List archives</span>
+python manage.py revolution <span class="nt">--list-archives</span>
+
+<span class="c"># Download specific archive</span>
+python manage.py revolution <span class="nt">--download-archive</span> 2024-01-15_10-30-00
+
+<span class="c"># Clean archives</span>
+python manage.py revolution <span class="nt">--clean-archives</span>
+</code></pre></div></div>
+
+<h3 id="monorepo">Monorepo</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Sync to monorepo</span>
+python manage.py revolution <span class="nt">--monorepo</span>
+
+<span class="c"># Skip monorepo sync</span>
+python manage.py revolution <span class="nt">--no-monorepo</span>
+</code></pre></div></div>
+
+<h2 id="command-options">Command Options</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--zones</code></td>
+      <td>Generate specific zones</td>
+      <td><code class="language-plaintext highlighter-rouge">--zones public admin</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--typescript</code></td>
+      <td>Generate TypeScript only</td>
+      <td><code class="language-plaintext highlighter-rouge">--typescript</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--python</code></td>
+      <td>Generate Python only</td>
+      <td><code class="language-plaintext highlighter-rouge">--python</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--archive</code></td>
+      <td>Create archive</td>
+      <td><code class="language-plaintext highlighter-rouge">--archive</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--monorepo</code></td>
+      <td>Sync to monorepo</td>
+      <td><code class="language-plaintext highlighter-rouge">--monorepo</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-monorepo</code></td>
+      <td>Skip monorepo sync</td>
+      <td><code class="language-plaintext highlighter-rouge">--no-monorepo</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--clean</code></td>
+      <td>Clean output directory</td>
+      <td><code class="language-plaintext highlighter-rouge">--clean</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--status</code></td>
+      <td>Show status</td>
+      <td><code class="language-plaintext highlighter-rouge">--status</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--list-zones</code></td>
+      <td>List zones</td>
+      <td><code class="language-plaintext highlighter-rouge">--list-zones</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--install-deps</code></td>
+      <td>Install dependencies</td>
+      <td><code class="language-plaintext highlighter-rouge">--install-deps</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--check-deps</code></td>
+      <td>Check dependencies</td>
+      <td><code class="language-plaintext highlighter-rouge">--check-deps</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--list-archives</code></td>
+      <td>List archives</td>
+      <td><code class="language-plaintext highlighter-rouge">--list-archives</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--download-archive</code></td>
+      <td>Download archive</td>
+      <td><code class="language-plaintext highlighter-rouge">--download-archive 2024-01-15_10-30-00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--clean-archives</code></td>
+      <td>Clean archives</td>
+      <td><code class="language-plaintext highlighter-rouge">--clean-archives</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--help</code></td>
+      <td>Show help</td>
+      <td><code class="language-plaintext highlighter-rouge">--help</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="development-workflow">Development Workflow</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Check status</span>
+python manage.py revolution <span class="nt">--status</span>
+
+<span class="c"># 2. Generate clients for development</span>
+python manage.py revolution <span class="nt">--zones</span> public
+
+<span class="c"># 3. Generate all clients for production</span>
+python manage.py revolution <span class="nt">--archive</span> <span class="nt">--monorepo</span>
+</code></pre></div></div>
+
+<h3 id="cicd-pipeline">CI/CD Pipeline</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install dependencies</span>
+python manage.py revolution <span class="nt">--install-deps</span>
+
+<span class="c"># Generate clients</span>
+python manage.py revolution <span class="nt">--archive</span>
+
+<span class="c"># Sync to monorepo</span>
+python manage.py revolution <span class="nt">--monorepo</span>
+</code></pre></div></div>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check what's wrong</span>
+python manage.py revolution <span class="nt">--status</span>
+
+<span class="c"># Clean and regenerate</span>
+python manage.py revolution <span class="nt">--clean</span>
+python manage.py revolution
+
+<span class="c"># Check dependencies</span>
+python manage.py revolution <span class="nt">--check-deps</span>
+</code></pre></div></div>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="usage.html">← Back to Usage</a></td>
+      <td><a href="api-reference.html">Next: API Reference →</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html> 

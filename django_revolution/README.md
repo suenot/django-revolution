@@ -225,7 +225,7 @@ def create_revolution_config(env) -> Dict[str, Any]:
     # Option 1: Without monorepo (simplest setup)
     project_root = env.root_dir
     return get_revolution_config(project_root=project_root, zones=zones, debug=env.debug)
-    
+
     # Option 2: With monorepo integration
     # monorepo = MonorepoConfig(
     #     enabled=True,
@@ -253,10 +253,10 @@ python manage.py revolution --no-monorepo
 
 ## 🧬 What Does It Generate?
 
-| Language       | Location                            | Structure                                                 |
-| -------------- | ----------------------------------- | --------------------------------------------------------- |
-| **TypeScript** | `openapi/clients/typescript/`       | `public/`, `admin/` → `index.ts`, `types.ts`, `services/` |
-| **Python**     | `openapi/clients/python/`           | `public/`, `admin/` → `client.py`, `models/`, `setup.py`  |
+| Language       | Location                      | Structure                                                 |
+| -------------- | ----------------------------- | --------------------------------------------------------- |
+| **TypeScript** | `openapi/clients/typescript/` | `public/`, `admin/` → `index.ts`, `types.ts`, `services/` |
+| **Python**     | `openapi/clients/python/`     | `public/`, `admin/` → `client.py`, `models/`, `setup.py`  |
 
 💡 Each zone gets its own NPM/PyPI-style package. Ready to publish or import.
 
@@ -392,8 +392,8 @@ monorepo = MonorepoConfig(
 )
 
 DJANGO_REVOLUTION = get_revolution_config(
-    project_root=BASE_DIR, 
-    zones=zones, 
+    project_root=BASE_DIR,
+    zones=zones,
     monorepo=monorepo
 )
 ```
@@ -423,7 +423,7 @@ packages:
 ```python
 # settings.py - Without monorepo (simplest)
 DJANGO_REVOLUTION = get_revolution_config(
-    project_root=BASE_DIR, 
+    project_root=BASE_DIR,
     zones=zones
 )
 ```
@@ -654,7 +654,7 @@ isort django_revolution/
 
 ## 📞 Support
 
-- **Documentation**: [https://django-revolution.readthedocs.io/](https://django-revolution.readthedocs.io/)
+- **Documentation**: [https://markolofsen.github.io/django-revolution/](https://markolofsen.github.io/django-revolution/)
 - **Issues**: [https://github.com/markolofsen/django-revolution/issues](https://github.com/markolofsen/django-revolution/issues)
 - **Discussions**: [https://github.com/markolofsen/django-revolution/discussions](https://github.com/markolofsen/django-revolution/discussions)
 
