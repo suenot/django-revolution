@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "toml"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-revolution"
-version = "1.0.8"
+version = "1.0.11"
 description = "Zone-based API architecture for Django. Install and go."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -56,11 +56,12 @@ dev = [
     "pytest>=6.0",
     "pytest-django>=4.0",
     "black>=21.0",
-    "flake8>=3.8",
+    "flake8>=3.9",
     "mypy>=0.800",
     "build>=1.0.0",
     "twine>=4.0.0",
     "questionary>=2.0.0",
+    "toml>=0.10.0",
 ]
 
 [project.urls]
@@ -70,10 +71,14 @@ dev = [
 
 [project.scripts]
 django-revolution = "django_revolution.cli:main"
+generate-requirements = "scripts.generate_requirements:generate_requirements_files"
+version-manager = "scripts.version_manager:main"
+publisher = "scripts.publisher:main"
+dev-cli = "scripts.dev_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["django_revolution*"]
+include = ["django_revolution*", "scripts*"]
 exclude = ["tests*"]
 
 [tool.setuptools.package-data]
@@ -81,7 +86,7 @@ django_revolution = ["openapi/templates/*.j2", "openapi/templates/**/*.j2", "**/
 
 [tool.black]
 line-length = 88
-target-version = ["py38"]
+target-version = ["py39"]
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -98,7 +103,7 @@ extend-exclude = '''
 '''
 
 [tool.mypy]
-python_version = "1.0.8"
+python_version = "1.0.11"
 check_untyped_defs = true
 ignore_missing_imports = true
 warn_unused_ignores = true

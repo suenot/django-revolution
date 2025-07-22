@@ -6,10 +6,12 @@ pyproject_path = Path(__file__).parent / "pyproject.toml"
 
 try:
     import tomllib  # Python 3.11+
+
     with open(pyproject_path, "rb") as f:
         pyproject = tomllib.load(f)
 except ImportError:
     import toml
+
     with open(pyproject_path, "r", encoding="utf-8") as f:
         pyproject = toml.load(f)
 
@@ -27,14 +29,14 @@ setuptools.setup(
     project_urls=pyproject.get("project", {}).get("urls", {}),
     packages=setuptools.find_packages(),
     include_package_data=True,
-    python_requires=project.get("requires-python", ">=3.8"),
+    python_requires=project.get("requires-python", ">=3.9"),
     install_requires=project.get("dependencies", []),
     extras_require=pyproject.get("project", {}).get("optional-dependencies", {}),
     classifiers=project.get("classifiers", []),
     keywords=project.get("keywords", []),
     entry_points={
-        'console_scripts': [
-            'django-revolution=django_revolution.cli:main',
+        "console_scripts": [
+            "django-revolution=django_revolution.cli:main",
         ],
     },
     zip_safe=False,

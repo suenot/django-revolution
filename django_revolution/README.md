@@ -16,6 +16,8 @@
 - 🔐 Built-in support for **Bearer tokens**, refresh logic, and API keys
 - 🔄 Zero config for **Swagger/OpenAPI URLs**, **frontend integration**, and **monorepos**
 - 🎯 **Optional monorepo integration** - works with or without monorepo structure
+- 🚀 **Dynamic zone management** - no static files, everything generated in-memory
+- 🎨 **Rich CLI interface** - interactive commands with beautiful output
 
 > No boilerplate. No manual sync. Just clean clients in seconds.
 
@@ -41,6 +43,60 @@ Manually update OpenAPI spec → Run generator → Fix broken types → Sync cli
 
 One command. Done.
 
+## 🔄 Data Flow Architecture
+
+```mermaid
+graph TD
+    A[Django Settings] --> B[Zone Configuration]
+    B --> C[Dynamic Zone Manager]
+    C --> D[In-Memory URL Modules]
+    D --> E[OpenAPI Schema Generation]
+    E --> F[Client Generation]
+    F --> G[TypeScript Client]
+    F --> H[Python Client]
+    F --> I[Archive Management]
+    
+    J[CLI Interface] --> K[Interactive Mode]
+    J --> L[Command Line Mode]
+    K --> M[Rich UI Selection]
+    L --> N[Direct Generation]
+    M --> F
+    N --> F
+    
+    O[Zone Validation] --> P[App Detection]
+    O --> Q[URL Pattern Validation]
+    O --> R[Schema Test Generation]
+    
+    subgraph "Dynamic Zone System"
+        C
+        D
+        S[Zone Cache]
+        T[Module Registry]
+    end
+    
+    subgraph "CLI Architecture"
+        J
+        K
+        L
+        M
+        N
+    end
+    
+    subgraph "Validation & Testing"
+        O
+        P
+        Q
+        R
+    end
+    
+    subgraph "Output Generation"
+        F
+        G
+        H
+        I
+    end
+```
+
 ## 🎯 **Ready-to-Use Pydantic Configs**
 
 **No more manual configuration!** Django Revolution provides **pre-built, typed configurations**:
@@ -55,7 +111,7 @@ drf_config = create_drf_config(
     title="My API",
     description="My awesome API",
     version="1.0.0",
-    schema_path_prefix="/api/",
+    schema_path_prefix="/apix/",
     enable_browsable_api=False,
     enable_throttling=True,
 )
@@ -238,7 +294,7 @@ def create_revolution_config(env) -> Dict[str, Any]:
 ### 4. Generate Clients
 
 ```bash
-# Generate everything
+# Generate everything (interactive mode)
 python manage.py revolution
 
 # Generate specific zones
@@ -336,7 +392,7 @@ urlpatterns = add_revolution_urls(urlpatterns)
 ### Django Management Commands
 
 ```bash
-# Generate all clients
+# Generate all clients (interactive mode)
 python manage.py revolution
 
 # Specific zones
@@ -355,6 +411,11 @@ python manage.py revolution --status
 python manage.py revolution --list-zones
 python manage.py revolution --validate
 python manage.py revolution --clean
+
+# New validation commands
+python manage.py revolution --validate-zones
+python manage.py revolution --show-urls
+python manage.py revolution --test-schemas
 ```
 
 ### Standalone CLI (Interactive)
@@ -374,6 +435,83 @@ The standalone CLI provides an interactive interface with:
 - 📦 Archive creation options
 - 📊 Real-time progress tracking
 - ✅ Generation summary with results table
+
+### Development Scripts
+
+**Interactive Development CLI:**
+```bash
+# Main development interface
+python scripts/dev_cli.py
+
+# Or install and use as package command
+pip install -e .
+dev-cli
+```
+
+**Individual Scripts:**
+```bash
+# Version management
+python scripts/version_manager.py get
+python scripts/version_manager.py bump --bump-type patch
+
+# Generate requirements files
+python scripts/generate_requirements.py
+
+# Interactive publishing
+python scripts/publisher.py
+
+# Test generation
+./scripts/test_generation.sh
+```
+
+**Package Commands (after installation):**
+```bash
+# Version management
+version-manager get
+version-manager bump --bump-type minor
+
+# Publishing
+publisher
+
+# Requirements generation
+generate-requirements
+```
+
+### New CLI Features
+
+**Zone Validation & Testing:**
+```bash
+# Validate each zone with detailed logging
+python manage.py revolution --validate-zones
+
+# Show URL patterns for each zone
+python manage.py revolution --show-urls
+
+# Test schema generation for each zone
+python manage.py revolution --test-schemas
+```
+
+**Rich Output Examples:**
+```
+╭───────────────────────────────────────────── 🧪 Validation ──────────────────────────────────────────────╮
+│ Detailed Zone Validation                                                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+==================================================
+
+🔍 Validating zone: public
+------------------------------
+  ✅ Zone configuration: Public API
+  Apps (1):
+    ✅ apps.public_api
+  ✅ URL patterns: 1 patterns
+  ✅ Schema patterns: 2 patterns
+  ✅ Zone 'public' is valid
+
+📊 Validation Summary:
+  Valid zones: 2
+  Invalid zones: 0
+🎉 All zones are valid!
+```
 
 ## 🪆 Monorepo Integration (Optional)
 
@@ -451,7 +589,7 @@ drf_config = create_drf_config(
     title="My API",
     description="My awesome API",
     version="1.0.0",
-    schema_path_prefix="/api/",
+    schema_path_prefix="/apix/",
     enable_browsable_api=False,
     enable_throttling=True,
 )
@@ -551,6 +689,16 @@ export DJANGO_REVOLUTION_AUTO_INSTALL_DEPS=true
 
 ## 🧠 Power Features
 
+### Dynamic Zone Management
+
+**No more static files!** Django Revolution uses **in-memory dynamic module generation**:
+
+- ✅ **Zero static files** - Everything generated dynamically
+- ✅ **Zone caching** - Fast repeated generation
+- ✅ **Module registry** - Automatic cleanup and management
+- ✅ **URL pattern validation** - Real-time validation
+- ✅ **Schema testing** - Test generation before production
+
 ### Archive Management
 
 ```bash
@@ -601,9 +749,12 @@ summary = generator.generate_all(zones=['public', 'admin'])
 | Feature                           | Django Revolution  | drf-spectacular + generators | openapi-generator-cli | Fern.dev | Manual Setup |
 | --------------------------------- | ------------------ | ---------------------------- | --------------------- | -------- | ------------ |
 | **Zone-based architecture**       | ✅ **UNIQUE**      | ❌                           | ❌                    | ✅       | ❌           |
+| **Dynamic zone management**       | ✅ **UNIQUE**      | ❌                           | ❌                    | ❌       | ❌           |
 | **Automatic URL generation**      | ✅ **UNIQUE**      | ❌                           | ❌                    | ❌       | ❌           |
 | **Monorepo integration**          | ✅ **OPTIONAL**    | ❌                           | ❌                    | ✅       | ❌           |
 | **Django management commands**    | ✅ **UNIQUE**      | ❌                           | ❌                    | ❌       | ❌           |
+| **Rich CLI interface**            | ✅ **UNIQUE**      | ❌                           | ❌                    | ✅       | ❌           |
+| **Zone validation & testing**     | ✅ **UNIQUE**      | ❌                           | ❌                    | ❌       | ❌           |
 | **Archive management**            | ✅ **UNIQUE**      | ❌                           | ❌                    | ❌       | ❌           |
 | **TypeScript + Python clients**   | ✅                 | ✅                           | ✅                    | ✅       | ✅           |
 | **DRF native integration**        | ✅ **SEAMLESS**    | ✅                           | ⚠️ (via schema)       | ❌       | ✅           |
@@ -637,6 +788,16 @@ Yes! Full Pydantic v2 validation with IDE autocomplete and error checking.
 
 **Q: How do I disable monorepo integration?**  
 Either don't pass the `monorepo` parameter to `get_revolution_config()`, or use the `--no-monorepo` flag when running the command.
+
+**Q: What's new in the latest version?**  
+- 🚀 **Dynamic zone management** - No more static files, everything generated in-memory
+- 🎨 **Rich CLI interface** - Beautiful interactive commands with progress tracking
+- ✅ **Zone validation & testing** - Validate zones and test schema generation
+- 🔧 **Unified CLI architecture** - Single codebase for Django commands and standalone CLI
+- 📊 **Enhanced output** - Rich tables and progress indicators
+
+**Q: How does the dynamic zone system work?**  
+Django Revolution creates URL configuration modules in-memory using Python's `importlib` and `exec`. This eliminates the need for static `.py` files and provides better performance and flexibility.
 
 ## 🤝 Contributing
 

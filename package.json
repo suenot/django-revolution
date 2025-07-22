@@ -1,0 +1,11 @@
+{
+  "name": "revolution",
+  "version": "1.0.0",
+  "description": "**Zone-based API client generator for Django projects**",
+  "license": "ISC",
+  "author": "Unrealos",
+  "scripts": {
+    "commit": "npx openrouter-commit -run",
+    "commit2": "git add . && git commit -m 'fixes' && git push"
+  }
+}
