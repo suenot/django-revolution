@@ -94,6 +94,17 @@ Examples:
         action="store_true",
         help="Clean output directories before generation"
     )
+    parser.add_argument(
+        "--no-multithreading",
+        action="store_true",
+        help="Disable multithreaded generation"
+    )
+    parser.add_argument(
+        "--max-workers",
+        type=int,
+        default=20,
+        help="Maximum number of worker threads (default: 20)"
+    )
 
     # Information options
     parser.add_argument(
@@ -161,6 +172,12 @@ Examples:
         # Override output directory if provided
         if args.output_dir:
             config.output.base_directory = str(Path(args.output_dir).resolve())
+
+        # Override multithreading settings if provided
+        if args.no_multithreading:
+            config.enable_multithreading = False
+        if args.max_workers:
+            config.max_workers = args.max_workers
 
         # Initialize generator
         generator = OpenAPIGenerator(config)
@@ -303,6 +320,23 @@ def handle_generate_interactive(generator):
         "Create archive of generated clients?", default=True
     ).ask()
 
+    # Multithreading options
+    use_multithreading = questionary.confirm(
+        "Enable multithreaded generation?", 
+        default=generator.config.enable_multithreading
+    ).ask()
+    
+    max_workers = generator.config.max_workers
+    if use_multithreading:
+        max_workers = questionary.text(
+            f"Maximum number of worker threads (current: {generator.config.max_workers}):",
+            default=str(generator.config.max_workers)
+        ).ask()
+        try:
+            max_workers = int(max_workers)
+        except ValueError:
+            max_workers = generator.config.max_workers
+
     # Verbose mode
     verbose = questionary.confirm("Enable verbose logging?", default=False).ask()
 
@@ -312,6 +346,8 @@ def handle_generate_interactive(generator):
 • Zones: {', '.join(selected_zones)}
 • Clients: {', '.join(client_types)}
 • Archive: {'Yes' if create_archive else 'No'}
+• Multithreading: {'Yes' if use_multithreading else 'No'}
+• Max Workers: {max_workers if use_multithreading else 'N/A'}
 • Verbose: {'Yes' if verbose else 'No'}
     """
     console.print(Panel(summary_text, title="📋 Summary", border_style="green"))
@@ -324,6 +360,8 @@ def handle_generate_interactive(generator):
     # Configure generator
     generator.config.generators.typescript.enabled = "typescript" in client_types
     generator.config.generators.python.enabled = "python" in client_types
+    generator.config.enable_multithreading = use_multithreading
+    generator.config.max_workers = max_workers
 
     # Generate with progress
     with Progress(
@@ -438,6 +476,11 @@ def handle_status(generator):
     console.print(f"TypeScript available: {status['typescript_available']}")
     console.print(f"Python available: {status['python_available']}")
     console.print(f"Monorepo enabled: {status['monorepo_enabled']}")
+    
+    # Multithreading info
+    multithreading = status.get('multithreading', {})
+    console.print(f"Multithreading enabled: {multithreading.get('enabled', False)}")
+    console.print(f"Max workers: {multithreading.get('max_workers', 20)}")
 
     # Zone details
     if status["zones"]:

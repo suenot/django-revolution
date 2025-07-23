@@ -32,7 +32,7 @@ class ZoneModel(BaseModel):
     auth_required: bool = Field(False, description="Whether authentication is required")
     rate_limit: Optional[str] = Field(None, description="Rate limit configuration")
     permissions: Optional[List[str]] = Field(None, description="Required permissions")
-    version: str = Field("v1", description="API version")
+    version: str = Field("1.0.13", description="API version")
     prefix: Optional[str] = Field(None, description="URL prefix override")
     cors_enabled: bool = Field(False, description="Enable CORS for this zone")
     middleware: Optional[List[str]] = Field(None, description="Custom middleware")
@@ -228,6 +228,11 @@ class DjangoRevolutionSettings(BaseSettings):
     api_prefix: str = Field("apix", description="API prefix for all routes")
     debug: bool = Field(False, description="Enable debug mode")
     auto_install_deps: bool = Field(True, description="Auto-install dependencies")
+    version: str = Field("1.0.13", description="Package version for generated clients")
+    
+    # Multithreading settings
+    max_workers: int = Field(20, description="Maximum number of worker threads for schema generation")
+    enable_multithreading: bool = Field(True, description="Enable multithreaded schema generation")
 
     # Output configuration
     output: OutputSettings = Field(default_factory=OutputSettings)
@@ -307,6 +312,9 @@ class DjangoRevolutionSettings(BaseSettings):
             "api_prefix": self.api_prefix,
             "debug": self.debug,
             "auto_install_deps": self.auto_install_deps,
+            "version": self.version,
+            "max_workers": self.max_workers,
+            "enable_multithreading": self.enable_multithreading,
             "output": self.output.model_dump(),
             "generators": self.generators.model_dump(),
             "monorepo": self.monorepo.model_dump(),

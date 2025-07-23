@@ -6,7 +6,7 @@ organized by API zones using Django REST Framework and drf-spectacular.
 
 Key Features:
 - Zone-based API architecture
-- Automatic OpenAPI schema generation
+- Automatic OpenAPI schema generation with multithreading support
 - TypeScript and Python client generation  
 - Archive management and monorepo integration
 - Django management commands
@@ -33,7 +33,7 @@ from .openapi import OpenAPIGenerator
 from .utils import Logger, ErrorHandler
 from .urls_integration import add_revolution_urls, get_revolution_urlpatterns, get_revolution_urls_info
 
-__version__ = "1.0.9"
+__version__ = "1.0.13"
 __author__ = "Unrealos Team"
 __description__ = "Universal Zone-Based API Client Generator for Django"
 

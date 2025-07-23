@@ -211,6 +211,7 @@ class HeyAPITypeScriptGenerator:
                 ),
                 "apps": zone_info.get("apps", []),
                 "generation_time": datetime.now().isoformat(),
+                "version": self.config.version,
             }
 
             # Generate index.ts

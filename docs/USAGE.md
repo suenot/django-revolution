@@ -28,62 +28,116 @@ python manage.py revolution --python
 python manage.py revolution --no-archive
 ```
 
-### Use TypeScript Clients
+### ⚡ Multithreaded Generation
 
-```typescript
-import API from '@myorg/api-client';
+```bash
+# Use default multithreading (20 workers)
+python manage.py revolution --generate
 
-const api = new API('https://api.example.com');
+# Custom number of worker threads
+python manage.py revolution --generate --max-workers 16
 
-// Authentication
-api.setToken('your-access-token', 'your-refresh-token');
+# Disable multithreading for debugging
+python manage.py revolution --generate --no-multithreading
 
-// Call endpoints
-const profile = await api.public.getCurrentUser();
-const products = await api.public.listProducts();
-
-// Check auth status
-if (api.isAuthenticated()) {
-  console.log('User is logged in');
-}
-
-// Automatic token refresh
-api.onTokenRefresh((newToken) => {
-  console.log('Token refreshed:', newToken);
-});
+# Performance optimization for large projects
+python manage.py revolution --generate --max-workers 32 --clean
 ```
 
-### Use Python Clients
+### 🔍 Validation & Testing
+
+```bash
+# Validate all zones
+python manage.py revolution --validate-zones
+
+# Test schema generation
+python manage.py revolution --test-schemas
+
+# Show URL patterns
+python manage.py revolution --show-urls
+
+# Check status
+python manage.py revolution --status
+```
+
+## 🎯 Advanced Usage
+
+### Performance Optimization
+
+#### Multithreading Configuration
 
 ```python
-from openapi.clients.python.public import PublicAPI
-
-api = PublicAPI(base_url="https://api.example.com")
-api.set_token("your-token-here")
-
-# Call endpoints
-profile = api.accounts.get_current_user()
-products = api.products.list()
-
-# Handle authentication
-if api.is_authenticated():
-    print("User is logged in")
+# settings.py - Optimize for your system
+DJANGO_REVOLUTION = {
+    'enable_multithreading': True,
+    'max_workers': 20,  # Adjust based on your CPU cores
+    # ... other settings
+}
 ```
 
-## 🧩 Zone Configuration
+#### Worker Thread Guidelines
 
-### Define Zones with Pydantic Models
+| System Type | Recommended Workers | Use Case |
+|-------------|-------------------|----------|
+| **Development** | 4-8 | Local development |
+| **CI/CD** | 8-16 | Automated builds |
+| **Production** | 16-32 | High-performance servers |
+| **Large Projects** | 32-64 | Enterprise applications |
+
+#### Memory Management
+
+```bash
+# Clean before generation
+python manage.py revolution --clean --generate
+
+# Monitor memory usage
+python manage.py revolution --generate --max-workers 8
+
+# Batch processing for large projects
+for zone in public admin internal; do
+    python manage.py revolution --zones $zone --clean
+done
+```
+
+### Zone-Specific Generation
+
+```bash
+# Generate only public zone
+python manage.py revolution --zones public
+
+# Generate multiple specific zones
+python manage.py revolution --zones public admin internal
+
+# Generate with custom output
+python manage.py revolution --zones public --output-dir /custom/path
+```
+
+### Client Type Selection
+
+```bash
+# TypeScript only
+python manage.py revolution --typescript
+
+# Python only
+python manage.py revolution --python
+
+# Both (default)
+python manage.py revolution --typescript --python
+```
+
+## 🔧 Configuration Examples
+
+### Basic Zone Configuration
 
 ```python
 # settings.py
 from django_revolution.app_config import ZoneConfig, get_revolution_config
 
-# Define zones with typed Pydantic models
 zones = {
     'public': ZoneConfig(
-        apps=['accounts', 'billing', 'payments'],
+        apps=['accounts', 'billing'],
         title='Public API',
-        description='API for public client applications',
+        description='Public API endpoints',
         public=True,
         auth_required=False,
         version='v1',
@@ -92,24 +146,14 @@ zones = {
     'admin': ZoneConfig(
         apps=['admin_panel', 'analytics'],
         title='Admin API',
-        description='Administrative API endpoints',
+        description='Administrative endpoints',
         public=False,
         auth_required=True,
         version='v1',
         path_prefix='admin'
-    ),
-    'internal': ZoneConfig(
-        apps=['system', 'mailer'],
-        title='Internal API',
-        description='Internal API for backend services',
-        public=False,
-        auth_required=True,
-        version='v1',
-        path_prefix='internal'
     )
 }
 
-# Configure Django Revolution
 DJANGO_REVOLUTION = get_revolution_config(
     project_root=BASE_DIR,
     zones=zones,
@@ -117,255 +161,257 @@ DJANGO_REVOLUTION = get_revolution_config(
 )
 ```
 
-### Zone Properties
-
-| Property        | Type | Required | Description                 |
-| --------------- | ---- | -------- | --------------------------- |
-| `apps`          | list | ✅       | Django apps to include      |
-| `title`         | str  | ❌       | Human-readable title        |
-| `description`   | str  | ❌       | Zone description            |
-| `public`        | bool | ❌       | Is zone publicly accessible |
-| `auth_required` | bool | ❌       | Requires authentication     |
-| `version`       | str  | ❌       | API version (default: 'v1') |
-| `path_prefix`   | str  | ❌       | URL path prefix             |
-
-## 🔧 DRF + Spectacular Configuration
-
-### Easy Configuration with Ready-to-Use Configs
-
-Django Revolution provides **pre-built Pydantic configurations** that you can import and use directly:
-
-#### **DRF + Spectacular Configuration** (services.py)
+### Multithreading Configuration
 
 ```python
-# api/settings/config/services.py
-from django_revolution.drf_config import create_drf_config
-
-class SpectacularConfig(BaseModel):
-    """API documentation configuration using django_revolution DRF config."""
-
-    title: str = Field(default='API')
-    description: str = Field(default='RESTful API')
-    version: str = Field(default='1.0.0')
-    schema_path_prefix: str = Field(default='/apix/')
-    enable_browsable_api: bool = Field(default=False)
-    enable_throttling: bool = Field(default=False)
-
-    def get_django_settings(self) -> Dict[str, Any]:
-        """Get drf-spectacular settings using django_revolution config."""
-        # Use django_revolution DRF config - zero boilerplate!
-        drf_config = create_drf_config(
-            title=self.title,
-            description=self.description,
-            version=self.version,
-            schema_path_prefix=self.schema_path_prefix,
-            enable_browsable_api=self.enable_browsable_api,
-            enable_throttling=self.enable_throttling,
-        )
-
-        return drf_config.get_django_settings()
-```
-
-## 🛠️ Development Workflow
-
-### Interactive Development
-
-```bash
-# Start development CLI
-python scripts/dev_cli.py
-
-# Choose from:
-# - 📦 Version Management
-# - 🚀 Package Publishing
-# - 🧪 Test Generation
-# - 📋 Requirements Generation
-# - 🔧 Package Building
-```
-
-### Version Management
-
-```bash
-# Get current version
-python scripts/version_manager.py get
-
-# Bump version
-python scripts/version_manager.py bump --bump-type patch
-python scripts/version_manager.py bump --bump-type minor
-python scripts/version_manager.py bump --bump-type major
-
-# Validate versions
-python scripts/version_manager.py validate
-
-# Regenerate requirements
-python scripts/version_manager.py requirements
-```
-
-### Testing and Validation
-
-```bash
-# Validate zones
-python manage.py revolution --validate-zones
-
-# Show zone URLs
-python manage.py revolution --show-urls
-
-# Test schema generation
-python manage.py revolution --test-schemas
-
-# Check status
-python manage.py revolution --status
-```
-
-### Publishing
-
-```bash
-# Interactive publishing
-python scripts/publisher.py
-
-# Choose repository (PyPI/TestPyPI)
-# Automatic version bumping
-# Build artifact cleanup
-```
-
-## 📦 Monorepo Integration (Optional)
-
-### With Monorepo
-
-```python
-# settings.py - With monorepo integration
-from django_revolution.app_config import MonorepoConfig
-
-monorepo = MonorepoConfig(
-    enabled=True,
-    path=str(BASE_DIR.parent.parent / 'monorepo'),
-    api_package_path='packages/api/src'
-)
-
-DJANGO_REVOLUTION = get_revolution_config(
-    project_root=BASE_DIR,
-    zones=zones,
-    monorepo=monorepo
-)
-```
-
-**Auto-generated monorepo structure:**
-
-```yaml
-monorepo/
-├── packages/
-│   └── api/
-│       ├── src/
-│       │   ├── index.ts          # Main client export
-│       │   ├── public.ts         # Public zone client
-│       │   ├── admin.ts          # Admin zone client
-│       │   └── types.ts          # Shared types
-│       ├── package.json          # NPM package
-│       └── README.md             # Auto-generated docs
-└── package.json                  # Workspace config
-```
-
-### Without Monorepo
-
-```python
-# settings.py - Simple setup
-DJANGO_REVOLUTION = get_revolution_config(
-    project_root=BASE_DIR,
-    zones=zones
-)
-```
-
-## 🎯 Advanced Usage
-
-### Custom Output Configuration
-
-```python
-# settings.py
-DJANGO_REVOLUTION = get_revolution_config(
-    project_root=BASE_DIR,
-    zones=zones,
-    output_config={
-        'base_directory': 'custom_openapi',
+# settings.py - Performance optimized
+DJANGO_REVOLUTION = {
+    'enable_multithreading': True,
+    'max_workers': 20,  # Adjust based on your system
+    'zones': zones,
+    'output': {
+        'base_directory': BASE_DIR / 'openapi',
+        'schemas_directory': 'schemas',
+        'clients_directory': 'clients',
+    },
+    'generators': {
         'typescript': {
             'enabled': True,
-            'output_dir': 'custom_ts_clients',
-            'package_name': '@myorg/custom-api'
+            'output_format': 'prettier',
         },
         'python': {
             'enabled': True,
-            'output_dir': 'custom_py_clients',
-            'package_name': 'myorg_custom_api'
-        },
-        'archive': {
-            'enabled': True,
-            'format': 'zip',
-            'include_schemas': True
+            'overwrite': True,
         }
     }
-)
+}
 ```
 
 ### Environment-Specific Configuration
 
 ```python
-# settings.py
-import os
+# settings/development.py
+DJANGO_REVOLUTION = {
+    'enable_multithreading': True,
+    'max_workers': 8,  # Lower for development
+    'debug': True,
+    # ... zones configuration
+}
 
-# Different zones for different environments
-if os.environ.get('DJANGO_ENV') == 'production':
-    zones = {
-        'public': ZoneConfig(
-            apps=['accounts', 'billing'],
-            title='Production Public API',
-            public=True,
-            auth_required=False
-        )
-    }
-else:
-    zones = {
-        'public': ZoneConfig(
-            apps=['accounts', 'billing', 'payments', 'support'],
-            title='Development Public API',
-            public=True,
-            auth_required=False
-        ),
-        'dev': ZoneConfig(
-            apps=['dev_tools', 'testing'],
-            title='Development Tools API',
-            public=False,
-            auth_required=True
-        )
-    }
+# settings/production.py
+DJANGO_REVOLUTION = {
+    'enable_multithreading': True,
+    'max_workers': 32,  # Higher for production
+    'debug': False,
+    # ... zones configuration
+}
 ```
 
-## 🔍 Troubleshooting
+## 📊 Performance Monitoring
 
-### Common Issues
+### Generation Time Tracking
 
 ```bash
-# Check zone configuration
+# Time the generation process
+time python manage.py revolution --generate
+
+# Compare sequential vs multithreaded
+time python manage.py revolution --generate --no-multithreading
+time python manage.py revolution --generate --max-workers 16
+```
+
+### Memory Usage Monitoring
+
+```bash
+# Monitor memory usage during generation
+python manage.py revolution --generate --max-workers 8 2>&1 | tee generation.log
+
+# Check for memory leaks
+python manage.py revolution --generate --clean
+```
+
+### Worker Thread Optimization
+
+```bash
+# Test different worker counts
+for workers in 4 8 16 32; do
+    echo "Testing with $workers workers:"
+    time python manage.py revolution --generate --max-workers $workers --clean
+done
+```
+
+## 🧪 Testing & Validation
+
+### Zone Validation
+
+```bash
+# Validate all zones
 python manage.py revolution --validate-zones
 
+# Expected output:
+# ✅ Zone 'public' is valid
+# ✅ Zone 'admin' is valid
+# 🎉 All zones are valid!
+```
+
+### Schema Testing
+
+```bash
 # Test schema generation
 python manage.py revolution --test-schemas
 
-# Show detailed status
-python manage.py revolution --status
+# Expected output:
+# ✅ Schema generated: public.yaml (14KB)
+# ✅ Schema generated: admin.yaml (33KB)
+# 🎉 All schema tests passed!
+```
 
-# Clean and regenerate
+### URL Pattern Inspection
+
+```bash
+# Show URL patterns
+python manage.py revolution --show-urls
+
+# Expected output:
+# PUBLIC ZONE:
+#   • public_api/
+#   • schema/ -> public-schema
+#   • schema/swagger/ -> public-swagger
+```
+
+## 🔄 CI/CD Integration
+
+### GitHub Actions Example
+
+```yaml
+# .github/workflows/generate-clients.yml
+name: Generate API Clients
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install
+          
+      - name: Generate API clients
+        run: |
+          poetry run python manage.py revolution --generate --max-workers 8 --clean
+          
+      - name: Upload generated clients
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-clients
+          path: openapi/clients/
+```
+
+### GitLab CI Example
+
+```yaml
+# .gitlab-ci.yml
+generate_clients:
+  stage: build
+  image: python:3.10
+  script:
+    - pip install poetry
+    - poetry install
+    - poetry run python manage.py revolution --generate --max-workers 8 --clean
+  artifacts:
+    paths:
+      - openapi/clients/
+    expire_in: 1 week
+```
+
+## 🚨 Troubleshooting
+
+### Common Performance Issues
+
+**Slow Generation:**
+```bash
+# Enable multithreading
+python manage.py revolution --generate --max-workers 16
+
+# Clean before generation
+python manage.py revolution --clean --generate
+
+# Check system resources
+htop  # or top
+```
+
+**Memory Issues:**
+```bash
+# Reduce worker count
+python manage.py revolution --generate --max-workers 4
+
+# Clean between generations
 python manage.py revolution --clean
-python manage.py revolution
+
+# Monitor memory usage
+python manage.py revolution --generate --debug
+```
+
+**Django Setup Issues:**
+```bash
+# Check Django settings
+python manage.py check
+
+# Validate environment
+python manage.py revolution --validate
+
+# Debug mode
+python manage.py revolution --debug --verbosity 3
 ```
 
 ### Debug Mode
 
 ```bash
-# Enable debug mode
-export DJANGO_REVOLUTION_DEBUG=1
-
-# Run with debug output
+# Enable debug logging
 python manage.py revolution --debug
+
+# Maximum verbosity
+python manage.py revolution --verbosity 3
+
+# Show full stack traces
+python manage.py revolution --traceback
 ```
 
----
+## 📈 Best Practices
 
-[← Back to Installation](installation.html) | [Next: CLI Reference →](cli.html)
+### Performance Optimization
+
+1. **Use multithreading** - Enable for multiple zones
+2. **Optimize worker count** - Match your CPU cores
+3. **Clean regularly** - Remove old generated files
+4. **Monitor resources** - Watch memory and CPU usage
+5. **Batch processing** - Generate zones separately if needed
+
+### Configuration Management
+
+1. **Environment-specific configs** - Different settings per environment
+2. **Version control** - Track configuration changes
+3. **Validation** - Always validate zones before generation
+4. **Testing** - Test schema generation regularly
+5. **Documentation** - Document zone configurations
+
+### CI/CD Integration
+
+1. **Automated generation** - Generate on every deployment
+2. **Artifact management** - Store generated clients as artifacts
+3. **Performance monitoring** - Track generation times
+4. **Error handling** - Proper error reporting and recovery
+5. **Caching** - Cache dependencies for faster builds

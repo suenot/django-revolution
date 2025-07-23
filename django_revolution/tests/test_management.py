@@ -1,405 +1,384 @@
 """
-Test Django Revolution Management Commands.
+Tests for Django Revolution management commands.
 """
 
 import pytest
-from unittest.mock import patch, MagicMock
-from django.test import TestCase
-from django.core.management import call_command, CommandError
+from unittest.mock import Mock, patch, MagicMock
 from io import StringIO
 
-from django_revolution.config import DjangoRevolutionSettings
 from django_revolution.management.commands.revolution import Command
+from django_revolution.config import DjangoRevolutionSettings
 
 
-class TestRevolutionCommand(TestCase):
-    """Test revolution management command."""
-    
+class TestRevolutionCommand:
+    """Test Django Revolution management command."""
+
+    def setup_method(self):
+        """Set up test command."""
+        from django_revolution.management.commands.revolution import Command
+        self.command = Command()
+
     def setUp(self):
         """Set up test configuration."""
         self.test_zones = {
             "public": {
-                "apps": ["tests.django_sample.apps.public_api"],
-                "title": "Public API"
+                "apps": ["django.contrib.auth", "django.contrib.contenttypes"],
+                "title": "Public API",
+                "description": "Public API endpoints",
+                "public": True,
+                "version": "v1"
             },
-            "private": {
-                "apps": ["tests.django_sample.apps.private_api"],
-                "title": "Private API"
+            "admin": {
+                "apps": ["django.contrib.admin"],
+                "title": "Admin API",
+                "description": "Admin API endpoints",
+                "public": False,
+                "auth_required": True,
+                "version": "v1"
             }
         }
         
-        self.config = DjangoRevolutionSettings(zones=self.test_zones)
+        self.config = DjangoRevolutionSettings(
+            zones=self.test_zones,
+            enable_multithreading=True,
+            max_workers=4
+        )
         self.command = Command()
-    
-    def test_command_initialization(self):
-        """Test command initialization."""
-        self.assertEqual(self.command.help, "Django Revolution - Zone-based API client generation")
-    
-    def test_list_zones_option(self):
-        """Test --list-zones option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            mock_get_settings.return_value = self.config
-            
-            out = StringIO()
-            call_command('revolution', '--list-zones', stdout=out)
-            
-            output = out.getvalue()
-            self.assertIn("public", output)
-            self.assertIn("private", output)
-            self.assertIn("Available zones", output)
-    
-    def test_status_option(self):
-        """Test --status option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            mock_get_settings.return_value = self.config
-            
-            out = StringIO()
-            call_command('revolution', '--status', stdout=out)
-            
-            output = out.getvalue()
-            self.assertIn("Django Revolution Status", output)
-            self.assertIn("Zones:", output)
-    
-    def test_validate_option(self):
-        """Test --validate option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django.apps.apps.is_installed', return_value=True):
-                mock_get_settings.return_value = self.config
-                
-                out = StringIO()
-                call_command('revolution', '--validate', stdout=out)
-                
-                output = out.getvalue()
-                self.assertIn("validation", output.lower())
-    
-    def test_install_deps_option(self):
-        """Test --install-deps option."""
-        with patch('django_revolution.utils.auto_install_dependencies') as mock_install:
-            mock_install.return_value = True
-            
-            out = StringIO()
-            call_command('revolution', '--install-deps', stdout=out)
-            
-            output = out.getvalue()
-            self.assertIn("Dependencies", output)
-    
-    def test_typescript_generation(self):
-        """Test --typescript option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = self.config
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_typescript_clients.return_value = {
-                    "public": {"success": True, "files_generated": 5},
-                    "private": {"success": True, "files_generated": 5}
-                }
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                call_command('revolution', '--typescript', stdout=out)
-                
-                output = out.getvalue()
-                self.assertIn("TypeScript", output)
-                mock_gen_instance.generate_typescript_clients.assert_called_once()
-    
-    def test_python_generation(self):
-        """Test --python option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = self.config
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_python_clients.return_value = {
-                    "public": {"success": True, "files_generated": 3},
-                    "private": {"success": True, "files_generated": 3}
-                }
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                call_command('revolution', '--python', stdout=out)
-                
-                output = out.getvalue()
-                self.assertIn("Python", output)
-                mock_gen_instance.generate_python_clients.assert_called_once()
-    
-    def test_specific_zones(self):
-        """Test --zones option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = self.config
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_all.return_value = {
-                    "total_zones": 1,
-                    "successful_typescript": 1,
-                    "successful_python": 1
-                }
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                call_command('revolution', '--zones', 'public', stdout=out)
-                
-                output = out.getvalue()
-                self.assertIn("public", output)
-                mock_gen_instance.generate_all.assert_called_with(zones=['public'])
-    
-    def test_clean_option(self):
-        """Test --clean option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('pathlib.Path.exists', return_value=True):
-                with patch('shutil.rmtree') as mock_rmtree:
-                    mock_get_settings.return_value = self.config
-                    
-                    out = StringIO()
-                    call_command('revolution', '--clean', stdout=out)
-                    
-                    output = out.getvalue()
-                    self.assertIn("Cleaned", output)
-                    mock_rmtree.assert_called()
-    
-    def test_quiet_option(self):
-        """Test --quiet option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            mock_get_settings.return_value = self.config
-            
-            out = StringIO()
-            call_command('revolution', '--quiet', '--status', stdout=out)
-            
-            output = out.getvalue()
-            # Should be minimal output in quiet mode
-            self.assertLess(len(output), 200)
-    
-    def test_no_archive_option(self):
-        """Test --no-archive option."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = self.config
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_all.return_value = {
-                    "total_zones": 2,
-                    "successful_typescript": 2,
-                    "successful_python": 2
-                }
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                call_command('revolution', '--no-archive', stdout=out)
-                
-                output = out.getvalue()
-                self.assertIn("Generated", output)
-    
-    def test_full_generation(self):
-        """Test full generation without options."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = self.config
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_all.return_value = {
-                    "total_zones": 2,
-                    "successful_typescript": 2,
-                    "successful_python": 2,
-                    "duration_seconds": 1.5
-                }
-                mock_gen_instance.create_archives.return_value = True
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                call_command('revolution', stdout=out)
-                
-                output = out.getvalue()
-                self.assertIn("Generated", output)
-                mock_gen_instance.generate_all.assert_called_once()
-    
-    def test_error_handling(self):
-        """Test error handling in command."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            mock_get_settings.side_effect = Exception("Test error")
-            
-            out = StringIO()
-            err = StringIO()
-            
-            with self.assertRaises(SystemExit):
-                call_command('revolution', '--status', stdout=out, stderr=err)
 
-
-class TestCommandOptions(TestCase):
-    """Test command option parsing and validation."""
-    
-    def test_invalid_zones(self):
-        """Test invalid zone names."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            mock_get_settings.return_value = DjangoRevolutionSettings(zones={})
-            
-            out = StringIO()
-            err = StringIO()
-            
-            with self.assertRaises(SystemExit):
-                call_command('revolution', '--zones', 'nonexistent', stdout=out, stderr=err)
-    
-    def test_multiple_zones(self):
-        """Test multiple zone specification."""
-        config = DjangoRevolutionSettings(zones={
-            "public": {"apps": ["tests.django_sample.apps.public_api"]},
-            "private": {"apps": ["tests.django_sample.apps.private_api"]}
-        })
+    def test_add_arguments(self):
+        """Test that all arguments are properly added."""
+        from django.core.management.base import CommandParser
         
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = config
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_all.return_value = {
-                    "total_zones": 2,
-                    "successful_typescript": 2,
-                    "successful_python": 2
-                }
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                call_command('revolution', '--zones', 'public', 'private', stdout=out)
-                
-                output = out.getvalue()
-                self.assertIn("public", output)
-                self.assertIn("private", output)
-                mock_gen_instance.generate_all.assert_called_with(zones=['public', 'private'])
-    
-    def test_missing_dependencies(self):
-        """Test handling of missing dependencies."""
-        with patch('django_revolution.utils.auto_install_dependencies') as mock_install:
-            mock_install.return_value = False
-            
-            out = StringIO()
-            call_command('revolution', '--install-deps', stdout=out)
-            
-            output = out.getvalue()
-            self.assertIn("Failed", output)
-    
-    def test_generation_failure(self):
-        """Test handling of generation failures."""
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = DjangoRevolutionSettings(zones={
-                    "test": {"apps": ["tests.django_sample.apps.public_api"]}
-                })
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_all.side_effect = Exception("Generation failed")
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                err = StringIO()
-                
-                with self.assertRaises(SystemExit):
-                    call_command('revolution', stdout=out, stderr=err)
+        parser = CommandParser()
+        self.command.add_arguments(parser)
+        
+        # Check that all expected arguments are present
+        expected_args = [
+            '--generate', '--zones', '--typescript', '--python',
+            '--no-typescript', '--no-python', '--no-archive', '--no-monorepo',
+            '--clean', '--no-multithreading', '--max-workers', '--status',
+            '--list-zones', '--validate-zones', '--show-urls', '--test-schemas',
+            '--interactive', '--verbose', '--output-dir'
+        ]
+        
+        for arg in expected_args:
+            # Check if argument exists in parser
+            found = False
+            for action in parser._actions:
+                if arg in action.option_strings:
+                    found = True
+                    break
+            assert found, f"Argument {arg} not found in parser"
 
-
-class TestCommandIntegration(TestCase):
-    """Test command integration with other components."""
-    
-    def test_command_with_real_config(self):
-        """Test command with real configuration."""
-        test_zones = {
-            "api": {
-                "apps": ["tests.django_sample.apps.public_api"],
-                "title": "API Zone"
+    def test_handle_generate(self):
+        """Test handle method with generate flag."""
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': True,
+                'zones': ['public'],
+                'typescript': True,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'no_multithreading': False,
+                'max_workers': None,
+                'status': False,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': None
             }
-        }
-        
-        config = DjangoRevolutionSettings(zones=test_zones)
-        
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = config
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_all.return_value = {
-                    "total_zones": 1,
-                    "successful_typescript": 1,
-                    "successful_python": 1,
-                    "duration_seconds": 1.2
-                }
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                call_command('revolution', stdout=out)
-                
-                output = out.getvalue()
-                self.assertIn("Generated", output)
-                self.assertIn("1 zone", output)
-    
-    def test_command_logging_levels(self):
-        """Test command logging with different verbosity."""
-        config = DjangoRevolutionSettings(zones={
-            "public": {"apps": ["tests.django_sample.apps.public_api"]}
-        })
-        
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            mock_get_settings.return_value = config
             
-            # Test verbose output
-            out = StringIO()
-            call_command('revolution', '--status', '--verbosity', '2', stdout=out)
+            self.command.handle(**options)
             
-            output = out.getvalue()
-            self.assertGreater(len(output), 0)
-    
-    def test_command_help(self):
-        """Test command help output."""
-        out = StringIO()
-        call_command('revolution', '--help', stdout=out)
-        
-        output = out.getvalue()
-        self.assertIn("Django Revolution", output)
-        self.assertIn("--zones", output)
-        self.assertIn("--typescript", output)
-        self.assertIn("--python", output)
+            # Verify that cli.main was called with correct arguments
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--generate' in call_args
+            assert '--zones' in call_args
+            assert 'public' in call_args
+            assert '--typescript' in call_args
+            assert '--no-python' in call_args
+
+    def test_handle_status(self):
+        """Test handle method with status flag."""
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': False,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'no_multithreading': False,
+                'max_workers': None,
+                'status': True,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': None
+            }
+            
+            self.command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--status' in call_args
+
+    def test_handle_multithreading_options(self):
+        """Test handle method with multithreading options."""
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': True,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'no_multithreading': True,
+                'max_workers': 10,
+                'status': False,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': None
+            }
+            
+            self.command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--no-multithreading' in call_args
+            assert '--max-workers' in call_args
+            assert '10' in call_args
+
+    def test_handle_clean_option(self):
+        """Test handle method with clean option."""
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': True,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': True,
+                'no_archive': False,
+                'no_monorepo': False,
+                'no_multithreading': False,
+                'max_workers': None,
+                'status': False,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': None
+            }
+            
+            self.command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--clean' in call_args
+
+    def test_handle_output_dir(self):
+        """Test handle method with output directory."""
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': True,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'no_multithreading': False,
+                'max_workers': None,
+                'status': False,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': '/custom/output'
+            }
+            
+            self.command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--output-dir' in call_args
+            assert '/custom/output' in call_args
+
+    def test_handle_interactive(self):
+        """Test handle method with interactive flag."""
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': False,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'no_multithreading': False,
+                'max_workers': None,
+                'status': False,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': True,
+                'verbose': False,
+                'output_dir': None
+            }
+            
+            self.command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--interactive' in call_args
 
 
-class TestCommandArguments(TestCase):
-    """Test command argument parsing and validation."""
-    
-    def test_mutually_exclusive_options(self):
-        """Test mutually exclusive options."""
-        config = DjangoRevolutionSettings(zones={
-            "public": {"apps": ["tests.django_sample.apps.public_api"]}
-        })
-        
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            with patch('django_revolution.openapi.generator.OpenAPIGenerator') as mock_generator:
-                mock_get_settings.return_value = config
-                
-                mock_gen_instance = MagicMock()
-                mock_gen_instance.generate_typescript_clients.return_value = {
-                    "public": {"success": True}
-                }
-                mock_generator.return_value = mock_gen_instance
-                
-                out = StringIO()
-                call_command('revolution', '--typescript', '--status', stdout=out)
-                
-                # Should work with multiple options
-                output = out.getvalue()
-                self.assertGreater(len(output), 0)
-    
-    def test_boolean_flags(self):
-        """Test boolean flag handling."""
-        config = DjangoRevolutionSettings(zones={
-            "public": {"apps": ["tests.django_sample.apps.public_api"]}
-        })
-        
-        with patch('django_revolution.config.get_settings') as mock_get_settings:
-            mock_get_settings.return_value = config
-            
-            out = StringIO()
-            call_command('revolution', '--quiet', '--validate', stdout=out)
-            
-            output = out.getvalue()
-            # Should work with boolean flags
-            self.assertIsInstance(output, str)
+class TestMultithreadingManagement:
+    """Test multithreading options in management command."""
 
+    def test_no_multithreading_option(self):
+        """Test --no-multithreading option."""
+        command = Command()
+        
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': True,
+                'no_multithreading': True,
+                'max_workers': None,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'status': False,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': None
+            }
+            
+            command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--no-multithreading' in call_args
 
-if __name__ == "__main__":
-    pytest.main([__file__]) 
+    def test_max_workers_option(self):
+        """Test --max-workers option."""
+        command = Command()
+        
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': True,
+                'no_multithreading': False,
+                'max_workers': 15,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'status': False,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': None
+            }
+            
+            command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--max-workers' in call_args
+            assert '15' in call_args
+
+    def test_multithreading_options_combination(self):
+        """Test combination of multithreading options."""
+        command = Command()
+        
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': True,
+                'no_multithreading': True,
+                'max_workers': 8,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'status': False,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': None
+            }
+            
+            command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--no-multithreading' in call_args
+            assert '--max-workers' in call_args
+            assert '8' in call_args
+
+    def test_status_with_multithreading_info(self):
+        """Test that status includes multithreading information."""
+        command = Command()
+        
+        with patch('django_revolution.management.commands.revolution.cli.main') as mock_cli_main:
+            options = {
+                'generate': False,
+                'no_multithreading': False,
+                'max_workers': None,
+                'zones': None,
+                'typescript': False,
+                'python': False,
+                'clean': False,
+                'no_archive': False,
+                'no_monorepo': False,
+                'status': True,
+                'list_zones': False,
+                'validate_zones': False,
+                'show_urls': False,
+                'test_schemas': False,
+                'interactive': False,
+                'verbose': False,
+                'output_dir': None
+            }
+            
+            command.handle(**options)
+            
+            mock_cli_main.assert_called_once()
+            call_args = mock_cli_main.call_args[0][0]
+            assert '--status' in call_args 

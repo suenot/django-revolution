@@ -387,6 +387,95 @@ if 'version=' not in setup_kwargs:
 
         return sync_results
 
+    def sync_all(self) -> Dict[str, Any]:
+        """
+        Sync all generated clients to monorepo.
+
+        Returns:
+            Overall sync operation results
+        """
+        if not self.config.monorepo.enabled:
+            self.logger.info("Monorepo sync disabled")
+            return {"success": False, "error": "Monorepo sync disabled"}
+
+        # Get clients directory from config
+        clients_dir = Path(self.config.output.base_directory) / self.config.output.clients_directory
+        return self.sync_all_clients(clients_dir)
+
+    def sync_zone(self, zone_name: str) -> bool:
+        """
+        Sync a specific zone to monorepo.
+
+        Args:
+            zone_name: Name of the zone to sync
+
+        Returns:
+            True if sync was successful, False otherwise
+        """
+        if not self.config.monorepo.enabled:
+            return False
+
+        try:
+            # Get clients directory from config
+            clients_dir = Path(self.config.output.base_directory) / self.config.output.clients_directory
+            typescript_dir = clients_dir / "typescript"
+            
+            # Find zone directory
+            zone_dir = typescript_dir / zone_name
+            if not zone_dir.exists():
+                self.logger.warning(f"Zone directory not found: {zone_dir}")
+                return False
+
+            # Sync TypeScript client
+            result = self.sync_typescript_client(zone_name, zone_dir)
+            return result.get("success", False)
+
+        except Exception as e:
+            self.logger.error(f"Failed to sync zone {zone_name}: {e}")
+            return False
+
+    def generate_consolidated_index(self, zones: list[str]):
+        """
+        Generate consolidated index.ts in monorepo for specified zones.
+
+        Args:
+            zones: List of zone names to include in index.ts
+        """
+        if not self.config.monorepo.enabled:
+            return
+
+        try:
+            # Get clients directory from config
+            clients_dir = Path(self.config.output.base_directory) / self.config.output.clients_directory
+            typescript_dir = clients_dir / "typescript"
+            
+            # Check if consolidated index.ts exists
+            consolidated_index = typescript_dir / "index.ts"
+            if not consolidated_index.exists():
+                self.logger.warning("Consolidated index.ts not found, skipping monorepo index generation")
+                return
+
+            # Copy to monorepo
+            target_index = self.api_package_path / "typescript" / "index.ts"
+            ensure_directories(target_index.parent)
+            
+            shutil.copy2(consolidated_index, target_index)
+            self.logger.success(f"Copied consolidated index.ts to monorepo: {target_index}")
+
+            # Run build command if package.json exists
+            build_dir = self.api_package_path.parent  # Go up from src to api
+            if (build_dir / "package.json").exists():
+                cmd = "pnpm build"
+                success, output = run_command(cmd, cwd=build_dir, timeout=120)
+                self.logger.info(f"Build for main api package: {'OK' if success else 'FAIL'}")
+                if not success:
+                    self.logger.warning(f"Build output: {output[:500] if output else 'No output'}")
+            else:
+                self.logger.warning(f"package.json not found in {build_dir}")
+
+        except Exception as e:
+            self.logger.error(f"Failed to generate monorepo consolidated index: {e}")
+
     def _find_python_client_path(self, zone_dir: Path) -> Optional[Path]:
         """Find the actual Python client path (might be nested)."""
         # Look for setup.py or pyproject.toml

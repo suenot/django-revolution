@@ -55,6 +55,17 @@ class Command(BaseCommand):
             action="store_true",
             help="Clean output directories before generation",
         )
+        parser.add_argument(
+            "--no-multithreading",
+            action="store_true",
+            help="Disable multithreaded generation",
+        )
+        parser.add_argument(
+            "--max-workers",
+            type=int,
+            default=20,
+            help="Maximum number of worker threads (default: 20)",
+        )
 
         # Information options
         parser.add_argument(
@@ -120,6 +131,10 @@ class Command(BaseCommand):
                 cli_args.append("--no-monorepo")
             if options.get("clean"):
                 cli_args.append("--clean")
+            if options.get("no_multithreading"):
+                cli_args.append("--no-multithreading")
+            if options.get("max_workers"):
+                cli_args.extend(["--max-workers", str(options["max_workers"])])
             if options.get("status"):
                 cli_args.append("--status")
             if options.get("list_zones"):

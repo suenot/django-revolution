@@ -11,15 +11,21 @@ from pathlib import Path
 package_root = Path(__file__).parent.parent
 sys.path.insert(0, str(package_root))
 
-# Django settings for testing
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tests.django_sample.settings')
+# Set Django settings
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django.conf.global_settings')
 
+# Import Django components
 import django
+from django.conf import settings
+
+# Configure Django
+if not settings.configured:
+    django.setup()
+
+# Import Django Revolution components
 from django_revolution.config import DjangoRevolutionSettings
 from django_revolution.zones import ZoneManager, ZoneDetector
 from django_revolution.openapi.generator import OpenAPIGenerator
-
-django.setup()
 
 
 @pytest.fixture
@@ -27,14 +33,14 @@ def sample_zones():
     """Sample zone configuration for testing."""
     return {
         "public": {
-            "apps": ["tests.django_sample.apps.public_api"],
+            "apps": ["django.contrib.auth", "django.contrib.contenttypes"],
             "title": "Public API",
             "description": "Public API for test purposes",
             "public": True,
             "auth_required": False
         },
         "private": {
-            "apps": ["tests.django_sample.apps.private_api"],
+            "apps": ["django.contrib.admin"],
             "title": "Private API", 
             "description": "Private API for admin purposes",
             "public": False,
@@ -49,21 +55,9 @@ def sample_config(sample_zones):
     return DjangoRevolutionSettings(
         api_prefix="api",
         zones=sample_zones,
-        output={
-            "base_directory": "tests/openapi",
-            "schemas_directory": "schemas",
-            "clients_directory": "clients"
-        },
-        generators={
-            "typescript": {
-                "enabled": True,
-                "output_directory": "tests/openapi/clients/typescript"
-            },
-            "python": {
-                "enabled": True,
-                "output_directory": "tests/openapi/clients/python"
-            }
-        }
+        enable_multithreading=True,
+        max_workers=4,
+        version="1.0.12"
     )
 
 
@@ -104,8 +98,9 @@ def mock_django_apps():
     
     def mock_is_installed(app_name):
         return app_name in [
-            "tests.django_sample.apps.public_api",
-            "tests.django_sample.apps.private_api"
+            "django.contrib.auth",
+            "django.contrib.contenttypes",
+            "django.contrib.admin"
         ]
     
     with patch('django.apps.apps.is_installed', side_effect=mock_is_installed):

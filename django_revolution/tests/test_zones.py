@@ -1,337 +1,407 @@
 """
-Test Django Revolution Zones functionality.
+Tests for Django Revolution zones functionality.
 """
 
 import pytest
-from unittest.mock import patch
-from django.test import TestCase
+from pathlib import Path
+from unittest.mock import patch, Mock
+from pydantic import ValidationError
 
-from django_revolution.config import DjangoRevolutionSettings, ZoneModel
-from django_revolution.zones import ZoneManager, ZoneDetector
+from django_revolution.config import DjangoRevolutionSettings
+from django_revolution.zones import ZoneModel, ZoneManager, ZoneDetector
 
 
-class TestZoneManager(TestCase):
+class TestZoneModel:
+    """Test ZoneModel functionality."""
+
+    def test_zone_model_creation(self):
+        """Test creating a ZoneModel."""
+        zone = ZoneModel(
+            name="test_zone",
+            apps=["django.contrib.auth", "django.contrib.contenttypes"],
+            title="Test Zone",
+            description="Test zone description",
+            public=True,
+            auth_required=False,
+            version="v1",
+            path_prefix="test"
+        )
+        
+        assert zone.name == "test_zone"
+        assert zone.apps == ["django.contrib.auth", "django.contrib.contenttypes"]
+        assert zone.title == "Test Zone"
+        assert zone.description == "Test zone description"
+        assert zone.public is True
+        assert zone.auth_required is False
+        assert zone.version == "v1"
+        assert zone.path_prefix == "test"
+
+    def test_zone_model_defaults(self):
+        """Test ZoneModel default values."""
+        zone = ZoneModel(
+            name="test_zone",
+            apps=["django.contrib.auth"]
+        )
+        
+        assert zone.name == "test_zone"
+        assert zone.apps == ["django.contrib.auth"]
+        assert zone.title is None  # Title is not auto-generated anymore
+        assert zone.public is True
+        assert zone.auth_required is False
+        assert zone.version == "v1"
+        assert zone.path_prefix == "test_zone"  # Auto-generated from name
+
+    def test_zone_model_validation(self):
+        """Test ZoneModel validation."""
+        # Test empty apps list
+        with pytest.raises(ValidationError):
+            ZoneModel(name="test", apps=[])
+        
+        # Test empty name
+        with pytest.raises(ValueError, match="Zone name cannot be empty"):
+            ZoneModel(name="", apps=["django.contrib.auth"])
+        
+        # Test whitespace name
+        with pytest.raises(ValueError, match="Zone name cannot be empty"):
+            ZoneModel(name="   ", apps=["django.contrib.auth"])
+
+    def test_zone_model_name_normalization(self):
+        """Test zone name normalization."""
+        zone = ZoneModel(
+            name="  TEST_ZONE  ",
+            apps=["django.contrib.auth"]
+        )
+        
+        assert zone.name == "test_zone"  # Normalized to lowercase and stripped
+
+    def test_zone_model_post_init(self):
+        """Test ZoneModel post-init processing."""
+        zone = ZoneModel(
+            name="test_zone",
+            apps=["django.contrib.auth"]
+        )
+        
+        # Test title (not auto-generated anymore)
+        assert zone.title is None
+        
+        # Test auto-generated path_prefix
+        assert zone.path_prefix == "test_zone"
+
+    def test_zone_model_with_custom_prefix(self):
+        """Test ZoneModel with custom path prefix."""
+        zone = ZoneModel(
+            name="test_zone",
+            apps=["django.contrib.auth"],
+            path_prefix="custom_prefix"
+        )
+        
+        assert zone.path_prefix == "custom_prefix"
+
+    def test_zone_model_with_custom_title(self):
+        """Test ZoneModel with custom title."""
+        zone = ZoneModel(
+            name="test_zone",
+            apps=["django.contrib.auth"],
+            title="Custom Title"
+        )
+        
+        assert zone.title == "Custom Title"
+
+
+class TestZoneManager:
     """Test ZoneManager functionality."""
-    
-    def setUp(self):
-        """Set up test configuration."""
-        self.test_zones = {
-            "public": {
-                "apps": ["tests.django_sample.apps.public_api"],
-                "title": "Public API",
-                "public": True,
-                "auth_required": False
-            },
-            "private": {
-                "apps": ["tests.django_sample.apps.private_api"],
-                "title": "Private API", 
-                "public": False,
-                "auth_required": True
+
+    def test_zone_manager_creation(self):
+        """Test creating a ZoneManager."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                }
             }
-        }
+        )
         
-        self.config = DjangoRevolutionSettings(zones=self.test_zones)
-        self.manager = ZoneManager(self.config)
-    
-    def test_zone_manager_initialization(self):
-        """Test ZoneManager initialization."""
-        self.assertEqual(len(self.manager.zones), 2)
-        self.assertIn("public", self.manager.zones)
-        self.assertIn("private", self.manager.zones)
+        zone_manager = ZoneManager(config)
         
-        # Test zone model types
-        self.assertIsInstance(self.manager.zones["public"], ZoneModel)
-        self.assertIsInstance(self.manager.zones["private"], ZoneModel)
-    
-    def test_zone_manager_with_mock_apps(self):
-        """Test ZoneManager with mocked Django apps."""
-        with patch('django.apps.apps.is_installed', return_value=True):
-            manager = ZoneManager(self.config)
-            self.assertEqual(len(manager.zones), 2)
-    
-    def test_get_app_urls(self):
-        """Test app URL generation."""
-        apps_list = ["tests.django_sample.apps.public_api"]
+        assert zone_manager.config == config
+        assert len(zone_manager.zones) == 1
+        assert "public" in zone_manager.zones
+        assert isinstance(zone_manager.zones["public"], ZoneModel)
+
+    def test_zone_manager_empty_zones(self):
+        """Test ZoneManager with empty zones."""
+        config = DjangoRevolutionSettings(zones={})
+        zone_manager = ZoneManager(config)
         
-        with patch('django.apps.apps.is_installed', return_value=True), \
-             patch('django.urls.path') as mock_path, \
-             patch('django.urls.include') as mock_include:
-            
-            mock_path.return_value = "mocked_path"
-            mock_include.return_value = "mocked_include"
-            
-            urls = self.manager.get_app_urls(apps_list)
-            
-            # Should return URL patterns
-            self.assertIsInstance(urls, list)
-    
-    def test_get_app_urls_with_missing_apps(self):
-        """Test app URL generation with missing apps."""
-        apps_list = ["tests.django_sample.apps.public_api", "nonexistent_app"]
+        assert len(zone_manager.zones) == 0
+
+    def test_zone_manager_multiple_zones(self):
+        """Test ZoneManager with multiple zones."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                },
+                "admin": {
+                    "apps": ["django.contrib.admin"],
+                    "title": "Admin API",
+                    "version": "v1"
+                }
+            }
+        )
         
-        with patch('django.apps.apps.is_installed', side_effect=lambda x: x == "tests.django_sample.apps.public_api"), \
-             patch('django.urls.path') as mock_path, \
-             patch('django.urls.include') as mock_include:
+        zone_manager = ZoneManager(config)
+        
+        assert len(zone_manager.zones) == 2
+        assert "public" in zone_manager.zones
+        assert "admin" in zone_manager.zones
+        assert zone_manager.zones["public"].name == "public"
+        assert zone_manager.zones["admin"].name == "admin"
+
+    def test_zone_manager_get_zone(self):
+        """Test ZoneManager get_zone method."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                }
+            }
+        )
+        
+        zone_manager = ZoneManager(config)
+        
+        zone = zone_manager.get_zone("public")
+        assert zone is not None
+        assert isinstance(zone, ZoneModel)
+        assert zone.name == "public"
+        
+        zone = zone_manager.get_zone("nonexistent")
+        assert zone is None
+
+    def test_zone_manager_zone_names(self):
+        """Test ZoneManager zone names."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                },
+                "admin": {
+                    "apps": ["django.contrib.admin"],
+                    "title": "Admin API",
+                    "version": "v1"
+                }
+            }
+        )
+        
+        zone_manager = ZoneManager(config)
+        
+        zone_names = list(zone_manager.zones.keys())
+        assert len(zone_names) == 2
+        assert "public" in zone_names
+        assert "admin" in zone_names
+
+    def test_zone_manager_validation(self):
+        """Test ZoneManager validation."""
+        # Test duplicate apps
+        config = DjangoRevolutionSettings(
+            zones={
+                "zone1": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Zone 1",
+                    "version": "v1"
+                },
+                "zone2": {
+                    "apps": ["django.contrib.auth"],  # Duplicate app
+                    "title": "Zone 2",
+                    "version": "v1"
+                }
+            }
+        )
+        
+        with pytest.raises(ValueError, match="Duplicate apps across zones"):
+            ZoneManager(config)
+
+    def test_zone_manager_create_dynamic_urlconf_module(self):
+        """Test ZoneManager create_dynamic_urlconf_module method."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                }
+            }
+        )
+        
+        zone_manager = ZoneManager(config)
+        
+        # Mock Django apps
+        with patch('django.apps.apps.is_installed') as mock_is_installed:
+            mock_is_installed.return_value = True
             
-            mock_path.return_value = "mocked_path"
-            mock_include.return_value = "mocked_include"
+            module = zone_manager.create_dynamic_urlconf_module("public", zone_manager.zones["public"])
             
-            urls = self.manager.get_app_urls(apps_list)
+            assert module is not None
+            assert hasattr(module, '__name__')
+
+    def test_zone_manager_validate_apps(self):
+        """Test ZoneManager app validation."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth", "nonexistent.app"],
+                    "title": "Public API",
+                    "version": "v1"
+                }
+            }
+        )
+        
+        zone_manager = ZoneManager(config)
+        
+        # Mock Django apps
+        with patch('django.apps.apps.is_installed') as mock_is_installed:
+            def mock_is_installed_side_effect(app_name):
+                return app_name == "django.contrib.auth"
             
-            # Should still work with existing apps
-            self.assertIsInstance(urls, list)
-    
-    def test_get_zone_urls(self):
-        """Test zone-specific URL generation."""
-        with patch('django.apps.apps.is_installed', return_value=True), \
-             patch('django.urls.path') as mock_path, \
-             patch('drf_spectacular.views.SpectacularAPIView') as mock_view:
+            mock_is_installed.side_effect = mock_is_installed_side_effect
             
-            mock_path.return_value = "mocked_path"
-            mock_view.as_view.return_value = "mocked_view"
-            
-            zone_urls = self.manager.get_zone_urls()
-            
-            # Should return URL patterns for each zone
-            self.assertIsInstance(zone_urls, list)
-    
-    def test_get_zone_schema_urls(self):
-        """Test zone schema URL generation."""
-        with patch('django.apps.apps.is_installed', return_value=True), \
-             patch('django.urls.path') as mock_path, \
-             patch('drf_spectacular.views.SpectacularAPIView') as mock_view, \
-             patch('drf_spectacular.views.SpectacularSwaggerView') as mock_swagger:
-            
-            mock_path.return_value = "mocked_path"
-            mock_view.as_view.return_value = "mocked_view"
-            mock_swagger.as_view.return_value = "mocked_swagger"
-            
-            schema_urls = self.manager.get_zone_schema_urls()
-            
-            # Should return schema URL patterns
-            self.assertIsInstance(schema_urls, list)
+            # Should not raise exception for valid apps
+            zone_manager.validate_apps()
 
 
-class TestZoneDetector(TestCase):
+class TestZoneDetector:
     """Test ZoneDetector functionality."""
-    
-    def setUp(self):
-        """Set up test configuration."""
-        self.test_zones = {
-            "public": {
-                "apps": ["tests.django_sample.apps.public_api"],
-                "title": "Public API"
+
+    def test_zone_detector_creation(self):
+        """Test creating a ZoneDetector."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                }
             }
-        }
+        )
         
-        self.config = DjangoRevolutionSettings(zones=self.test_zones)
-        self.detector = ZoneDetector(self.config)
-    
-    def test_zone_detector_initialization(self):
-        """Test ZoneDetector initialization."""
-        self.assertEqual(len(self.detector.zones), 1)
-        self.assertIn("public", self.detector.zones)
-        self.assertIsInstance(self.detector.zones["public"], ZoneModel)
-    
-    def test_get_zone_names(self):
-        """Test getting zone names."""
-        zone_names = self.detector.get_zone_names()
+        zone_detector = ZoneDetector(config)
         
-        self.assertIsInstance(zone_names, list)
-        self.assertIn("public", zone_names)
-        self.assertEqual(len(zone_names), 1)
-    
-    def test_get_zone(self):
-        """Test getting a specific zone."""
-        zone = self.detector.get_zone("public")
-        
-        self.assertIsInstance(zone, ZoneModel)
-        self.assertEqual(zone.name, "public")
-        self.assertEqual(zone.apps, ["tests.django_sample.apps.public_api"])
-        
-        # Test non-existent zone
-        non_existent = self.detector.get_zone("non_existent")
-        self.assertIsNone(non_existent)
-    
-    def test_get_zone_apps(self):
-        """Test getting apps for a specific zone."""
-        zone_apps = self.detector.get_zone_apps("public")
-        
-        self.assertEqual(zone_apps, ["tests.django_sample.apps.public_api"])
-    
-    def test_get_zone_apps_nonexistent(self):
-        """Test getting apps for non-existent zone."""
-        zone_apps = self.detector.get_zone_apps("nonexistent")
-        
-        self.assertEqual(zone_apps, [])
-    
-    def test_get_all_apps(self):
-        """Test getting all apps across zones."""
-        all_apps = self.detector.get_all_apps()
-        
-        self.assertIn("tests.django_sample.apps.public_api", all_apps)
-        self.assertIsInstance(all_apps, list)
-    
-    def test_validate_zone_apps(self):
-        """Test zone apps validation."""
-        # Valid apps
-        with patch('django.apps.apps.is_installed', return_value=True):
-            is_valid = self.detector.validate_zone_apps("public")
-            self.assertTrue(is_valid)
-        
-        # Invalid apps
-        with patch('django.apps.apps.is_installed', return_value=False):
-            is_valid = self.detector.validate_zone_apps("public")
-            self.assertFalse(is_valid)
-    
-    def test_validate_all_zones(self):
-        """Test validation of all zones."""
-        # All valid
-        with patch('django.apps.apps.is_installed', return_value=True):
-            validation_results = self.detector.validate_all_zones()
-            
-            self.assertIsInstance(validation_results, dict)
-            self.assertIn("public", validation_results)
-            self.assertTrue(validation_results["public"])
-        
-        # Some invalid
-        with patch('django.apps.apps.is_installed', return_value=False):
-            validation_results = self.detector.validate_all_zones()
-            
-            self.assertIn("public", validation_results)
-            self.assertFalse(validation_results["public"])
+        assert zone_detector.config == config
+        assert len(zone_detector.zones) == 1
 
-
-class TestZoneIntegration(TestCase):
-    """Test integration between zones and configuration."""
-    
-    def test_zone_manager_with_detector(self):
-        """Test ZoneManager working with ZoneDetector."""
-        test_zones = {
-            "test_zone": {
-                "apps": ["tests.django_sample.apps.public_api"],
-                "title": "Test Zone"
+    def test_zone_detector_detect_zones(self):
+        """Test ZoneDetector zone detection."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                }
             }
-        }
+        )
         
-        config = DjangoRevolutionSettings(zones=test_zones)
-        manager = ZoneManager(config)
-        detector = ZoneDetector(config)
+        zone_detector = ZoneDetector(config)
         
-        # Both should have the same zones
-        self.assertEqual(len(manager.zones), len(detector.zones))
-        self.assertIn("test_zone", manager.zones)
-        self.assertIn("test_zone", detector.zones)
-        
-        # Zone models should be equivalent
-        manager_zone = manager.zones["test_zone"]
-        detector_zone = detector.zones["test_zone"]
-        
-        self.assertEqual(manager_zone.name, detector_zone.name)
-        self.assertEqual(manager_zone.apps, detector_zone.apps)
-        self.assertEqual(manager_zone.title, detector_zone.title)
-    
-    def test_zone_model_creation_from_config(self):
-        """Test creating ZoneModel from configuration."""
-        zone_config = {
-            "apps": ["tests.django_sample.apps.public_api"],
-            "title": "Test Zone",
-            "public": True,
-            "auth_required": False
-        }
-        
-        zone = ZoneModel(name="test_zone", **zone_config)
-        
-        self.assertEqual(zone.name, "test_zone")
-        self.assertEqual(zone.apps, ["tests.django_sample.apps.public_api"])
-        self.assertEqual(zone.title, "Test Zone")
-        self.assertTrue(zone.public)
-        self.assertFalse(zone.auth_required)
-    
-    def test_multiple_zones_different_configs(self):
-        """Test multiple zones with different configurations."""
-        test_zones = {
-            "public": {
-                "apps": ["tests.django_sample.apps.public_api"],
-                "title": "Public API",
-                "public": True,
-                "auth_required": False,
-                "version": "v1"
-            },
-            "private": {
-                "apps": ["tests.django_sample.apps.private_api"],
-                "title": "Private API",
-                "public": False,
-                "auth_required": True,
-                "version": "v2",
-                "permissions": ["admin", "staff"]
+        # Mock Django apps
+        with patch('django.apps.apps.is_installed') as mock_is_installed:
+            mock_is_installed.return_value = True
+            
+            detected_zones = zone_detector.detect_zones()
+            
+            assert len(detected_zones) == 1
+            assert "public" in detected_zones
+
+    def test_zone_detector_detect_zones_with_missing_apps(self):
+        """Test ZoneDetector with missing apps."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth", "nonexistent.app"],
+                    "title": "Public API",
+                    "version": "v1"
+                }
             }
-        }
+        )
         
-        config = DjangoRevolutionSettings(zones=test_zones)
-        zones = config.get_zones()
+        zone_detector = ZoneDetector(config)
         
-        # Test public zone
-        public_zone = zones["public"]
-        self.assertTrue(public_zone.public)
-        self.assertFalse(public_zone.auth_required)
-        self.assertEqual(public_zone.version, "v1")
-        self.assertIsNone(public_zone.permissions)
-        
-        # Test private zone
-        private_zone = zones["private"]
-        self.assertFalse(private_zone.public)
-        self.assertTrue(private_zone.auth_required)
-        self.assertEqual(private_zone.version, "v2")
-        self.assertEqual(private_zone.permissions, ["admin", "staff"])
+        # Mock Django apps
+        with patch('django.apps.apps.is_installed') as mock_is_installed:
+            def mock_is_installed_side_effect(app_name):
+                return app_name == "django.contrib.auth"
+            
+            mock_is_installed.side_effect = mock_is_installed_side_effect
+            
+            detected_zones = zone_detector.detect_zones()
+            
+            # Should only include zones with all apps available
+            assert len(detected_zones) == 0
 
-
-class TestZoneURLGeneration(TestCase):
-    """Test URL pattern generation for zones."""
-    
-    def setUp(self):
-        """Set up test configuration."""
-        self.test_zones = {
-            "api": {
-                "apps": ["tests.django_sample.apps.public_api"],
-                "title": "API Zone",
-                "prefix": "api"
+    def test_zone_detector_get_available_zones(self):
+        """Test ZoneDetector get_available_zones method."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                },
+                "admin": {
+                    "apps": ["django.contrib.admin"],
+                    "title": "Admin API",
+                    "version": "v1"
+                }
             }
-        }
+        )
         
-        self.config = DjangoRevolutionSettings(zones=self.test_zones)
-        self.manager = ZoneManager(self.config)
-    
-    def test_zone_url_patterns_generation(self):
-        """Test zone URL pattern generation."""
-        with patch('django.apps.apps.is_installed', return_value=True), \
-             patch('django.urls.path') as mock_path, \
-             patch('django.urls.include') as mock_include:
+        zone_detector = ZoneDetector(config)
+        
+        # Mock Django apps
+        with patch('django.apps.apps.is_installed') as mock_is_installed:
+            mock_is_installed.return_value = True
             
-            mock_path.return_value = "mocked_path"
-            mock_include.return_value = "mocked_include"
+            available_zones = zone_detector.get_available_zones()
             
-            patterns = self.manager.get_zone_urls()
-            
-            # Should generate URL patterns
-            self.assertIsInstance(patterns, list)
-    
-    def test_zone_schema_urls_generation(self):
-        """Test zone schema URL generation."""
-        with patch('django.apps.apps.is_installed', return_value=True), \
-             patch('django.urls.path') as mock_path, \
-             patch('drf_spectacular.views.SpectacularAPIView') as mock_view, \
-             patch('drf_spectacular.views.SpectacularSwaggerView') as mock_swagger:
-            
-            mock_path.return_value = "mocked_path"
-            mock_view.as_view.return_value = "mocked_view"
-            mock_swagger.as_view.return_value = "mocked_swagger"
-            
-            schema_urls = self.manager.get_zone_schema_urls()
-            
-            # Should generate schema URLs
-            self.assertIsInstance(schema_urls, list)
+            assert len(available_zones) == 2
+            assert "public" in available_zones
+            assert "admin" in available_zones
 
-
-if __name__ == "__main__":
-    pytest.main([__file__])
+    def test_zone_detector_get_unavailable_zones(self):
+        """Test ZoneDetector get_unavailable_zones method."""
+        config = DjangoRevolutionSettings(
+            zones={
+                "public": {
+                    "apps": ["django.contrib.auth"],
+                    "title": "Public API",
+                    "version": "v1"
+                },
+                "admin": {
+                    "apps": ["django.contrib.admin"],
+                    "title": "Admin API",
+                    "version": "v1"
+                }
+            }
+        )
+        
+        zone_detector = ZoneDetector(config)
+        
+        # Mock Django apps
+        with patch('django.apps.apps.is_installed') as mock_is_installed:
+            def mock_is_installed_side_effect(app_name):
+                return app_name == "django.contrib.auth"
+            
+            mock_is_installed.side_effect = mock_is_installed_side_effect
+            
+            unavailable_zones = zone_detector.get_unavailable_zones()
+            
+            assert len(unavailable_zones) == 1
+            assert "admin" in unavailable_zones

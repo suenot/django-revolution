@@ -33,27 +33,30 @@ python manage.py revolution --typescript
 # Python only
 python manage.py revolution --python
 
-# Skip archive creation
+# Without archiving
 python manage.py revolution --no-archive
+
+# Without monorepo sync
+python manage.py revolution --no-monorepo
 ```
 
-### Status and Information
+### ⚡ Multithreading Options
 
 ```bash
-# Check status
-python manage.py revolution --status
+# Use custom number of worker threads
+python manage.py revolution --generate --max-workers 10
 
-# List available zones
-python manage.py revolution --list-zones
+# Disable multithreading (sequential processing)
+python manage.py revolution --generate --no-multithreading
 
-# Show help
-python manage.py revolution --help
+# Interactive mode with multithreading options
+python manage.py revolution --interactive
 ```
 
-### Validation and Testing
+### 🔍 Validation & Testing Commands
 
 ```bash
-# Validate each zone with detailed logging
+# Validate all zones with detailed logging
 python manage.py revolution --validate-zones
 
 # Show URL patterns for each zone
@@ -62,44 +65,43 @@ python manage.py revolution --show-urls
 # Test schema generation for each zone
 python manage.py revolution --test-schemas
 
-# Validate environment
+# Validate environment and configuration
 python manage.py revolution --validate
+
+# List all available zones
+python manage.py revolution --list-zones
 ```
 
-### Dependencies
+### 📊 Status & Information
 
 ```bash
-# Install dependencies
+# Show current status and configuration
+python manage.py revolution --status
+
+# Show program version
+python manage.py revolution --version
+
+# Enable debug logging
+python manage.py revolution --debug
+
+# Set verbosity level (0-3)
+python manage.py revolution --verbosity 2
+```
+
+### 🛠️ Utility Commands
+
+```bash
+# Clean output directories
+python manage.py revolution --clean
+
+# Install required dependencies
 python manage.py revolution --install-deps
 
-# Check dependencies
-python manage.py revolution --check-deps
-```
+# Override output directory
+python manage.py revolution --output-dir /custom/path
 
-### Archive Management
-
-```bash
-# Generate with archive
-python manage.py revolution --archive
-
-# List archives
-python manage.py revolution --list-archives
-
-# Download specific archive
-python manage.py revolution --download-archive 2024-01-15_10-30-00
-
-# Clean archives
-python manage.py revolution --clean-archives
-```
-
-### Monorepo
-
-```bash
-# Sync to monorepo
-python manage.py revolution --monorepo
-
-# Skip monorepo sync
-python manage.py revolution --no-monorepo
+# Skip system checks
+python manage.py revolution --skip-checks
 ```
 
 ## 🎨 Standalone CLI
@@ -107,35 +109,38 @@ python manage.py revolution --no-monorepo
 ### Interactive Mode
 
 ```bash
-# Rich interactive interface
+# Launch interactive CLI
 django-revolution
 
 # Or run directly
 python -m django_revolution.cli
 ```
 
-The standalone CLI provides:
+The interactive CLI provides:
 
-- 🎯 Zone selection with checkboxes
-- 🔧 Client type selection (TypeScript/Python)
-- 📦 Archive creation options
-- 📊 Real-time progress tracking
-- ✅ Generation summary with results table
+- 🎯 **Zone selection** - Checkbox-based zone selection
+- 🔧 **Client type selection** - TypeScript/Python options
+- 📦 **Archive options** - Archive creation settings
+- 📊 **Progress tracking** - Real-time generation progress
+- ✅ **Results summary** - Beautiful results table
 
 ### Command Line Mode
 
 ```bash
-# Direct generation
-django-revolution --zones public,admin --typescript --python
+# Generate all clients
+django-revolution --generate
 
-# Status check
-django-revolution --status
+# Generate specific zones
+django-revolution --zones public admin
 
-# Zone validation
-django-revolution --validate-zones
+# TypeScript only
+django-revolution --typescript
+
+# With custom output directory
+django-revolution --output-dir /custom/path
 ```
 
-## 🛠️ Development Scripts
+## 🔧 Development Scripts
 
 ### Interactive Development CLI
 
@@ -148,20 +153,12 @@ pip install -e .
 dev-cli
 ```
 
-Provides interactive access to:
-- 📦 Version Management
-- 🚀 Package Publishing
-- 🧪 Test Generation
-- 📋 Requirements Generation
-- 🔧 Package Building
-
 ### Individual Scripts
 
 ```bash
 # Version management
 python scripts/version_manager.py get
 python scripts/version_manager.py bump --bump-type patch
-python scripts/version_manager.py validate
 
 # Generate requirements files
 python scripts/generate_requirements.py
@@ -179,7 +176,6 @@ python scripts/publisher.py
 # Version management
 version-manager get
 version-manager bump --bump-type minor
-version-manager validate
 
 # Publishing
 publisher
@@ -188,151 +184,173 @@ publisher
 generate-requirements
 ```
 
-## 📋 Command Options
+## 📋 Command Reference
 
-### Django Management Command
+### Django Management Command Options
 
-| Option               | Description              | Example                                  |
-| -------------------- | ------------------------ | ---------------------------------------- |
-| `--zones`            | Generate specific zones  | `--zones public admin`                   |
-| `--typescript`       | Generate TypeScript only | `--typescript`                           |
-| `--python`           | Generate Python only     | `--python`                               |
-| `--archive`          | Create archive           | `--archive`                              |
-| `--no-archive`       | Skip archive creation    | `--no-archive`                           |
-| `--monorepo`         | Sync to monorepo         | `--monorepo`                             |
-| `--no-monorepo`      | Skip monorepo sync       | `--no-monorepo`                          |
-| `--clean`            | Clean output directory   | `--clean`                                |
-| `--status`           | Show status              | `--status`                               |
-| `--list-zones`       | List zones               | `--list-zones`                           |
-| `--validate-zones`   | Validate zones           | `--validate-zones`                       |
-| `--show-urls`        | Show zone URLs           | `--show-urls`                            |
-| `--test-schemas`     | Test schema generation   | `--test-schemas`                         |
-| `--validate`         | Validate environment     | `--validate`                             |
-| `--install-deps`     | Install dependencies     | `--install-deps`                         |
-| `--check-deps`       | Check dependencies       | `--check-deps`                           |
-| `--list-archives`    | List archives            | `--list-archives`                        |
-| `--download-archive` | Download archive         | `--download-archive 2024-01-15_10-30-00` |
-| `--clean-archives`   | Clean archives           | `--clean-archives`                       |
-| `--help`             | Show help                | `--help`                                 |
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--generate, -g` | Generate API clients | False |
+| `--zones [ZONES ...], -z [ZONES ...]` | Specific zones to generate | All zones |
+| `--typescript, -t` | Generate TypeScript clients only | False |
+| `--python, -p` | Generate Python clients only | False |
+| `--no-typescript` | Skip TypeScript client generation | False |
+| `--no-python` | Skip Python client generation | False |
+| `--no-archive` | Skip archiving generated clients | False |
+| `--no-monorepo` | Skip monorepo sync | False |
+| `--clean` | Clean output directories before generation | False |
+| `--no-multithreading` | Disable multithreaded generation | False |
+| `--max-workers MAX_WORKERS` | Maximum number of worker threads | 20 |
+| `--status` | Show current status and configuration | False |
+| `--list-zones` | List all available zones | False |
+| `--validate` | Validate environment and configuration | False |
+| `--show-urls` | Show URL patterns for each zone | False |
+| `--validate-zones` | Validate each zone with detailed logging | False |
+| `--test-schemas` | Test schema generation for each zone | False |
+| `--install-deps` | Install required dependencies | False |
+| `--output-dir OUTPUT_DIR` | Override output directory | Auto-detected |
+| `--debug` | Enable debug logging | False |
+| `--interactive, -i` | Run in interactive mode | False |
+| `--version` | Show program's version number and exit | False |
+| `-v {0,1,2,3}, --verbosity {0,1,2,3}` | Verbosity level | 1 |
+| `--settings SETTINGS` | Django settings module | Auto-detected |
+| `--pythonpath PYTHONPATH` | Python path | Auto-detected |
+| `--traceback` | Display full stack trace on errors | False |
+| `--no-color` | Don't colorize output | False |
+| `--force-color` | Force colorization of output | False |
+| `--skip-checks` | Skip system checks | False |
 
-### Version Manager
+### Standalone CLI Options
 
-| Option               | Description              | Example                                  |
-| -------------------- | ------------------------ | ---------------------------------------- |
-| `get`                | Get current version      | `version-manager get`                    |
-| `bump`               | Bump version             | `version-manager bump --bump-type patch` |
-| `validate`           | Validate versions        | `version-manager validate`               |
-| `requirements`       | Regenerate requirements  | `version-manager requirements`           |
-| `--bump-type`        | Version bump type        | `--bump-type [major\|minor\|patch]`      |
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--generate` | Generate API clients | False |
+| `--zones [ZONES ...]` | Specific zones to generate | All zones |
+| `--typescript` | Generate TypeScript clients only | False |
+| `--python` | Generate Python clients only | False |
+| `--output-dir OUTPUT_DIR` | Override output directory | Auto-detected |
+| `--interactive` | Run in interactive mode | True |
+| `--debug` | Enable debug logging | False |
+| `--version` | Show version and exit | False |
 
-## 🔧 Examples
+## 🎯 Examples
 
-### Development Workflow
+### Basic Generation
 
 ```bash
-# 1. Start development CLI
-python scripts/dev_cli.py
+# Generate all clients interactively
+python manage.py revolution
 
-# 2. Check status
-python manage.py revolution --status
+# Generate specific zones
+python manage.py revolution --zones public admin
 
-# 3. Generate clients for development
-python manage.py revolution --zones public
-
-# 4. Test generation
-python manage.py revolution --test-schemas
-
-# 5. Bump version
-python scripts/version_manager.py bump --bump-type patch
-
-# 6. Generate requirements
-python scripts/generate_requirements.py
-
-# 7. Build and publish
-python scripts/publisher.py
+# TypeScript only with custom workers
+python manage.py revolution --typescript --max-workers 8
 ```
 
-### CI/CD Pipeline
+### Validation & Testing
 
 ```bash
-# Install dependencies
-python manage.py revolution --install-deps
-
-# Validate environment
-python manage.py revolution --validate
-
-# Generate clients
-python manage.py revolution --archive
-
-# Sync to monorepo
-python manage.py revolution --monorepo
-```
-
-### Troubleshooting
-
-```bash
-# Check what's wrong
-python manage.py revolution --status
-
-# Validate zones
+# Validate all zones
 python manage.py revolution --validate-zones
 
 # Test schema generation
 python manage.py revolution --test-schemas
 
+# Show URL patterns
+python manage.py revolution --show-urls
+```
+
+### Performance Optimization
+
+```bash
+# Use 16 worker threads for faster generation
+python manage.py revolution --generate --max-workers 16
+
+# Disable multithreading for debugging
+python manage.py revolution --generate --no-multithreading
+
 # Clean and regenerate
-python manage.py revolution --clean
-python manage.py revolution
-
-# Check dependencies
-python manage.py revolution --check-deps
+python manage.py revolution --clean --generate
 ```
 
-## 🎯 Rich Output Examples
+### Development Workflow
 
-**Zone Validation:**
-```
-╭───────────────────────────────────────────── 🧪 Validation ──────────────────────────────────────────────╮
-│ Detailed Zone Validation                                                                                 │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-==================================================
+```bash
+# Interactive development
+python scripts/dev_cli.py
 
-🔍 Validating zone: public
-------------------------------
-  ✅ Zone configuration: Public API
-  Apps (1):
-    ✅ apps.public_api
-  ✅ URL patterns: 1 patterns
-  ✅ Schema patterns: 2 patterns
-  ✅ Zone 'public' is valid
+# Version bump
+python scripts/version_manager.py bump --bump-type minor
 
-📊 Validation Summary:
-  Valid zones: 2
-  Invalid zones: 0
-🎉 All zones are valid!
+# Generate requirements
+python scripts/generate_requirements.py
+
+# Publish to PyPI
+python scripts/publisher.py
 ```
 
-**Generation Results:**
-```
-╭───────────────────────────────────────────── 📊 Results ──────────────────────────────────────────────────╮
-│ Generation completed successfully!                                                                         │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-==================================================
+## 🚨 Troubleshooting
 
-📁 Generated Files:
-  ✅ openapi/schemas/public.yaml (2.1 KB)
-  ✅ openapi/schemas/admin.yaml (1.8 KB)
-  ✅ clients/typescript/index.ts (15.2 KB)
-  ✅ clients/python/client.py (12.7 KB)
-  ✅ openapi/archive/2024-01-15_10-30-00.zip (28.3 KB)
+### Common Issues
 
-📊 Summary:
-  Zones processed: 2
-  TypeScript files: 3
-  Python files: 2
-  Archive created: Yes
+**Command not found:**
+```bash
+# Install in development mode
+pip install -e .
+
+# Or use Python module directly
+python -m django_revolution.cli
 ```
 
----
+**Django settings not found:**
+```bash
+# Set Django settings module
+export DJANGO_SETTINGS_MODULE=myproject.settings
 
-[← Back to Usage](usage.html) | [Next: API Reference →](api-reference.html)
+# Or use --settings option
+python manage.py revolution --settings myproject.settings
+```
+
+**Permission errors:**
+```bash
+# Check file permissions
+ls -la openapi/
+
+# Fix permissions if needed
+chmod -R 755 openapi/
+```
+
+### Debug Mode
+
+```bash
+# Enable debug logging
+python manage.py revolution --debug
+
+# Set verbosity to maximum
+python manage.py revolution --verbosity 3
+
+# Show full stack traces
+python manage.py revolution --traceback
+```
+
+## 📊 Performance Tips
+
+### Multithreading Optimization
+
+- **Default workers**: 20 (good for most systems)
+- **High-end systems**: 32-64 workers
+- **Low-end systems**: 4-8 workers
+- **Single zone**: Automatically uses sequential processing
+
+### Memory Usage
+
+- **Large projects**: Monitor memory usage with high worker counts
+- **Batch processing**: Use `--clean` between generations
+- **Archive management**: Regular cleanup of old archives
+
+### Network Optimization
+
+- **Monorepo sync**: Use `--no-monorepo` for local-only generation
+- **Archive downloads**: Compressed archives for faster transfers
+- **Caching**: Zone caching reduces repeated work
