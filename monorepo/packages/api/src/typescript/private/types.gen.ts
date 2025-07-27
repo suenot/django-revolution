@@ -3,17 +3,8 @@
 /**
  * Serializer for Category model.
  */
-export type CategoryReadable = {
+export type Category = {
     readonly id: number;
-    name: string;
-    description?: string;
-    is_active?: boolean;
-};
-
-/**
- * Serializer for Category model.
- */
-export type CategoryWritable = {
     name: string;
     description?: string;
     is_active?: boolean;
@@ -22,103 +13,57 @@ export type CategoryWritable = {
 /**
  * Serializer for Order model.
  */
-export type OrderReadable = {
+export type Order = {
     readonly id: number;
     order_number: string;
     status?: StatusEnum;
     total_amount: string;
     readonly created_at: string;
-    readonly items: Array<OrderItemReadable>;
-};
-
-/**
- * Serializer for Order model.
- */
-export type OrderWritable = {
-    order_number: string;
-    status?: StatusEnum;
-    total_amount: string;
+    readonly items: Array<OrderItem>;
 };
 
 /**
  * Serializer for OrderItem model.
  */
-export type OrderItemReadable = {
+export type OrderItem = {
     readonly id: number;
-    product: ProductReadable;
+    product: Product;
     quantity: number;
     price: string;
 };
 
-/**
- * Serializer for OrderItem model.
- */
-export type OrderItemWritable = {
-    product: ProductWritable;
-    quantity: number;
-    price: string;
-};
-
-export type PaginatedCategoryListReadable = {
+export type PaginatedCategoryList = {
     count: number;
     next?: string | null;
     previous?: string | null;
-    results: Array<CategoryReadable>;
+    results: Array<Category>;
 };
 
-export type PaginatedCategoryListWritable = {
+export type PaginatedOrderItemList = {
     count: number;
     next?: string | null;
     previous?: string | null;
-    results: Array<CategoryWritable>;
+    results: Array<OrderItem>;
 };
 
-export type PaginatedOrderItemListReadable = {
+export type PaginatedOrderList = {
     count: number;
     next?: string | null;
     previous?: string | null;
-    results: Array<OrderItemReadable>;
+    results: Array<Order>;
 };
 
-export type PaginatedOrderItemListWritable = {
+export type PaginatedProductList = {
     count: number;
     next?: string | null;
     previous?: string | null;
-    results: Array<OrderItemWritable>;
-};
-
-export type PaginatedOrderListReadable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<OrderReadable>;
-};
-
-export type PaginatedOrderListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<OrderWritable>;
-};
-
-export type PaginatedProductListReadable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<ProductReadable>;
-};
-
-export type PaginatedProductListWritable = {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Array<ProductWritable>;
+    results: Array<Product>;
 };
 
 /**
  * Serializer for Category model.
  */
-export type PatchedCategoryReadable = {
+export type PatchedCategory = {
     readonly id?: number;
     name?: string;
     description?: string;
@@ -126,50 +71,23 @@ export type PatchedCategoryReadable = {
 };
 
 /**
- * Serializer for Category model.
- */
-export type PatchedCategoryWritable = {
-    name?: string;
-    description?: string;
-    is_active?: boolean;
-};
-
-/**
  * Serializer for Order model.
  */
-export type PatchedOrderReadable = {
+export type PatchedOrder = {
     readonly id?: number;
     order_number?: string;
     status?: StatusEnum;
     total_amount?: string;
     readonly created_at?: string;
-    readonly items?: Array<OrderItemReadable>;
-};
-
-/**
- * Serializer for Order model.
- */
-export type PatchedOrderWritable = {
-    order_number?: string;
-    status?: StatusEnum;
-    total_amount?: string;
+    readonly items?: Array<OrderItem>;
 };
 
 /**
  * Serializer for OrderItem model.
  */
-export type PatchedOrderItemReadable = {
+export type PatchedOrderItem = {
     readonly id?: number;
-    product?: ProductReadable;
-    quantity?: number;
-    price?: string;
-};
-
-/**
- * Serializer for OrderItem model.
- */
-export type PatchedOrderItemWritable = {
-    product?: ProductWritable;
+    product?: Product;
     quantity?: number;
     price?: string;
 };
@@ -177,12 +95,12 @@ export type PatchedOrderItemWritable = {
 /**
  * Serializer for Product model.
  */
-export type PatchedProductReadable = {
+export type PatchedProduct = {
     readonly id?: number;
     name?: string;
     description?: string;
     price?: string;
-    category?: CategoryReadable;
+    category?: Category;
     stock?: number;
     readonly created_at?: string;
 };
@@ -190,36 +108,14 @@ export type PatchedProductReadable = {
 /**
  * Serializer for Product model.
  */
-export type PatchedProductWritable = {
-    name?: string;
-    description?: string;
-    price?: string;
-    category?: CategoryWritable;
-    stock?: number;
-};
-
-/**
- * Serializer for Product model.
- */
-export type ProductReadable = {
+export type Product = {
     readonly id: number;
     name: string;
     description: string;
     price: string;
-    category: CategoryReadable;
+    category: Category;
     stock?: number;
     readonly created_at: string;
-};
-
-/**
- * Serializer for Product model.
- */
-export type ProductWritable = {
-    name: string;
-    description: string;
-    price: string;
-    category: CategoryWritable;
-    stock?: number;
 };
 
 /**
@@ -252,20 +148,20 @@ export type CategoriesListData = {
 };
 
 export type CategoriesListResponses = {
-    200: PaginatedCategoryListReadable;
+    200: PaginatedCategoryList;
 };
 
 export type CategoriesListResponse = CategoriesListResponses[keyof CategoriesListResponses];
 
 export type CategoriesCreateData = {
-    body: CategoryWritable;
+    body: Category;
     path?: never;
     query?: never;
     url: '/api/private_api/categories/';
 };
 
 export type CategoriesCreateResponses = {
-    201: CategoryReadable;
+    201: Category;
 };
 
 export type CategoriesCreateResponse = CategoriesCreateResponses[keyof CategoriesCreateResponses];
@@ -293,13 +189,13 @@ export type CategoriesProductsListData = {
 };
 
 export type CategoriesProductsListResponses = {
-    200: PaginatedProductListReadable;
+    200: PaginatedProductList;
 };
 
 export type CategoriesProductsListResponse = CategoriesProductsListResponses[keyof CategoriesProductsListResponses];
 
 export type CategoriesProductsCreateData = {
-    body: ProductWritable;
+    body: Product;
     path: {
         category_id: number;
     };
@@ -308,7 +204,7 @@ export type CategoriesProductsCreateData = {
 };
 
 export type CategoriesProductsCreateResponses = {
-    201: ProductReadable;
+    201: Product;
 };
 
 export type CategoriesProductsCreateResponse = CategoriesProductsCreateResponses[keyof CategoriesProductsCreateResponses];
@@ -349,13 +245,13 @@ export type CategoriesProductsRetrieveData = {
 };
 
 export type CategoriesProductsRetrieveResponses = {
-    200: ProductReadable;
+    200: Product;
 };
 
 export type CategoriesProductsRetrieveResponse = CategoriesProductsRetrieveResponses[keyof CategoriesProductsRetrieveResponses];
 
 export type CategoriesProductsPartialUpdateData = {
-    body?: PatchedProductWritable;
+    body?: PatchedProduct;
     path: {
         category_id: number;
         /**
@@ -368,13 +264,13 @@ export type CategoriesProductsPartialUpdateData = {
 };
 
 export type CategoriesProductsPartialUpdateResponses = {
-    200: ProductReadable;
+    200: Product;
 };
 
 export type CategoriesProductsPartialUpdateResponse = CategoriesProductsPartialUpdateResponses[keyof CategoriesProductsPartialUpdateResponses];
 
 export type CategoriesProductsUpdateData = {
-    body: ProductWritable;
+    body: Product;
     path: {
         category_id: number;
         /**
@@ -387,7 +283,7 @@ export type CategoriesProductsUpdateData = {
 };
 
 export type CategoriesProductsUpdateResponses = {
-    200: ProductReadable;
+    200: Product;
 };
 
 export type CategoriesProductsUpdateResponse = CategoriesProductsUpdateResponses[keyof CategoriesProductsUpdateResponses];
@@ -419,7 +315,7 @@ export type CategoriesProductsOrderItemsListData = {
 };
 
 export type CategoriesProductsOrderItemsListResponses = {
-    200: PaginatedOrderItemListReadable;
+    200: PaginatedOrderItemList;
 };
 
 export type CategoriesProductsOrderItemsListResponse = CategoriesProductsOrderItemsListResponses[keyof CategoriesProductsOrderItemsListResponses];
@@ -448,7 +344,7 @@ export type CategoriesProductsByCategoryListData = {
 };
 
 export type CategoriesProductsByCategoryListResponses = {
-    200: PaginatedProductListReadable;
+    200: PaginatedProductList;
 };
 
 export type CategoriesProductsByCategoryListResponse = CategoriesProductsByCategoryListResponses[keyof CategoriesProductsByCategoryListResponses];
@@ -476,7 +372,7 @@ export type CategoriesProductsLowStockListData = {
 };
 
 export type CategoriesProductsLowStockListResponses = {
-    200: PaginatedProductListReadable;
+    200: PaginatedProductList;
 };
 
 export type CategoriesProductsLowStockListResponse = CategoriesProductsLowStockListResponses[keyof CategoriesProductsLowStockListResponses];
@@ -515,13 +411,13 @@ export type CategoriesRetrieveData = {
 };
 
 export type CategoriesRetrieveResponses = {
-    200: CategoryReadable;
+    200: Category;
 };
 
 export type CategoriesRetrieveResponse = CategoriesRetrieveResponses[keyof CategoriesRetrieveResponses];
 
 export type CategoriesPartialUpdateData = {
-    body?: PatchedCategoryWritable;
+    body?: PatchedCategory;
     path: {
         /**
          * A unique integer value identifying this category.
@@ -533,13 +429,13 @@ export type CategoriesPartialUpdateData = {
 };
 
 export type CategoriesPartialUpdateResponses = {
-    200: CategoryReadable;
+    200: Category;
 };
 
 export type CategoriesPartialUpdateResponse = CategoriesPartialUpdateResponses[keyof CategoriesPartialUpdateResponses];
 
 export type CategoriesUpdateData = {
-    body: CategoryWritable;
+    body: Category;
     path: {
         /**
          * A unique integer value identifying this category.
@@ -551,7 +447,7 @@ export type CategoriesUpdateData = {
 };
 
 export type CategoriesUpdateResponses = {
-    200: CategoryReadable;
+    200: Category;
 };
 
 export type CategoriesUpdateResponse = CategoriesUpdateResponses[keyof CategoriesUpdateResponses];
@@ -582,7 +478,7 @@ export type CategoriesProductsList2Data = {
 };
 
 export type CategoriesProductsList2Responses = {
-    200: PaginatedProductListReadable;
+    200: PaginatedProductList;
 };
 
 export type CategoriesProductsList2Response = CategoriesProductsList2Responses[keyof CategoriesProductsList2Responses];
@@ -608,7 +504,7 @@ export type CategoriesActiveListData = {
 };
 
 export type CategoriesActiveListResponses = {
-    200: PaginatedCategoryListReadable;
+    200: PaginatedCategoryList;
 };
 
 export type CategoriesActiveListResponse = CategoriesActiveListResponses[keyof CategoriesActiveListResponses];
@@ -634,20 +530,20 @@ export type OrderItemsListData = {
 };
 
 export type OrderItemsListResponses = {
-    200: PaginatedOrderItemListReadable;
+    200: PaginatedOrderItemList;
 };
 
 export type OrderItemsListResponse = OrderItemsListResponses[keyof OrderItemsListResponses];
 
 export type OrderItemsCreateData = {
-    body: OrderItemWritable;
+    body: OrderItem;
     path?: never;
     query?: never;
     url: '/api/private_api/order-items/';
 };
 
 export type OrderItemsCreateResponses = {
-    201: OrderItemReadable;
+    201: OrderItem;
 };
 
 export type OrderItemsCreateResponse = OrderItemsCreateResponses[keyof OrderItemsCreateResponses];
@@ -686,13 +582,13 @@ export type OrderItemsRetrieveData = {
 };
 
 export type OrderItemsRetrieveResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type OrderItemsRetrieveResponse = OrderItemsRetrieveResponses[keyof OrderItemsRetrieveResponses];
 
 export type OrderItemsPartialUpdateData = {
-    body?: PatchedOrderItemWritable;
+    body?: PatchedOrderItem;
     path: {
         /**
          * A unique integer value identifying this order item.
@@ -704,13 +600,13 @@ export type OrderItemsPartialUpdateData = {
 };
 
 export type OrderItemsPartialUpdateResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type OrderItemsPartialUpdateResponse = OrderItemsPartialUpdateResponses[keyof OrderItemsPartialUpdateResponses];
 
 export type OrderItemsUpdateData = {
-    body: OrderItemWritable;
+    body: OrderItem;
     path: {
         /**
          * A unique integer value identifying this order item.
@@ -722,7 +618,7 @@ export type OrderItemsUpdateData = {
 };
 
 export type OrderItemsUpdateResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type OrderItemsUpdateResponse = OrderItemsUpdateResponses[keyof OrderItemsUpdateResponses];
@@ -748,20 +644,20 @@ export type OrdersListData = {
 };
 
 export type OrdersListResponses = {
-    200: PaginatedOrderListReadable;
+    200: PaginatedOrderList;
 };
 
 export type OrdersListResponse = OrdersListResponses[keyof OrdersListResponses];
 
 export type OrdersCreateData = {
-    body: OrderWritable;
+    body: Order;
     path?: never;
     query?: never;
     url: '/api/private_api/orders/';
 };
 
 export type OrdersCreateResponses = {
-    201: OrderReadable;
+    201: Order;
 };
 
 export type OrdersCreateResponse = OrdersCreateResponses[keyof OrdersCreateResponses];
@@ -800,13 +696,13 @@ export type OrdersRetrieveData = {
 };
 
 export type OrdersRetrieveResponses = {
-    200: OrderReadable;
+    200: Order;
 };
 
 export type OrdersRetrieveResponse = OrdersRetrieveResponses[keyof OrdersRetrieveResponses];
 
 export type OrdersPartialUpdateData = {
-    body?: PatchedOrderWritable;
+    body?: PatchedOrder;
     path: {
         /**
          * A unique integer value identifying this order.
@@ -818,13 +714,13 @@ export type OrdersPartialUpdateData = {
 };
 
 export type OrdersPartialUpdateResponses = {
-    200: OrderReadable;
+    200: Order;
 };
 
 export type OrdersPartialUpdateResponse = OrdersPartialUpdateResponses[keyof OrdersPartialUpdateResponses];
 
 export type OrdersUpdateData = {
-    body: OrderWritable;
+    body: Order;
     path: {
         /**
          * A unique integer value identifying this order.
@@ -836,13 +732,13 @@ export type OrdersUpdateData = {
 };
 
 export type OrdersUpdateResponses = {
-    200: OrderReadable;
+    200: Order;
 };
 
 export type OrdersUpdateResponse = OrdersUpdateResponses[keyof OrdersUpdateResponses];
 
 export type OrdersCancelCreateData = {
-    body: OrderWritable;
+    body: Order;
     path: {
         /**
          * A unique integer value identifying this order.
@@ -854,7 +750,7 @@ export type OrdersCancelCreateData = {
 };
 
 export type OrdersCancelCreateResponses = {
-    200: OrderReadable;
+    200: Order;
 };
 
 export type OrdersCancelCreateResponse = OrdersCancelCreateResponses[keyof OrdersCancelCreateResponses];
@@ -885,7 +781,7 @@ export type OrdersItemsListData = {
 };
 
 export type OrdersItemsListResponses = {
-    200: PaginatedOrderItemListReadable;
+    200: PaginatedOrderItemList;
 };
 
 export type OrdersItemsListResponse = OrdersItemsListResponses[keyof OrdersItemsListResponses];
@@ -913,13 +809,13 @@ export type OrdersItemsList2Data = {
 };
 
 export type OrdersItemsList2Responses = {
-    200: PaginatedOrderItemListReadable;
+    200: PaginatedOrderItemList;
 };
 
 export type OrdersItemsList2Response = OrdersItemsList2Responses[keyof OrdersItemsList2Responses];
 
 export type OrdersItemsCreateData = {
-    body: OrderItemWritable;
+    body: OrderItem;
     path: {
         order_id: number;
     };
@@ -928,7 +824,7 @@ export type OrdersItemsCreateData = {
 };
 
 export type OrdersItemsCreateResponses = {
-    201: OrderItemReadable;
+    201: OrderItem;
 };
 
 export type OrdersItemsCreateResponse = OrdersItemsCreateResponses[keyof OrdersItemsCreateResponses];
@@ -969,13 +865,13 @@ export type OrdersItemsRetrieveData = {
 };
 
 export type OrdersItemsRetrieveResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type OrdersItemsRetrieveResponse = OrdersItemsRetrieveResponses[keyof OrdersItemsRetrieveResponses];
 
 export type OrdersItemsPartialUpdateData = {
-    body?: PatchedOrderItemWritable;
+    body?: PatchedOrderItem;
     path: {
         /**
          * A unique integer value identifying this order item.
@@ -988,13 +884,13 @@ export type OrdersItemsPartialUpdateData = {
 };
 
 export type OrdersItemsPartialUpdateResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type OrdersItemsPartialUpdateResponse = OrdersItemsPartialUpdateResponses[keyof OrdersItemsPartialUpdateResponses];
 
 export type OrdersItemsUpdateData = {
-    body: OrderItemWritable;
+    body: OrderItem;
     path: {
         /**
          * A unique integer value identifying this order item.
@@ -1007,7 +903,7 @@ export type OrdersItemsUpdateData = {
 };
 
 export type OrdersItemsUpdateResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type OrdersItemsUpdateResponse = OrdersItemsUpdateResponses[keyof OrdersItemsUpdateResponses];
@@ -1034,7 +930,7 @@ export type OrdersByStatusListData = {
 };
 
 export type OrdersByStatusListResponses = {
-    200: PaginatedOrderListReadable;
+    200: PaginatedOrderList;
 };
 
 export type OrdersByStatusListResponse = OrdersByStatusListResponses[keyof OrdersByStatusListResponses];
@@ -1060,20 +956,20 @@ export type ProductsListData = {
 };
 
 export type ProductsListResponses = {
-    200: PaginatedProductListReadable;
+    200: PaginatedProductList;
 };
 
 export type ProductsListResponse = ProductsListResponses[keyof ProductsListResponses];
 
 export type ProductsCreateData = {
-    body: ProductWritable;
+    body: Product;
     path?: never;
     query?: never;
     url: '/api/private_api/products/';
 };
 
 export type ProductsCreateResponses = {
-    201: ProductReadable;
+    201: Product;
 };
 
 export type ProductsCreateResponse = ProductsCreateResponses[keyof ProductsCreateResponses];
@@ -1112,13 +1008,13 @@ export type ProductsRetrieveData = {
 };
 
 export type ProductsRetrieveResponses = {
-    200: ProductReadable;
+    200: Product;
 };
 
 export type ProductsRetrieveResponse = ProductsRetrieveResponses[keyof ProductsRetrieveResponses];
 
 export type ProductsPartialUpdateData = {
-    body?: PatchedProductWritable;
+    body?: PatchedProduct;
     path: {
         /**
          * A unique integer value identifying this product.
@@ -1130,13 +1026,13 @@ export type ProductsPartialUpdateData = {
 };
 
 export type ProductsPartialUpdateResponses = {
-    200: ProductReadable;
+    200: Product;
 };
 
 export type ProductsPartialUpdateResponse = ProductsPartialUpdateResponses[keyof ProductsPartialUpdateResponses];
 
 export type ProductsUpdateData = {
-    body: ProductWritable;
+    body: Product;
     path: {
         /**
          * A unique integer value identifying this product.
@@ -1148,7 +1044,7 @@ export type ProductsUpdateData = {
 };
 
 export type ProductsUpdateResponses = {
-    200: ProductReadable;
+    200: Product;
 };
 
 export type ProductsUpdateResponse = ProductsUpdateResponses[keyof ProductsUpdateResponses];
@@ -1179,7 +1075,7 @@ export type ProductsOrderItemsListData = {
 };
 
 export type ProductsOrderItemsListResponses = {
-    200: PaginatedOrderItemListReadable;
+    200: PaginatedOrderItemList;
 };
 
 export type ProductsOrderItemsListResponse = ProductsOrderItemsListResponses[keyof ProductsOrderItemsListResponses];
@@ -1207,13 +1103,13 @@ export type ProductsOrderItemsList2Data = {
 };
 
 export type ProductsOrderItemsList2Responses = {
-    200: PaginatedOrderItemListReadable;
+    200: PaginatedOrderItemList;
 };
 
 export type ProductsOrderItemsList2Response = ProductsOrderItemsList2Responses[keyof ProductsOrderItemsList2Responses];
 
 export type ProductsOrderItemsCreateData = {
-    body: OrderItemWritable;
+    body: OrderItem;
     path: {
         product_id: number;
     };
@@ -1222,7 +1118,7 @@ export type ProductsOrderItemsCreateData = {
 };
 
 export type ProductsOrderItemsCreateResponses = {
-    201: OrderItemReadable;
+    201: OrderItem;
 };
 
 export type ProductsOrderItemsCreateResponse = ProductsOrderItemsCreateResponses[keyof ProductsOrderItemsCreateResponses];
@@ -1263,13 +1159,13 @@ export type ProductsOrderItemsRetrieveData = {
 };
 
 export type ProductsOrderItemsRetrieveResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type ProductsOrderItemsRetrieveResponse = ProductsOrderItemsRetrieveResponses[keyof ProductsOrderItemsRetrieveResponses];
 
 export type ProductsOrderItemsPartialUpdateData = {
-    body?: PatchedOrderItemWritable;
+    body?: PatchedOrderItem;
     path: {
         /**
          * A unique integer value identifying this order item.
@@ -1282,13 +1178,13 @@ export type ProductsOrderItemsPartialUpdateData = {
 };
 
 export type ProductsOrderItemsPartialUpdateResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type ProductsOrderItemsPartialUpdateResponse = ProductsOrderItemsPartialUpdateResponses[keyof ProductsOrderItemsPartialUpdateResponses];
 
 export type ProductsOrderItemsUpdateData = {
-    body: OrderItemWritable;
+    body: OrderItem;
     path: {
         /**
          * A unique integer value identifying this order item.
@@ -1301,7 +1197,7 @@ export type ProductsOrderItemsUpdateData = {
 };
 
 export type ProductsOrderItemsUpdateResponses = {
-    200: OrderItemReadable;
+    200: OrderItem;
 };
 
 export type ProductsOrderItemsUpdateResponse = ProductsOrderItemsUpdateResponses[keyof ProductsOrderItemsUpdateResponses];
@@ -1328,7 +1224,7 @@ export type ProductsByCategoryListData = {
 };
 
 export type ProductsByCategoryListResponses = {
-    200: PaginatedProductListReadable;
+    200: PaginatedProductList;
 };
 
 export type ProductsByCategoryListResponse = ProductsByCategoryListResponses[keyof ProductsByCategoryListResponses];
@@ -1354,7 +1250,7 @@ export type ProductsLowStockListData = {
 };
 
 export type ProductsLowStockListResponses = {
-    200: PaginatedProductListReadable;
+    200: PaginatedProductList;
 };
 
 export type ProductsLowStockListResponse = ProductsLowStockListResponses[keyof ProductsLowStockListResponses];
