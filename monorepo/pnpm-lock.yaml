@@ -63,9 +63,6 @@ importers:
       '@repo/api':
         specifier: workspace:*
         version: link:../../packages/api
-      '@repo/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       next:
         specifier: ^15.4.2
         version: 15.4.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
