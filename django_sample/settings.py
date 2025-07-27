@@ -152,7 +152,7 @@ UNFOLD = {
                     {
                         "title": _("Public API"),
                         "icon": "public",
-                        "link": reverse_lazy("admin:public_api_user_changelist"),
+                        "link": reverse_lazy("admin:public_api_post_changelist"),
                     },
                     {
                         "title": _("Private API"),
