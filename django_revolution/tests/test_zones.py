@@ -23,8 +23,7 @@ class TestZoneModel:
             description="Test zone description",
             public=True,
             auth_required=False,
-            version="v1",
-            path_prefix="test"
+            version="v1"
         )
         
         assert zone.name == "test_zone"
@@ -91,8 +90,7 @@ class TestZoneModel:
         """Test ZoneModel with custom path prefix."""
         zone = ZoneModel(
             name="test_zone",
-            apps=["django.contrib.auth"],
-            path_prefix="custom_prefix"
+            apps=["django.contrib.auth"]
         )
         
         assert zone.path_prefix == "custom_prefix"

@@ -138,8 +138,7 @@ zones = {
         description='API for public client applications',
         public=True,
         auth_required=False,
-        version='v1',
-        path_prefix='public'
+        version='v1'
     ),
     'internal': ZoneConfig(
         apps=['system', 'mailer'],
@@ -147,8 +146,7 @@ zones = {
         description='Internal API for backend services',
         public=False,
         auth_required=True,
-        version='v1',
-        path_prefix='internal'
+        version='v1'
     ),
     'admin': ZoneConfig(
         apps=['admin_panel', 'services'],
@@ -156,8 +154,7 @@ zones = {
         description='Administrative API endpoints',
         public=False,
         auth_required=True,
-        version='v1',
-        path_prefix='admin'
+        version='v1'
     )
 }
 
@@ -252,33 +249,30 @@ def create_revolution_config(env) -> Dict[str, Any]:
 
     # Define zones with typed Pydantic models
     zones = {
-        'public': ZoneConfig(
-            apps=['accounts', 'billing', 'payments', 'support', 'public'],
-            title='Public API',
-            description='API for public client applications',
-            public=True,
-            auth_required=False,
-            version='v1',
-            path_prefix='public'
-        ),
-        'internal': ZoneConfig(
-            apps=['system', 'mailer'],
-            title='Internal API',
-            description='Internal API for backend services',
-            public=False,
-            auth_required=True,
-            version='v1',
-            path_prefix='internal'
-        ),
-        'admin': ZoneConfig(
-            apps=['admin_panel', 'services'],
-            title='Admin API',
-            description='Administrative API endpoints',
-            public=False,
-            auth_required=True,
-            version='v1',
-            path_prefix='admin'
-        )
+            'public': ZoneConfig(
+        apps=['accounts', 'billing', 'payments', 'support', 'public'],
+        title='Public API',
+        description='API for public client applications',
+        public=True,
+        auth_required=False,
+        version='v1'
+    ),
+    'internal': ZoneConfig(
+        apps=['system', 'mailer'],
+        title='Internal API',
+        description='Internal API for backend services',
+        public=False,
+        auth_required=True,
+        version='v1'
+    ),
+    'admin': ZoneConfig(
+        apps=['admin_panel', 'services'],
+        title='Admin API',
+        description='Administrative API endpoints',
+        public=False,
+        auth_required=True,
+        version='v1'
+    )
     }
 
     # Option 1: Without monorepo (simplest setup)
