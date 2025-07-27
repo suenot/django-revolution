@@ -3,30 +3,79 @@ layout: default
 title: API Reference
 ---
 
-# API Reference
+# 🔧 API Reference - LLM-Optimized
 
-**Complete API documentation for Django Revolution.**
+## 📖 Overview
 
-## 🎯 Configuration
+Complete API documentation for Django Revolution with comprehensive function references, configuration examples, and utility functions.
 
-### DjangoRevolutionSettings
+**Key Features:**
+- **Core configuration functions** - Zone configuration and management
+- **Dynamic zone management** - In-memory URL generation and validation
+- **OpenAPI generation** - Schema and client library generation
+- **Development tools** - Version management and publishing utilities
 
-Main configuration class for Django Revolution.
+---
 
+## 📦 Core Modules
+
+### django_revolution.app_config
+**Purpose**: Core configuration management with Pydantic models.
+**Dependencies**: `pydantic`, `pydantic-settings`, `pathlib`
+**Exports**: `ZoneConfig`, `MonorepoConfig`, `get_revolution_config`
+**Used in**: Django settings, zone definition, CLI configuration
+
+### django_revolution.zones
+**Purpose**: Dynamic zone management and URL generation.
+**Dependencies**: `django.urls`, `types.ModuleType`, `django_revolution.app_config`
+**Exports**: `DynamicZoneManager`, `DynamicZoneDetector`, `validate_zone_configuration`
+**Used in**: Zone URL patterns, app detection, dynamic module creation
+
+### django_revolution.openapi.generator
+**Purpose**: OpenAPI schema and client generation.
+**Dependencies**: `@hey-api/openapi-ts`, `datamodel-code-generator`, `drf-spectacular`
+**Exports**: `OpenAPIGenerator`, `ArchiveManager`, `GenerationResult`
+**Used in**: Schema generation, TypeScript/Python clients, archive management
+
+### django_revolution.drf_config
+**Purpose**: DRF and Spectacular configuration management.
+**Dependencies**: `djangorestframework`, `drf-spectacular`, `pydantic`
+**Exports**: `create_drf_config`, `DRFConfig`, `SpectacularSettings`
+**Used in**: Django settings integration, REST framework configuration
+
+---
+
+## 🧾 APIs (ReadMe.LLM Format)
+
+%%README.LLM id=zone-configuration%%
+
+## 🧭 Library Description
+Core configuration management with Pydantic models for zone definition and validation.
+
+## ✅ Rules
+- Always use Pydantic models for type safety
+- Zone name comes from dictionary key, not path_prefix
+- All zones must have apps list and version
+- Public zones can have auth_required=False
+
+## 🧪 Functions
+
+### ZoneConfig(apps: List[str], title: str, description: str, public: bool, auth_required: bool, version: str)
+**Creates a zone configuration.**
 ```python
-from django_revolution.app_config import ZoneConfig, get_revolution_config
+zone = ZoneConfig(
+    apps=['accounts', 'billing'],
+    title='Public API',
+    description='Public endpoints',
+    public=True,
+    auth_required=False,
+    version='v1'
+)
+```
 
-zones = {
-    'public': ZoneConfig(
-        apps=['accounts', 'billing'],
-        title='Public API',
-        description='Public endpoints',
-        public=True,
-        auth_required=False,
-        version='v1'
-    )
-}
-
+### get_revolution_config(project_root: Path, zones: Dict[str, ZoneConfig], debug: bool = False, monorepo: Optional[MonorepoConfig] = None)
+**Creates Django Revolution configuration.**
+```python
 DJANGO_REVOLUTION = get_revolution_config(
     project_root=BASE_DIR,
     zones=zones,
@@ -34,102 +83,181 @@ DJANGO_REVOLUTION = get_revolution_config(
 )
 ```
 
-### ZoneModel
-
-Configuration for a single API zone.
-
-```python
-from django_revolution.app_config import ZoneConfig
-
-zone = ZoneConfig(
-    apps=['accounts', 'billing'],      # Django apps to include
-    title='Public API',                # Human-readable title
-    description='Public endpoints',    # Zone description
-    public=True,                       # Is publicly accessible
-    auth_required=False,               # Requires authentication
-    version='v1'                       # API version
-)
-```
-
-### ZoneConfig (Pydantic Model)
-
-Type-safe zone configuration using Pydantic.
-
-```python
-from django_revolution.app_config import ZoneConfig
-
-zone = ZoneConfig(
-    apps=['accounts', 'billing'],      # Django apps to include
-    title='Public API',                # Human-readable title
-    description='Public endpoints',    # Zone description
-    public=True,                       # Is publicly accessible
-    auth_required=False,               # Requires authentication
-    version='v1'                       # API version
-)
-```
-
-## 🔧 Core Functions
-
 ### get_settings()
-
-Get Django Revolution settings from Django settings.
-
+**Get Django Revolution settings from Django settings.**
 ```python
 from django_revolution.config import get_settings
-
 settings = get_settings()
 print(settings.zones)
 ```
 
-### get_revolution_config()
+%%END%%
 
-Get Django Revolution configuration with Pydantic models.
+%%README.LLM id=dynamic-zone-management%%
 
+## 🧭 Library Description
+Dynamic zone management and URL generation with in-memory module creation.
+
+## ✅ Rules
+- No static zone files required
+- Zones generated in-memory dynamically
+- Validate zone configuration before generation
+- Handle errors gracefully with detailed logging
+
+## 🧪 Functions
+
+### DynamicZoneManager()
+**Manages zone configuration and URL generation in-memory.**
 ```python
-from django_revolution.app_config import get_revolution_config
+from django_revolution.zones import DynamicZoneManager
 
-config = get_revolution_config(
-    project_root=BASE_DIR,
-    zones=zones,
-    debug=DEBUG,
-    monorepo=monorepo_config
+zone_manager = DynamicZoneManager()
+urlconf_module = zone_manager.create_dynamic_urlconf_module('public', zone_config)
+apps = zone_manager.detect_apps_in_zone(zone_config)
+is_valid = zone_manager.validate_zone_configuration('public', zone_config)
+```
+
+### create_dynamic_urlconf_module(zone_name: str, zone_config: ZoneConfig) -> ModuleType
+**Create URL configuration module in-memory.**
+```python
+urlconf_module = zone_manager.create_dynamic_urlconf_module('public', zone_config)
+```
+
+### detect_apps_in_zone(zone_config: ZoneConfig) -> List[str]
+**Detect Django apps that belong to a zone.**
+```python
+apps = zone_manager.detect_apps_in_zone(zone_config)
+```
+
+### validate_zone_configuration(zone_name: str, zone_config: ZoneConfig) -> bool
+**Validate zone configuration and dependencies.**
+```python
+is_valid = zone_manager.validate_zone_configuration('public', zone_config)
+```
+
+%%END%%
+
+%%README.LLM id=openapi-generator%%
+
+## 🧭 Library Description
+Generates OpenAPI schemas and client libraries with multithreaded support.
+
+## ✅ Rules
+- Always generate schemas before clients
+- Use parallel processing for multiple zones
+- Validate schemas after generation
+- Handle errors gracefully with detailed logging
+
+## 🧪 Functions
+
+### OpenAPIGenerator(config)
+**Generates OpenAPI schemas and client libraries.**
+```python
+from django_revolution.openapi.generator import OpenAPIGenerator
+
+generator = OpenAPIGenerator(config)
+schemas = generator.generate_schemas()
+ts_client = generator.generate_typescript_client()
+py_client = generator.generate_python_client()
+archive = generator.generate_archive()
+```
+
+### generate_schemas() -> Dict[str, Path]
+**Generate OpenAPI schemas for all zones.**
+```python
+schemas = generator.generate_schemas()
+```
+
+### generate_typescript_client() -> Path
+**Generate TypeScript client using @hey-api/openapi-ts.**
+```python
+ts_client = generator.generate_typescript_client()
+```
+
+### generate_python_client() -> Path
+**Generate Python client using datamodel-code-generator.**
+```python
+py_client = generator.generate_python_client()
+```
+
+### generate_archive() -> Path
+**Generate archive of all clients.**
+```python
+archive = generator.generate_archive()
+```
+
+%%END%%
+
+%%README.LLM id=drf-configuration%%
+
+## 🧭 Library Description
+DRF and Spectacular configuration management for Django settings integration.
+
+## ✅ Rules
+- Use Pydantic models for configuration
+- Validate settings before application
+- Handle environment-specific configurations
+- Provide sensible defaults
+
+## 🧪 Functions
+
+### create_drf_config(title: str, description: str, version: str, schema_path_prefix: str = '/apix/', enable_browsable_api: bool = False, enable_throttling: bool = False)
+**Create DRF and Spectacular configuration.**
+```python
+from django_revolution.drf_config import create_drf_config
+
+drf_config = create_drf_config(
+    title='My API',
+    description='My awesome API',
+    version='1.0.0',
+    schema_path_prefix='/apix/',
+    enable_browsable_api=False,
+    enable_throttling=False
 )
 ```
 
-### add_revolution_urls()
+### get_rest_framework_settings()
+**Get REST framework settings.**
+```python
+rest_framework_settings = drf_config.get_rest_framework_settings()
+```
 
-Add Django Revolution URLs to your URL patterns.
+### get_spectacular_settings()
+**Get Spectacular settings.**
+```python
+spectacular_settings = drf_config.get_spectacular_settings()
+```
+
+### get_django_settings()
+**Get all Django settings.**
+```python
+django_settings = drf_config.get_django_settings()
+```
+
+%%END%%
+
+---
+
+## 🔁 Core Functions
+
+### URL Integration Functions
 
 ```python
-from django_revolution.urls_integration import add_revolution_urls
+from django_revolution.urls_integration import add_revolution_urls, get_revolution_urlpatterns, get_revolution_urls_info
 
+# Add Django Revolution URLs to your URL patterns
 urlpatterns = [
     # Your existing URLs
 ]
-
 urlpatterns = add_revolution_urls(urlpatterns)
-```
 
-### get_revolution_urlpatterns()
-
-Get Django Revolution URL patterns.
-
-```python
-from django_revolution.urls_integration import get_revolution_urlpatterns
-
+# Get Django Revolution URL patterns
 urlpatterns = [
     # Your existing URLs
     *get_revolution_urlpatterns()
 ]
-```
 
-### get_revolution_urls_info()
-
-Get information about generated URLs.
-
-```python
-from django_revolution.urls_integration import get_revolution_urls_info
-
+# Get information about generated URLs
 urls_info = get_revolution_urls_info()
 for zone, info in urls_info.items():
     print(f"Zone: {zone}")
@@ -137,30 +265,7 @@ for zone, info in urls_info.items():
     print(f"  API URL: {info['api_url']}")
 ```
 
-## 🚀 Dynamic Zone Management
-
-### DynamicZoneManager
-
-Manages zone configuration and URL generation in-memory.
-
-```python
-from django_revolution.zones import DynamicZoneManager
-
-zone_manager = DynamicZoneManager()
-
-# Create dynamic URL configuration module
-urlconf_module = zone_manager.create_dynamic_urlconf_module('public', zone_config)
-
-# Detect apps in zone
-apps = zone_manager.detect_apps_in_zone(zone_config)
-
-# Validate zone configuration
-is_valid = zone_manager.validate_zone_configuration('public', zone_config)
-```
-
-### DynamicZoneDetector
-
-Detects Django apps and their URL patterns.
+### Dynamic Zone Detection
 
 ```python
 from django_revolution.zones import DynamicZoneDetector
@@ -177,54 +282,11 @@ patterns = detector.get_app_url_patterns('accounts')
 exists = detector.app_exists('accounts')
 ```
 
-## 📦 OpenAPI Generation
-
-### OpenAPIGenerator
-
-Generates OpenAPI schemas and client libraries.
-
-```python
-from django_revolution.openapi.generator import OpenAPIGenerator
-
-generator = OpenAPIGenerator(config)
-
-# Generate schemas for all zones
-schemas = generator.generate_schemas()
-
-# Generate TypeScript client
-ts_client = generator.generate_typescript_client()
-
-# Generate Python client
-py_client = generator.generate_python_client()
-
-# Generate archive
-archive = generator.generate_archive()
-```
-
-### ArchiveManager
-
-Manages client archives.
-
-```python
-from django_revolution.openapi.archive_manager import ArchiveManager
-
-archive_manager = ArchiveManager(output_dir)
-
-# Create archive
-archive_path = archive_manager.create_archive()
-
-# List archives
-archives = archive_manager.list_archives()
-
-# Download archive
-archive_manager.download_archive('2024-01-15_10-30-00')
-```
+---
 
 ## 🛠️ Development Tools
 
-### VersionManager
-
-Manages version across all package files.
+### Version Management
 
 ```python
 from scripts.version_manager import VersionManager
@@ -246,8 +308,6 @@ version_manager.regenerate_requirements()
 
 ### Publisher
 
-Interactive package publishing.
-
 ```python
 from scripts.publisher import main as publish
 
@@ -255,11 +315,7 @@ from scripts.publisher import main as publish
 exit_code = publish()
 ```
 
-## 🎨 CLI Components
-
 ### CLI Main Function
-
-Main CLI entry point.
 
 ```python
 from django_revolution.cli import main
@@ -270,8 +326,6 @@ exit_code = main()
 
 ### Development CLI
 
-Interactive development interface.
-
 ```python
 from scripts.dev_cli import main as dev_cli
 
@@ -279,39 +333,11 @@ from scripts.dev_cli import main as dev_cli
 dev_cli()
 ```
 
-## 🔧 DRF Configuration
-
-### create_drf_config()
-
-Create DRF and Spectacular configuration.
-
-```python
-from django_revolution.drf_config import create_drf_config
-
-drf_config = create_drf_config(
-    title='My API',
-    description='My awesome API',
-    version='1.0.0',
-    schema_path_prefix='/apix/',
-    enable_browsable_api=False,
-    enable_throttling=False
-)
-
-# Get REST framework settings
-rest_framework_settings = drf_config.get_rest_framework_settings()
-
-# Get Spectacular settings
-spectacular_settings = drf_config.get_spectacular_settings()
-
-# Get all Django settings
-django_settings = drf_config.get_django_settings()
-```
+---
 
 ## 📋 Utility Functions
 
-### auto_install_dependencies()
-
-Automatically install required dependencies.
+### Auto-installation
 
 ```python
 from django_revolution.utils import auto_install_dependencies
@@ -323,9 +349,7 @@ else:
     print("❌ Failed to install dependencies")
 ```
 
-### run_command()
-
-Run shell commands with logging.
+### Command Execution
 
 ```python
 from django_revolution.utils import run_command
@@ -337,9 +361,7 @@ else:
     print(f"❌ Command failed: {output}")
 ```
 
-### ensure_directories()
-
-Ensure directories exist.
+### Directory Management
 
 ```python
 from django_revolution.utils import ensure_directories
@@ -352,9 +374,7 @@ success = ensure_directories(
 )
 ```
 
-### render_template()
-
-Render Jinja2 templates.
+### Template Rendering
 
 ```python
 from django_revolution.utils import render_template
@@ -365,11 +385,11 @@ result = render_template(template, context)
 # Result: "Hello World!"
 ```
 
+---
+
 ## 🔍 Validation Functions
 
-### validate_zone_configuration()
-
-Validate zone configuration.
+### Zone Validation
 
 ```python
 from django_revolution.zones import validate_zone_configuration
@@ -379,9 +399,7 @@ if not is_valid:
     print("❌ Invalid zone configuration")
 ```
 
-### validate_environment()
-
-Validate Django Revolution environment.
+### Environment Validation
 
 ```python
 from django_revolution.utils import validate_environment
@@ -393,11 +411,11 @@ else:
     print(f"❌ Environment issues: {validation_result['errors']}")
 ```
 
+---
+
 ## 📊 Data Models
 
 ### GenerationResult
-
-Result of client generation.
 
 ```python
 from django_revolution.openapi.generator import GenerationResult
@@ -415,8 +433,6 @@ result = GenerationResult(
 
 ### ZoneInfo
 
-Information about a zone.
-
 ```python
 from django_revolution.zones import ZoneInfo
 
@@ -431,11 +447,11 @@ zone_info = ZoneInfo(
 )
 ```
 
+---
+
 ## 🎯 Error Handling
 
 ### ErrorHandler
-
-Comprehensive error handling and validation.
 
 ```python
 from django_revolution.utils import ErrorHandler
@@ -455,11 +471,11 @@ is_valid = error_handler.validate_path(Path("openapi/schemas"))
 is_valid = error_handler.validate_file(Path("settings.py"))
 ```
 
+---
+
 ## 📝 Logging
 
 ### Logger
-
-Enhanced logger with rich output.
 
 ```python
 from django_revolution.utils import Logger
@@ -472,6 +488,8 @@ logger.warning("Some warnings occurred")
 logger.error("Generation failed")
 logger.debug("Debug information")
 ```
+
+---
 
 ## 🔧 Configuration Examples
 
@@ -537,6 +555,17 @@ DJANGO_REVOLUTION = get_revolution_config(
     debug=DEBUG
 )
 ```
+
+---
+
+## 🧠 Key Notes
+
+- **Dynamic Architecture**: No static zone files required, everything generated in-memory
+- **Type Safety**: Pydantic models ensure configuration correctness
+- **Performance**: Multithreading provides 2-3x speedup for multiple zones
+- **Development Tools**: Comprehensive CLI toolbox for development workflow
+- **Error Handling**: Comprehensive error handling and validation
+- **Logging**: Enhanced logger with rich output for debugging
 
 ---
 

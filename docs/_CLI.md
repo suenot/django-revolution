@@ -3,18 +3,217 @@ layout: default
 title: CLI Reference
 ---
 
-# CLI Reference
+# 🎯 CLI Reference - LLM-Optimized
 
-**Command-line interface for Django Revolution.**
+## 📖 Overview
 
-## 🎯 Overview
+Command-line interface for Django Revolution with multiple modes, interactive features, and comprehensive development tools.
 
-Django Revolution provides multiple CLI interfaces:
+**Key Features:**
+- **Multiple CLI interfaces** - Django management commands, standalone CLI, development scripts
+- **Interactive mode** - Beautiful terminal interface with questionary
+- **Command line mode** - Direct command execution
+- **Development tools** - Comprehensive CLI toolbox for development
 
-- **Django Management Command** - `python manage.py revolution`
-- **Standalone CLI** - `django-revolution`
-- **Development Scripts** - `scripts/dev_cli.py`
-- **Individual Tools** - Version management, publishing, requirements generation
+---
+
+## 📦 CLI Modules
+
+### django_revolution.cli
+**Purpose**: Main CLI entry point with multiple modes.
+**Dependencies**: `questionary`, `rich`, `click`
+**Exports**: `main` (CLI entry point), interactive/command line modes
+**Used in**: Django management commands, standalone CLI
+
+### scripts.dev_cli
+**Purpose**: Interactive development interface.
+**Dependencies**: `questionary`, `rich`, `django_revolution`
+**Exports**: `main` (development CLI)
+**Used in**: Development workflow, interactive commands
+
+### scripts.version_manager
+**Purpose**: Version management across package files.
+**Dependencies**: `toml`, `pathlib`, `semver`
+**Exports**: `VersionManager`, version bumping functions
+**Used in**: Version control, requirements generation
+
+### scripts.publisher
+**Purpose**: Interactive package publishing.
+**Dependencies**: `twine`, `build`, `questionary`
+**Exports**: `main` (publishing interface)
+**Used in**: PyPI publishing, package distribution
+
+---
+
+## 🧾 APIs (ReadMe.LLM Format)
+
+%%README.LLM id=django-management-command%%
+
+## 🧭 Library Description
+Django management command for client generation with interactive and command-line modes.
+
+## ✅ Rules
+- Always validate zones before generation
+- Use multithreading for multiple zones
+- Clean output directories before generation
+- Test schema generation regularly
+
+## 🧪 Functions
+
+### python manage.py revolution [options]
+**Main CLI command with multiple modes.**
+```bash
+# Interactive generation
+python manage.py revolution
+
+# Specific zones
+python manage.py revolution --zones public admin
+
+# TypeScript only
+python manage.py revolution --typescript
+
+# With multithreading
+python manage.py revolution --generate --max-workers 16
+```
+
+### --validate-zones
+**Validates all zone configurations.**
+```bash
+python manage.py revolution --validate-zones
+```
+
+### --test-schemas
+**Tests OpenAPI schema generation.**
+```bash
+python manage.py revolution --test-schemas
+```
+
+### --show-urls
+**Shows URL patterns for each zone.**
+```bash
+python manage.py revolution --show-urls
+```
+
+%%END%%
+
+%%README.LLM id=standalone-cli%%
+
+## 🧭 Library Description
+Standalone CLI with interactive and command-line modes.
+
+## ✅ Rules
+- Interactive mode is default
+- Use command line mode for automation
+- Rich output for better user experience
+- Debug mode for troubleshooting
+
+## 🧪 Functions
+
+### django-revolution [options]
+**Standalone CLI command.**
+```bash
+# Interactive mode (default)
+django-revolution
+
+# Command line mode
+django-revolution --generate
+
+# Specific zones
+django-revolution --zones public admin
+
+# Custom output directory
+django-revolution --output-dir /custom/path
+```
+
+### --interactive
+**Forces interactive mode.**
+```bash
+django-revolution --interactive
+```
+
+### --debug
+**Enables debug logging.**
+```bash
+django-revolution --debug
+```
+
+%%END%%
+
+%%README.LLM id=development-scripts%%
+
+## 🧭 Library Description
+Development scripts for version management, publishing, and requirements generation.
+
+## ✅ Rules
+- Run from project root directory
+- Use interactive mode for user input
+- Validate before publishing
+- Generate requirements after version bump
+
+## 🧪 Functions
+
+### python scripts/dev_cli.py
+**Interactive development interface.**
+```bash
+python scripts/dev_cli.py
+```
+
+### python scripts/version_manager.py [command]
+**Version management commands.**
+```bash
+# Get current version
+python scripts/version_manager.py get
+
+# Bump version
+python scripts/version_manager.py bump --bump-type patch
+
+# Validate version consistency
+python scripts/version_manager.py validate
+
+# Regenerate requirements
+python scripts/version_manager.py requirements
+```
+
+### python scripts/publisher.py
+**Interactive publishing.**
+```bash
+python scripts/publisher.py
+```
+
+%%END%%
+
+---
+
+## 🔁 CLI Flows
+
+### Interactive Generation Flow
+1. **Zone Selection** - Checkbox-based zone selection
+2. **Client Type Selection** - TypeScript/Python options
+3. **Archive Options** - Archive creation settings
+4. **Progress Tracking** - Real-time generation progress
+5. **Results Summary** - Beautiful results table
+
+**Modules**: `django_revolution.cli`, `questionary`, `rich`
+
+### Command Line Generation Flow
+1. **Parameter Parsing** - Parse command line arguments
+2. **Zone Validation** - Validate selected zones
+3. **Generation Execution** - Execute generation process
+4. **Output Display** - Show results and statistics
+5. **Error Handling** - Handle and display errors
+
+**Modules**: `django_revolution.cli`, `click`
+
+### Development Workflow Flow
+1. **Interactive CLI** - `python scripts/dev_cli.py`
+2. **Version Management** - Automated version bumping
+3. **Requirements Generation** - Automatic requirements.txt creation
+4. **Testing** - Zone validation and schema testing
+5. **Publishing** - Interactive PyPI publishing
+
+**Modules**: `scripts.dev_cli`, `scripts.version_manager`, `scripts.publisher`
+
+---
 
 ## 🚀 Django Management Commands
 
@@ -104,6 +303,8 @@ python manage.py revolution --output-dir /custom/path
 python manage.py revolution --skip-checks
 ```
 
+---
+
 ## 🎨 Standalone CLI
 
 ### Interactive Mode
@@ -117,7 +318,6 @@ python -m django_revolution.cli
 ```
 
 The interactive CLI provides:
-
 - 🎯 **Zone selection** - Checkbox-based zone selection
 - 🔧 **Client type selection** - TypeScript/Python options
 - 📦 **Archive options** - Archive creation settings
@@ -139,6 +339,8 @@ django-revolution --typescript
 # With custom output directory
 django-revolution --output-dir /custom/path
 ```
+
+---
 
 ## 🔧 Development Scripts
 
@@ -183,6 +385,8 @@ publisher
 # Requirements generation
 generate-requirements
 ```
+
+---
 
 ## 📋 Command Reference
 
@@ -232,6 +436,8 @@ generate-requirements
 | `--interactive` | Run in interactive mode | True |
 | `--debug` | Enable debug logging | False |
 | `--version` | Show version and exit | False |
+
+---
 
 ## 🎯 Examples
 
@@ -290,6 +496,8 @@ python scripts/generate_requirements.py
 python scripts/publisher.py
 ```
 
+---
+
 ## 🚨 Troubleshooting
 
 ### Common Issues
@@ -334,6 +542,8 @@ python manage.py revolution --verbosity 3
 python manage.py revolution --traceback
 ```
 
+---
+
 ## 📊 Performance Tips
 
 ### Multithreading Optimization
@@ -354,3 +564,18 @@ python manage.py revolution --traceback
 - **Monorepo sync**: Use `--no-monorepo` for local-only generation
 - **Archive downloads**: Compressed archives for faster transfers
 - **Caching**: Zone caching reduces repeated work
+
+---
+
+## 🧠 Key Notes
+
+- **Multiple interfaces** - Django management commands, standalone CLI, development scripts
+- **Interactive mode** - Beautiful terminal interface with questionary
+- **Rich output** - Beautiful formatting with progress tracking
+- **Development tools** - Comprehensive CLI toolbox for development
+- **Performance optimization** - Configurable multithreading and memory management
+- **Troubleshooting** - Comprehensive debugging and error handling
+
+---
+
+[← Back to Usage](usage.html) | [Next: API Reference →](api-reference.html)

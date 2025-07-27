@@ -3,9 +3,168 @@ layout: default
 title: Troubleshooting
 ---
 
-# Troubleshooting
+# 🚨 Troubleshooting - LLM-Optimized
 
-**Common issues and solutions for Django Revolution.**
+## 📖 Overview
+
+Comprehensive troubleshooting guide for Django Revolution with common issues, solutions, and debugging techniques.
+
+**Key Features:**
+
+- **Installation issues** - Common installation problems and solutions
+- **Configuration problems** - Zone configuration and URL integration issues
+- **Generation errors** - Client generation and schema creation problems
+- **Development script issues** - Version management and publishing problems
+
+---
+
+## 📦 Troubleshooting Modules
+
+### django_revolution.utils.ErrorHandler
+
+**Purpose**: Comprehensive error handling and validation.
+**Dependencies**: `pathlib`, `logging`, `rich`
+**Exports**: `handle_exception`, `validate_path`, `validate_file`
+**Used in**: Error handling, validation, debugging
+
+### django_revolution.utils.Logger
+
+**Purpose**: Enhanced logger with rich output.
+**Dependencies**: `rich`, `logging`
+**Exports**: `info`, `success`, `warning`, `error`, `debug`
+**Used in**: Debugging, logging, error reporting
+
+### django_revolution.utils.validate_environment
+
+**Purpose**: Validate Django Revolution environment.
+**Dependencies**: `pathlib`, `django.conf`
+**Exports**: `validate_environment`
+**Used in**: Environment validation, setup verification
+
+---
+
+## 🧾 APIs (ReadMe.LLM Format)
+
+%%README.LLM id=error-handling%%
+
+## 🧭 Library Description
+
+Comprehensive error handling and validation for Django Revolution.
+
+## ✅ Rules
+
+- Always handle exceptions gracefully
+- Provide detailed error messages
+- Validate paths and files before use
+- Log errors with context information
+
+## 🧪 Functions
+
+### ErrorHandler()
+
+**Comprehensive error handling and validation.**
+
+```python
+from django_revolution.utils import ErrorHandler
+
+error_handler = ErrorHandler()
+result = error_handler.handle_exception(exception, context="zone generation")
+is_valid = error_handler.validate_path(Path("openapi/schemas"))
+is_valid = error_handler.validate_file(Path("settings.py"))
+```
+
+### handle_exception(exception, context: str)
+
+**Handle exception with context.**
+
+```python
+result = error_handler.handle_exception(exception, context="zone generation")
+```
+
+### validate_path(path: Path) -> bool
+
+**Validate path exists and is accessible.**
+
+```python
+is_valid = error_handler.validate_path(Path("openapi/schemas"))
+```
+
+### validate_file(file: Path) -> bool
+
+**Validate file exists and is readable.**
+
+```python
+is_valid = error_handler.validate_file(Path("settings.py"))
+```
+
+%%END%%
+
+%%README.LLM id=environment-validation%%
+
+## 🧭 Library Description
+
+Validate Django Revolution environment and configuration.
+
+## ✅ Rules
+
+- Check all required dependencies
+- Validate Django settings
+- Verify zone configuration
+- Test schema generation
+
+## 🧪 Functions
+
+### validate_environment() -> Dict
+
+**Validate Django Revolution environment.**
+
+```python
+from django_revolution.utils import validate_environment
+
+validation_result = validate_environment()
+if validation_result['success']:
+    print("✅ Environment is valid")
+else:
+    print(f"❌ Environment issues: {validation_result['errors']}")
+```
+
+%%END%%
+
+---
+
+## 🔁 Troubleshooting Flows
+
+### Installation Troubleshooting Flow
+
+1. **Check Installation** - Verify Django Revolution is installed
+2. **Dependency Check** - Ensure all dependencies are available
+3. **Environment Validation** - Validate Django environment
+4. **Permission Check** - Verify file and directory permissions
+5. **Reinstallation** - Clean reinstall if needed
+
+**Modules**: `django_revolution.utils.validate_environment`, `django_revolution.utils.ErrorHandler`
+
+### Configuration Troubleshooting Flow
+
+1. **Zone Validation** - Validate zone configuration
+2. **URL Integration** - Check URL integration
+3. **Settings Verification** - Verify Django settings
+4. **Schema Testing** - Test schema generation
+5. **Error Reporting** - Detailed error messages
+
+**Modules**: `django_revolution.zones.validate_zone_configuration`, `django_revolution.utils.Logger`
+
+### Generation Troubleshooting Flow
+
+1. **Zone Detection** - Check zone detection
+2. **Schema Generation** - Test schema creation
+3. **Client Generation** - Verify client generation
+4. **Performance Issues** - Check memory and CPU usage
+5. **Clean and Retry** - Clean output and retry
+
+**Modules**: `django_revolution.openapi.generator`, `django_revolution.utils.ErrorHandler`
+
+---
 
 ## 🚨 Installation Issues
 
@@ -59,6 +218,8 @@ pip install -r requirements-dev.txt
 # The script automatically handles both tomllib (Python 3.11+) and toml package
 ```
 
+---
+
 ## ⚙️ Configuration Issues
 
 ### Zone Configuration Error
@@ -106,6 +267,8 @@ urlpatterns = [
 # Add Django Revolution URLs
 urlpatterns = add_revolution_urls(urlpatterns)
 ```
+
+---
 
 ## 🔧 Generation Issues
 
@@ -171,6 +334,8 @@ python manage.py revolution --clean
 python manage.py revolution
 ```
 
+---
+
 ## 🛠️ Development Scripts Issues
 
 ### Script Permission Errors
@@ -185,7 +350,6 @@ chmod +x scripts/*.py scripts/*.sh
 
 # Or run with python
 python scripts/dev_cli.py
-python scripts/version_manager.py get
 ```
 
 ### Import Errors in Scripts
@@ -226,6 +390,8 @@ python scripts/version_manager.py bump --bump-type patch
 # Regenerate requirements after version bump
 python scripts/version_manager.py requirements
 ```
+
+---
 
 ## 📦 Publishing Issues
 
@@ -269,6 +435,8 @@ python -m twine upload --repository testpypi dist/*
 python -m twine upload dist/*
 ```
 
+---
+
 ## 🔍 Debugging
 
 ### Enable Debug Mode
@@ -311,6 +479,8 @@ python manage.py check
 python manage.py revolution --validate-zones
 ```
 
+---
+
 ## 🚀 Performance Issues
 
 ### Slow Generation
@@ -347,6 +517,8 @@ python manage.py revolution --zones admin
 # Monitor memory usage
 python manage.py revolution --status
 ```
+
+---
 
 ## 🔧 CLI Issues
 
@@ -385,6 +557,8 @@ python manage.py revolution --status
 python manage.py revolution --status --no-color
 ```
 
+---
+
 ## 📋 Common Error Messages
 
 ### "Zone 'public' not found"
@@ -406,6 +580,8 @@ python manage.py revolution --status --no-color
 ### "Monorepo sync failed"
 
 **Solution**: Check monorepo configuration and permissions
+
+---
 
 ## 🆘 Getting Help
 
@@ -455,6 +631,17 @@ python manage.py revolution --status
 # Error logs
 python manage.py revolution --debug 2>&1
 ```
+
+---
+
+## 🧠 Key Notes
+
+- **Comprehensive error handling** - Detailed error messages and solutions
+- **Environment validation** - Automatic validation of setup and configuration
+- **Debug mode** - Enhanced logging and debugging capabilities
+- **Performance monitoring** - Memory and CPU usage tracking
+- **Community support** - Multiple channels for getting help
+- **Self-diagnosis tools** - Built-in diagnostic commands
 
 ---
 
