@@ -15,6 +15,7 @@ cache
 .env.openrouter
 .venv
 env
+.env.openrouter
 venv
 ENV
 env.bak/
