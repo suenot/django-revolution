@@ -1,0 +1,117 @@
+# About Django Revolution - Dynamic Zone-Based API Client Generator
+
+Django Revolution is a **modern, zero-config TypeScript & Python client generator** for Django REST Framework that revolutionizes how you organize and generate API clients. Built with **dynamic zone-based architecture**, it eliminates the need for static files and provides unprecedented flexibility.
+
+## Project Facts
+
+| Fact | Value |
+|------|-------|
+| **Latest Version** | 1.0.13 |
+| **Python Support** | 3.9+ |
+| **Django Support** | 3.2+ |
+| **License** | MIT |
+| **Architecture** | Dynamic Zone-Based |
+| **Performance** | 2-3x speedup with multithreading |
+| **Type Safety** | Pydantic models |
+| **CLI Interface** | Rich interactive terminal |
+
+## Key Innovations
+
+### Dynamic Zone Management
+Unlike traditional approaches that require static zone files, Django Revolution generates everything **in-memory dynamically**:
+
+- **No static files** - Zones created from configuration
+- **Automatic URL structure** - Dynamic URL patterns
+- **Zone validation** - Comprehensive validation
+- **App detection** - Automatic Django app discovery
+
+### Rich CLI Experience
+Modern command-line interface with multiple interaction modes:
+
+- **Interactive mode** - Beautiful terminal interface with questionary
+- **Command line mode** - Direct execution for automation
+- **Development tools** - Comprehensive CLI toolbox
+- **Rich output** - Progress tracking and beautiful formatting
+
+### Performance Optimization
+Built for speed and scalability:
+
+- **Multithreading** - Configurable worker threads (default: 20)
+- **Parallel processing** - Multiple zones processed simultaneously
+- **Memory optimization** - Better resource management
+- **Smart caching** - Zone caching for performance
+
+## Technology Stack
+
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Core Framework** | Django 3.2+ | Web framework |
+| **API Framework** | Django REST Framework | API development |
+| **Schema Generation** | drf-spectacular | OpenAPI schemas |
+| **Type Safety** | Pydantic 2.0+ | Configuration validation |
+| **CLI Interface** | questionary + rich | Interactive terminal |
+| **TypeScript Generation** | @hey-api/openapi-ts | TypeScript clients |
+| **Python Generation** | datamodel-code-generator | Python clients |
+| **Configuration** | pydantic-settings | Settings management |
+
+## Architecture Overview
+
+### Zone-Based Organization
+Django Revolution organizes your API into logical **zones**:
+
+| Zone Type | Purpose | Authentication | Examples |
+|-----------|---------|----------------|----------|
+| **Public** | External-facing APIs | Optional (JWT/none) | User registration, product catalog |
+| **Private** | Authenticated user APIs | Required (JWT) | User profile, orders |
+| **Admin** | Administrative APIs | Admin users only | User management, analytics |
+| **Internal** | Service-to-service APIs | Service tokens | Microservice communication |
+
+### Dynamic URL Structure
+Automatically creates structured URL hierarchy:
+
+```
+/api/
+├── public/
+│   ├── schema/          # Swagger UI
+│   ├── schema.yaml      # OpenAPI spec
+│   └── v1/              # API endpoints
+├── private/
+│   ├── schema/
+│   ├── schema.yaml
+│   └── v1/
+└── admin/
+```
+
+## Development Philosophy
+
+### Zero Configuration
+- **Works out of the box** with sensible defaults
+- **Auto-dependency installation** - Dependencies installed automatically
+- **Environment detection** - Automatic Django project detection
+- **Smart defaults** - Optimal settings for most use cases
+
+### Type Safety
+- **Pydantic models** for all configuration
+- **Validation** at every step
+- **Error handling** with detailed messages
+- **IDE support** with proper type hints
+
+### Developer Experience
+- **Rich CLI** with beautiful output
+- **Interactive mode** for exploration
+- **Development tools** for workflow
+- **Comprehensive documentation** with examples
+
+## Community & Support
+
+| Resource | Description |
+|----------|-------------|
+| **GitHub Repository** | Source code and issues |
+| **Documentation** | Comprehensive guides and API reference |
+| **Examples** | Sample projects and configurations |
+| **Discussions** | Community support and questions |
+| **Issues** | Bug reports and feature requests |
+
+---
+
+[Get Started](/docs/installation) · [Usage Guide](/docs/usage) · [GitHub](https://github.com/markolofsen/django-revolution) 

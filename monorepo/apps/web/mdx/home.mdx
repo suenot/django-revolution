@@ -1,0 +1,98 @@
+# Django Revolution - Zero-Config TypeScript & Python Client Generator
+
+Django Revolution is a **zero-config TypeScript & Python client generator** for Django REST Framework that uses **dynamic zone-based architecture**. It automatically generates fully-authenticated clients from your Django API with no static files required.
+
+## Why Choose Django Revolution?
+
+| Advantage | Benefit |
+|-----------|---------|
+| Dynamic Zone Management | No static zone files required - everything generated in-memory |
+| Rich CLI Interface | Interactive commands with beautiful output and progress tracking |
+| Multithreaded Generation | Parallel processing for 2-3x performance improvement |
+| Type Safety | Pydantic models ensure configuration correctness |
+| Zero Configuration | Works out of the box with sensible defaults |
+| Monorepo Integration | Optional monorepo support for large projects |
+
+## Key Innovations
+
+### Dynamic Zone-Based Architecture
+- **Zones** are logical groupings of API endpoints (public, admin, internal, etc.)
+- **In-memory generation** - No static files required
+- **Automatic URL structure** - Dynamic URL patterns created from configuration
+- **Zone validation** - Comprehensive validation of each zone
+
+### Rich CLI Interface
+- **Interactive mode** - Beautiful terminal interface with questionary
+- **Command line mode** - Direct command execution for automation
+- **Development tools** - Comprehensive CLI toolbox for development workflow
+- **Rich output** - Beautiful formatting with progress tracking
+
+### Performance Optimization
+- **Multithreading** - Configurable worker threads (default: 20)
+- **Parallel processing** - Multiple zones processed simultaneously
+- **Memory optimization** - Better resource management and caching
+- **Smart fallback** - Automatic sequential generation for single zones
+
+## Quick Start
+
+```python
+# settings.py
+from django_revolution.app_config import ZoneConfig, get_revolution_config
+
+zones = {
+    'public': ZoneConfig(
+        apps=['accounts', 'billing'],
+        title='Public API',
+        description='Public endpoints',
+        public=True,
+        auth_required=False,
+        version='v1'
+    )
+}
+
+DJANGO_REVOLUTION = get_revolution_config(
+    project_root=BASE_DIR,
+    zones=zones
+)
+```
+
+```python
+# urls.py
+from django_revolution.urls_integration import add_revolution_urls
+
+urlpatterns = [
+    # Your existing URLs
+]
+add_revolution_urls(urlpatterns)
+```
+
+```bash
+# Generate clients
+python manage.py revolution
+```
+
+## Supported Features
+
+| Feature | Description |
+|---------|-------------|
+| **TypeScript Clients** | Generated using @hey-api/openapi-ts |
+| **Python Clients** | Generated using datamodel-code-generator |
+| **OpenAPI Schemas** | Automatic schema generation with drf-spectacular |
+| **Authentication** | JWT, session, or no authentication per zone |
+| **Rate Limiting** | Different limits per zone |
+| **Archive Management** | Timestamped archives of generated clients |
+| **Monorepo Sync** | Optional sync to monorepo structure |
+
+## Performance Characteristics
+
+| Metric | Value |
+|--------|-------|
+| **Zone Detection** | ~100-500ms per zone |
+| **Schema Generation** | ~1-3s per zone |
+| **Client Generation** | ~2-5s per client type |
+| **Memory Usage** | ~5-10MB per zone |
+| **Scalability** | Unlimited zones (limited by Django app count) |
+
+---
+
+[Get Started](/docs/installation) · [Usage Guide](/docs/usage) · [API Reference](/docs/api-reference) 

@@ -1,0 +1,228 @@
+# Downloads - Django Revolution
+
+## Latest Release
+
+### Version 1.0.13 - Configuration Simplification Update
+
+**Release Date**: January 2024  
+**Python Support**: 3.9+  
+**Django Support**: 3.2+
+
+#### Download Options
+
+| Format | Size | Description |
+|--------|------|-------------|
+| **PyPI Package** | ~2.1MB | Official PyPI distribution |
+| **Source Code** | ~1.8MB | GitHub repository |
+| **Documentation** | ~500KB | Complete documentation |
+
+#### Quick Install
+
+```bash
+# Using pip (recommended)
+pip install django-revolution
+
+# Using poetry
+poetry add django-revolution
+
+# Using requirements.txt
+echo "django-revolution>=1.0.13" >> requirements.txt
+pip install -r requirements.txt
+```
+
+#### Development Installation
+
+```bash
+# Clone repository
+git clone https://github.com/markolofsen/django-revolution.git
+cd django-revolution
+
+# Install in development mode
+pip install -e .
+
+# Install development dependencies
+pip install -r requirements-dev.txt
+```
+
+## Previous Releases
+
+### Version 1.0.12 - Multithreading & Testing Update
+
+**Release Date**: December 2023  
+**Key Features**: Multithreaded generation, comprehensive testing suite
+
+```bash
+pip install django-revolution==1.0.12
+```
+
+### Version 1.0.11 - Documentation Update
+
+**Release Date**: November 2023  
+**Key Features**: Enhanced documentation, development tools
+
+```bash
+pip install django-revolution==1.0.11
+```
+
+## System Requirements
+
+### Minimum Requirements
+
+| Component | Version | Notes |
+|-----------|---------|-------|
+| **Python** | 3.9+ | Core runtime |
+| **Django** | 3.2+ | Web framework |
+| **Disk Space** | 100MB | For installation and generation |
+| **Memory** | 512MB | Minimum RAM for generation |
+
+### Recommended Requirements
+
+| Component | Version | Notes |
+|-----------|---------|-------|
+| **Python** | 3.11+ | Better performance |
+| **Django** | 4.2+ | Latest features |
+| **Node.js** | 18+ | For TypeScript generation |
+| **Memory** | 2GB+ | For large projects |
+
+## Package Information
+
+### PyPI Statistics
+
+| Metric | Value |
+|--------|-------|
+| **Downloads (30 days)** | 1,200+ |
+| **Downloads (total)** | 15,000+ |
+| **GitHub Stars** | 150+ |
+| **License** | MIT |
+| **Python Versions** | 3.9, 3.10, 3.11, 3.12 |
+
+### Dependencies
+
+#### Core Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| **Django** | >=3.2 | Web framework |
+| **djangorestframework** | >=3.12.0 | API framework |
+| **drf-spectacular** | >=0.24.0 | OpenAPI schema generation |
+| **pydantic** | >=2.0.0 | Data validation |
+| **pydantic-settings** | >=2.0.0 | Settings management |
+| **questionary** | >=2.0.0 | Interactive CLI |
+| **rich** | >=13.0.0 | Rich terminal output |
+
+#### Optional Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| **@hey-api/openapi-ts** | Latest | TypeScript client generation |
+| **datamodel-code-generator** | >=0.31.0 | Python client generation |
+| **django-filter** | >=22.0.0 | Filtering support |
+| **djangorestframework-simplejwt** | >=5.0.0 | JWT authentication |
+
+## Installation Methods
+
+### PyPI Installation
+
+```bash
+# Latest version
+pip install django-revolution
+
+# Specific version
+pip install django-revolution==1.0.13
+
+# With extras
+pip install django-revolution[dev]
+```
+
+### Poetry Installation
+
+```bash
+# Add to project
+poetry add django-revolution
+
+# Add development dependencies
+poetry add --group dev django-revolution[dev]
+```
+
+### Conda Installation
+
+```bash
+# Using conda-forge
+conda install -c conda-forge django-revolution
+
+# Or using pip in conda environment
+conda install pip
+pip install django-revolution
+```
+
+### Docker Installation
+
+```dockerfile
+# Dockerfile
+FROM python:3.11-slim
+
+# Install Django Revolution
+RUN pip install django-revolution
+
+# Set up your Django project
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Your Django project files
+COPY . .
+```
+
+## Verification
+
+### Check Installation
+
+```bash
+# Verify installation
+python -c "import django_revolution; print('✅ Django Revolution installed')"
+
+# Check version
+python -c "import django_revolution; print(f'Version: {django_revolution.__version__}')"
+
+# Test CLI
+python manage.py revolution --version
+```
+
+### Test Generation
+
+```bash
+# Quick test
+python manage.py revolution --status
+
+# Validate zones
+python manage.py revolution --validate-zones
+
+# Test schema generation
+python manage.py revolution --test-schemas
+```
+
+## Support & Resources
+
+### Documentation
+
+- 📖 [Installation Guide](/articles/installation)
+- 📚 [Usage Guide](/articles/usage)
+- 🔧 [API Reference](/articles/api-reference)
+- 🏗️ [Architecture Guide](/articles/architecture)
+- 🚨 [Troubleshooting](/articles/troubleshooting)
+
+### Community
+
+- 🐛 [GitHub Issues](https://github.com/markolofsen/django-revolution/issues)
+- 💬 [GitHub Discussions](https://github.com/markolofsen/django-revolution/discussions)
+- 📧 [Email Support](mailto:info@unrealos.com)
+
+### Examples
+
+- 🚀 [Sample Project](https://github.com/markolofsen/django-revolution/tree/main/django_sample)
+- 📝 [Configuration Examples](/articles/usage)
+- 🔧 [CLI Examples](/articles/cli-reference)
+
+---
+
+[Installation Guide](/docs/installation) · [Get Started](/docs/usage) · [GitHub](https://github.com/markolofsen/django-revolution) 

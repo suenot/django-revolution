@@ -1,0 +1,257 @@
+# Support - Django Revolution
+
+## Getting Help
+
+### Community Support
+
+| Resource | Description | Response Time |
+|----------|-------------|---------------|
+| **GitHub Issues** | Bug reports and feature requests | 1-3 days |
+| **GitHub Discussions** | Questions and community help | 1-2 days |
+| **Email Support** | Direct support for complex issues | 24-48 hours |
+| **Documentation** | Self-service help and guides | Immediate |
+
+### Quick Links
+
+- 🐛 [Report a Bug](https://github.com/markolofsen/django-revolution/issues/new)
+- 💬 [Ask a Question](https://github.com/markolofsen/django-revolution/discussions)
+- 📧 [Email Support](mailto:info@unrealos.com)
+- 📖 [Documentation](/articles/installation)
+
+## Common Issues
+
+### Installation Problems
+
+**Problem**: `ImportError: No module named 'django_revolution'`
+
+**Solution**:
+```bash
+# Install Django Revolution
+pip install django-revolution
+
+# Verify installation
+python -c "import django_revolution; print('✅ Installed')"
+```
+
+**Problem**: Missing dependencies
+
+**Solution**:
+```bash
+# Install missing dependencies
+pip install django-filter djangorestframework-simplejwt
+
+# Or let Django Revolution install them
+python manage.py revolution --install-deps
+```
+
+### Configuration Issues
+
+**Problem**: Zone validation failures
+
+**Solution**:
+```bash
+# Validate zones with detailed output
+python manage.py revolution --validate-zones
+
+# Check specific zone
+python manage.py revolution --show-urls
+```
+
+**Problem**: Schema generation errors
+
+**Solution**:
+```bash
+# Test schema generation
+python manage.py revolution --test-schemas
+
+# Check drf-spectacular installation
+pip install drf-spectacular
+```
+
+### Performance Issues
+
+**Problem**: Slow generation
+
+**Solution**:
+```bash
+# Use multithreading
+python manage.py revolution --generate --max-workers 16
+
+# Generate specific zones only
+python manage.py revolution --zones public
+```
+
+**Problem**: High memory usage
+
+**Solution**:
+```bash
+# Clean before generation
+python manage.py revolution --clean --generate
+
+# Reduce worker count
+python manage.py revolution --generate --max-workers 4
+```
+
+## Self-Diagnosis
+
+### Run Diagnostics
+
+```bash
+# Comprehensive system check
+python manage.py revolution --status
+
+# Validate environment
+python manage.py revolution --validate
+
+# Check zone configuration
+python manage.py revolution --validate-zones
+
+# Test schema generation
+python manage.py revolution --test-schemas
+```
+
+### Debug Mode
+
+```bash
+# Enable debug logging
+export DJANGO_REVOLUTION_DEBUG=1
+python manage.py revolution --debug
+
+# Maximum verbosity
+python manage.py revolution --verbosity 3
+```
+
+### System Information
+
+When reporting issues, include:
+
+```bash
+# System information
+python --version
+django-admin --version
+node --version
+npm --version
+
+# Django Revolution version
+python -c "import django_revolution; print(django_revolution.__version__)"
+
+# Configuration
+python manage.py revolution --status
+```
+
+## Documentation Resources
+
+### Getting Started
+
+- 📖 [Installation Guide](/articles/installation) - Complete setup instructions
+- 🚀 [Quick Start](/articles/usage) - Basic usage examples
+- 🔧 [Configuration](/articles/usage) - Zone configuration guide
+
+### Advanced Topics
+
+- 🏗️ [Architecture](/articles/architecture) - Understanding zone-based architecture
+- 🔧 [API Reference](/articles/api-reference) - Complete API documentation
+- 🎯 [CLI Reference](/articles/cli-reference) - Command-line interface guide
+
+### Troubleshooting
+
+- 🚨 [Troubleshooting Guide](/articles/troubleshooting) - Common problems and solutions
+- 📋 [Changelog](/articles/changelog) - Version history and updates
+
+## Community Resources
+
+### GitHub
+
+- 🐛 [Issues](https://github.com/markolofsen/django-revolution/issues) - Bug reports and feature requests
+- 💬 [Discussions](https://github.com/markolofsen/django-revolution/discussions) - Questions and community help
+- 📚 [Wiki](https://github.com/markolofsen/django-revolution/wiki) - Community documentation
+- ⭐ [Star the Project](https://github.com/markolofsen/django-revolution) - Show your support
+
+### Examples & Tutorials
+
+- 🚀 [Sample Project](https://github.com/markolofsen/django-revolution/tree/main/django_sample) - Complete working example
+- 📝 [Configuration Examples](/articles/usage) - Real-world configuration examples
+- 🔧 [CLI Examples](/articles/cli-reference) - Command-line usage examples
+
+## Professional Support
+
+### Email Support
+
+For complex issues or enterprise support:
+
+- 📧 **Email**: info@unrealos.com
+- ⏰ **Response Time**: 24-48 hours
+- 🎯 **Best For**: Complex configurations, enterprise deployments, custom integrations
+
+### Priority Support
+
+For urgent issues or enterprise customers:
+
+- 🚀 **Priority Response**: 4-8 hours
+- 🔧 **Custom Solutions**: Tailored configurations
+- 📞 **Direct Contact**: Phone support available
+
+## Contributing
+
+### How to Contribute
+
+1. **Fork the repository** on GitHub
+2. **Create a feature branch** for your changes
+3. **Make your changes** with proper tests
+4. **Submit a pull request** with detailed description
+
+### Development Setup
+
+```bash
+# Clone repository
+git clone https://github.com/markolofsen/django-revolution.git
+cd django-revolution
+
+# Install in development mode
+pip install -e .
+
+# Install development dependencies
+pip install -r requirements-dev.txt
+
+# Run tests
+pytest
+```
+
+### Code of Conduct
+
+We maintain a welcoming and inclusive community. Please:
+
+- Be respectful and constructive
+- Help others learn and grow
+- Report inappropriate behavior
+- Follow the [Contributor Covenant](https://www.contributor-covenant.org/)
+
+## Feedback & Suggestions
+
+### Feature Requests
+
+Have an idea for a new feature?
+
+- 💡 [Submit Feature Request](https://github.com/markolofsen/django-revolution/issues/new)
+- 📝 Include detailed description and use cases
+- 🔧 Consider contributing the implementation
+
+### Documentation Improvements
+
+Found an error or unclear section?
+
+- 📖 [Report Documentation Issue](https://github.com/markolofsen/django-revolution/issues/new)
+- ✏️ [Submit Documentation PR](https://github.com/markolofsen/django-revolution/pulls)
+- 📝 Include specific page and section
+
+### General Feedback
+
+We value your feedback:
+
+- 📧 [Email Feedback](mailto:info@unrealos.com)
+- 💬 [GitHub Discussions](https://github.com/markolofsen/django-revolution/discussions)
+- ⭐ [Rate on GitHub](https://github.com/markolofsen/django-revolution)
+
+---
+
+[Troubleshooting Guide](/docs/troubleshooting) · [Installation](/docs/installation) · [GitHub](https://github.com/markolofsen/django-revolution) 

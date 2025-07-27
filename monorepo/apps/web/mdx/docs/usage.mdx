@@ -1,23 +1,6 @@
----
-layout: default
-title: Usage
----
+# Usage Guide - Django Revolution
 
-# 🚀 Usage Guide - LLM-Optimized
-
-## 📖 Overview
-
-Comprehensive usage guide for Django Revolution with performance optimization, multithreading, and advanced configuration patterns.
-
-**Key Features:**
-- **Multithreaded generation** - Parallel processing for performance
-- **Zone-specific generation** - Generate specific zones only
-- **Performance optimization** - Configurable worker threads and memory management
-- **CI/CD integration** - Automated workflows and artifact management
-
----
-
-## 🚀 Basic Usage
+## Basic Usage
 
 ### Generate Clients
 
@@ -38,7 +21,7 @@ python manage.py revolution --python
 python manage.py revolution --no-archive
 ```
 
-### ⚡ Multithreaded Generation
+### Multithreaded Generation
 
 ```bash
 # Use default multithreading (20 workers)
@@ -54,7 +37,7 @@ python manage.py revolution --generate --no-multithreading
 python manage.py revolution --generate --max-workers 32 --clean
 ```
 
-### 🔍 Validation & Testing
+### Validation & Testing
 
 ```bash
 # Validate all zones
@@ -70,9 +53,7 @@ python manage.py revolution --show-urls
 python manage.py revolution --status
 ```
 
----
-
-## 🎯 Advanced Usage
+## Advanced Usage
 
 ### Performance Optimization
 
@@ -137,9 +118,7 @@ python manage.py revolution --python
 python manage.py revolution --typescript --python
 ```
 
----
-
-## 🔧 Configuration Examples
+## Configuration Examples
 
 ### Basic Zone Configuration
 
@@ -219,9 +198,7 @@ DJANGO_REVOLUTION = {
 }
 ```
 
----
-
-## 📊 Performance Monitoring
+## Performance Monitoring
 
 ### Generation Time Tracking
 
@@ -254,9 +231,7 @@ for workers in 4 8 16 32; do
 done
 ```
 
----
-
-## 🧪 Testing & Validation
+## Testing & Validation
 
 ### Zone Validation
 
@@ -295,9 +270,7 @@ python manage.py revolution --show-urls
 #   • schema/swagger/ -> public-swagger
 ```
 
----
-
-## 🔄 CI/CD Integration
+## CI/CD Integration
 
 ### GitHub Actions Example
 
@@ -355,64 +328,7 @@ generate_clients:
     expire_in: 1 week
 ```
 
----
-
-## 🚨 Troubleshooting
-
-### Common Performance Issues
-
-**Slow Generation:**
-```bash
-# Enable multithreading
-python manage.py revolution --generate --max-workers 16
-
-# Clean before generation
-python manage.py revolution --clean --generate
-
-# Check system resources
-htop  # or top
-```
-
-**Memory Issues:**
-```bash
-# Reduce worker count
-python manage.py revolution --generate --max-workers 4
-
-# Clean between generations
-python manage.py revolution --clean
-
-# Monitor memory usage
-python manage.py revolution --generate --debug
-```
-
-**Django Setup Issues:**
-```bash
-# Check Django settings
-python manage.py check
-
-# Validate environment
-python manage.py revolution --validate
-
-# Debug mode
-python manage.py revolution --debug --verbosity 3
-```
-
-### Debug Mode
-
-```bash
-# Enable debug logging
-python manage.py revolution --debug
-
-# Maximum verbosity
-python manage.py revolution --verbosity 3
-
-# Show full stack traces
-python manage.py revolution --traceback
-```
-
----
-
-## 📈 Best Practices
+## Best Practices
 
 ### Performance Optimization
 
@@ -440,15 +356,4 @@ python manage.py revolution --traceback
 
 ---
 
-## 🧠 Key Notes
-
-- **Multithreading performance** - 2-3x speedup for multiple zones
-- **Memory optimization** - Configurable worker threads and cleanup
-- **CI/CD ready** - Automated workflows with artifact management
-- **Environment flexibility** - Different configs for dev/prod
-- **Monitoring tools** - Built-in performance tracking and validation
-- **Best practices** - Comprehensive guidelines for optimal usage
-
----
-
-[← Back to Installation](installation.html) | [Next: CLI Reference →](cli.html)
+[Next: CLI Reference](/docs/cli-reference) · [API Reference](/docs/api-reference) 
