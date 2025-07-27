@@ -12,8 +12,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <header className="bg-white border-b border-gray-200 px-4 py-3">
-      <div className="flex items-center justify-between">
+    <header className="bg-white border-b border-gray-200 px-4 py-3 w-full">
+      <div className="flex items-center justify-between w-full">
         {/* Mobile menu button */}
         <button
           onClick={onMenuToggle}
@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
         </button>
 
         {/* Breadcrumbs */}
-        <nav className="flex items-center space-x-2 text-sm text-gray-500">
+        <nav className="flex items-center space-x-2 text-sm text-gray-500 flex-1">
           <Link href="/" className="hover:text-gray-700">
             Home
           </Link>

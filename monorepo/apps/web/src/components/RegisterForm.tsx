@@ -209,7 +209,7 @@ export default function RegisterForm() {
         <div className="text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{' '}
-            <a href="/login" className="font-medium text-primary-600 hover:text-primary-500">
+            <a href="/auth" className="font-medium text-primary-600 hover:text-primary-500">
               Sign in here
             </a>
           </p>

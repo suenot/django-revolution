@@ -11,7 +11,7 @@ class PostViewSet(viewsets.ModelViewSet):
     """ViewSet for Post model with nested routing."""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     lookup_field = 'id'
     
     def get_queryset(self):

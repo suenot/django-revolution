@@ -11,14 +11,14 @@ const JsonTreeComponent = ({ title, data, config }: JsonTreeComponentProps) => {
   // JSON Tree theme based on current theme
   const jsonTreeTheme = {
     scheme: 'default',
-    base00: 'transparent',
+    base00: '#f9fafb', // Light background
     base01: '#f3f4f6',
     base02: '#e5e7eb',
     base03: '#9ca3af',
     base04: '#6b7280',
-    base05: '#374151',
+    base05: '#374151', // Main text color
     base06: '#1f2937',
-    base07: '#ffffff',
+    base07: '#111827',
     base08: '#ef4444',
     base09: '#f59e0b',
     base0A: '#3b82f6',
@@ -30,7 +30,7 @@ const JsonTreeComponent = ({ title, data, config }: JsonTreeComponentProps) => {
   };
 
   return (
-    <div className="relative bg-white rounded-lg border border-gray-200 h-full overflow-hidden">
+    <div className="relative bg-gray-50 rounded-lg border border-gray-200 h-full overflow-hidden">
       {title && (
         <div className="p-4 border-b border-gray-200">
           <h6 className="text-lg font-semibold text-gray-900">{title}</h6>
