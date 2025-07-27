@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { PageWithConfig } from '@/types/pageConfig';
 import api from '@/api';
 import { Post } from '@/api/types';
+import LocalDjangoNotification from '@/components/LocalDjangoNotification';
 
 const PublicAPIPage: PageWithConfig = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -38,6 +39,11 @@ const PublicAPIPage: PageWithConfig = () => {
             Explore publicly available data from the Django Revolution API
           </p>
         </div>
+      </div>
+
+      {/* Local Django Notification */}
+      <div className="container mx-auto px-4 py-4">
+        <LocalDjangoNotification />
       </div>
 
       {/* Error Display */}

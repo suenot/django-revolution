@@ -5,6 +5,7 @@ import { PageWithConfig } from '@/types/pageConfig';
 import { useAuth } from '@/context';
 import api from '@/api';
 import { useRouter } from 'next/router';
+import LocalDjangoNotification from '@/components/LocalDjangoNotification';
 
 // Types for private API products
 interface Product {
@@ -65,6 +66,11 @@ const PrivateAPIPage: PageWithConfig = () => {
             Access private data from the Django Revolution API (requires authentication)
           </p>
         </div>
+      </div>
+
+      {/* Local Django Notification */}
+      <div className="container mx-auto px-4 py-4">
+        <LocalDjangoNotification />
       </div>
 
       {/* Error Display */}
