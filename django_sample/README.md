@@ -6,32 +6,83 @@ This is a test Django project for Django Revolution, demonstrating zone-based AP
 
 ### Prerequisites
 
-- Python 3.8+
-- Django 4.0+
+- Python 3.10+
+- Poetry (for dependency management)
+- Django 5.2+
 - Django REST Framework
 - drf-spectacular
 
-### Running Tests
+### Installation & Setup
 
-1. **Navigate to the django_revolution directory:**
-
-   ```bash
-   cd /path/to/backend/pypi/django_revolution
-   ```
-
-2. **Run the generation script:**
+1. **Install dependencies:**
 
    ```bash
-   cd /path/to/backend/pypi/django_revolution/django_sample
-   PYTHONPATH=..:$PYTHONPATH DJANGO_SETTINGS_MODULE=django_sample.settings python manage.py revolution --debug
+   poetry install
    ```
 
-   Or manually:
+2. **Run migrations:**
 
    ```bash
-   cd /path/to/backend/pypi/django_revolution/django_sample
-   PYTHONPATH=..:$PYTHONPATH DJANGO_SETTINGS_MODULE=django_sample.settings python manage.py revolution --list-zones
+   poetry run python manage.py migrate
    ```
+
+3. **Start the development server:**
+
+   ```bash
+   poetry run python manage.py runserver
+   ```
+
+4. **Access the API:**
+
+   - **Swagger UI (Public API):** http://localhost:8000/schema/public/schema/swagger/
+   - **Swagger UI (Private API):** http://localhost:8000/schema/private/schema/swagger/
+   - **Public API endpoints:** http://localhost:8000/api/public/
+   - **Private API endpoints:** http://localhost:8000/api/private/
+
+## Client Generation
+
+### Generate All Clients
+
+```bash
+poetry run python manage.py auto_generate
+```
+
+### Generate Specific Zones
+
+```bash
+# Generate only public zone
+poetry run python manage.py auto_generate --zones public
+
+# Generate only private zone  
+poetry run python manage.py auto_generate --zones private
+
+# Generate both zones
+poetry run python manage.py auto_generate --zones public private
+```
+
+### Generate Specific Client Types
+
+```bash
+# TypeScript only
+poetry run python manage.py auto_generate --typescript-only
+
+# Python only
+poetry run python manage.py auto_generate --python-only
+```
+
+### Clean Generation
+
+```bash
+# Clean output directories before generation
+poetry run python manage.py auto_generate --clean
+```
+
+### Skip Archiving
+
+```bash
+# Generate without creating archives
+poetry run python manage.py auto_generate --no-archive
+```
 
 ## Project Structure
 
@@ -43,19 +94,25 @@ django_sample/
 │   │   ├── views.py         # ViewSets
 │   │   ├── urls.py          # URL patterns
 │   │   └── serializers.py   # DRF serializers
-│   └── private_api/         # Private API zone
-│       ├── models.py        # Category, Product, Order models
-│       ├── views.py         # ViewSets
-│       ├── urls.py          # URL patterns
-│       └── serializers.py   # DRF serializers
+│   ├── private_api/         # Private API zone
+│   │   ├── models.py        # Category, Product, Order models
+│   │   ├── views.py         # ViewSets
+│   │   ├── urls.py          # URL patterns
+│   │   └── serializers.py   # DRF serializers
+│   └── core/                # Core app with management commands
+│       └── management/
+│           └── commands/
+│               └── auto_generate.py  # Client generation command
 ├── settings.py              # Django settings with automatic config
 ├── urls.py                  # Main URL configuration
-└── teststest_real_generation.py  # Generation test script
+├── pyproject.toml           # Poetry dependencies
+└── openapi/                 # Generated clients and schemas
+    ├── schemas/             # OpenAPI schemas
+    ├── clients/             # Generated clients
+    └── archive/             # Archived clients
 ```
 
-## Automatic Configuration
-
-This sample project demonstrates the **automatic configuration** approach used in production:
+## Configuration
 
 ### 1. DRF + Spectacular Configuration
 
@@ -74,14 +131,14 @@ drf_config = create_drf_config(
 
 # Apply settings automatically
 settings_dict = drf_config.get_django_settings()
-REST_FRAMEWORK = settings_dict['REST_FRAMEWORK']
-SPECTACULAR_SETTINGS = settings_dict['SPECTACULAR_SETTINGS']
+REST_FRAMEWORK = settings_dict["REST_FRAMEWORK"]
+SPECTACULAR_SETTINGS = settings_dict["SPECTACULAR_SETTINGS"]
 ```
 
 ### 2. Zone Configuration
 
 ```python
-# settings.py - Automatic zone configuration
+# settings.py - Zone configuration with Pydantic models
 from django_revolution.app_config import ZoneConfig, get_revolution_config
 
 def create_revolution_config() -> dict:
@@ -89,26 +146,29 @@ def create_revolution_config() -> dict:
 
     zones = {
         'public': ZoneConfig(
-            apps=['django_sample.apps.public_api'],
+            apps=['apps.public_api'],
             title='Public API',
             description='Public API for testing - users and posts',
             public=True,
             auth_required=False,
-            version='v1',
-            path_prefix='public'
+            version='v1'
         ),
         'private': ZoneConfig(
-            apps=['django_sample.apps.private_api'],
+            apps=['apps.private_api'],
             title='Private API',
             description='Private API for testing - categories, products, orders',
             public=False,
             auth_required=True,
-            version='v1',
-            path_prefix='private'
+            version='v1'
         )
     }
 
-    return get_revolution_config(project_root=BASE_DIR, zones=zones, debug=DEBUG)
+    return get_revolution_config(
+        project_root=BASE_DIR, 
+        zones=zones, 
+        debug=DEBUG,
+        api_prefix="api"
+    )
 
 # Apply Django Revolution settings
 DJANGO_REVOLUTION = create_revolution_config()
@@ -121,37 +181,90 @@ DJANGO_REVOLUTION = create_revolution_config()
 from django_revolution import add_revolution_urls
 
 urlpatterns = [
-    # Your existing URLs
-    path('admin/', admin.site.urls),
-    path('api/', include('django_sample.apps.public_api.urls')),
-    path('api/private/', include('django_sample.apps.private_api.urls')),
+    # Admin
+    path("admin/", admin.site.urls),
+    # Root redirect to Swagger UI
+    path("", RedirectView.as_view(url="/schema/public/schema/swagger/", permanent=False)),
 ]
 
 # Django Revolution automatically adds:
-# - /api/public/schema/ (Swagger UI)
-# - /api/public/schema.yaml (OpenAPI spec)
-# - /api/private/schema/ (Swagger UI)
-# - /api/private/schema.yaml (OpenAPI spec)
+# - /schema/public/schema/ (OpenAPI spec)
+# - /schema/public/schema/swagger/ (Swagger UI)
+# - /schema/private/schema/ (OpenAPI spec)
+# - /schema/private/schema/swagger/ (Swagger UI)
+# - /api/public/ (Public API endpoints)
+# - /api/private/ (Private API endpoints)
 # - /openapi/archive/ (Generated clients)
 urlpatterns = add_revolution_urls(urlpatterns)
 ```
 
-## Zones Configuration
+## API Zones
 
 The project demonstrates two API zones:
 
 ### Public Zone
 
-- **Apps:** `django_sample.apps.public_api`
+- **Apps:** `apps.public_api`
 - **Models:** User, Post
-- **Endpoints:** `/api/users/`, `/api/posts/`
+- **Endpoints:** `/api/public/users/`, `/api/public/posts/`
 - **Access:** Public, no auth required
-- **Schema:** `/api/public/schema/`
+- **Schema:** `/schema/public/schema/swagger/`
 
 ### Private Zone
 
-- **Apps:** `django_sample.apps.private_api`
+- **Apps:** `apps.private_api`
 - **Models:** Category, Product, Order, OrderItem
 - **Endpoints:** `/api/private/categories/`, `/api/private/products/`, etc.
 - **Access:** Private, auth required
-- **Schema:** `/api/private/schema/`
+- **Schema:** `/schema/private/schema/swagger/`
+
+## Generated Clients
+
+After running `poetry run python manage.py auto_generate`, you'll find:
+
+### TypeScript Clients
+
+- **Location:** `openapi/clients/typescript/`
+- **Files:** API client, types, utilities
+- **Usage:** Import and use in TypeScript/JavaScript projects
+
+### Python Clients
+
+- **Location:** `openapi/clients/python/`
+- **Files:** Pydantic models, API client
+- **Usage:** Import and use in Python projects
+
+### Archives
+
+- **Location:** `openapi/archive/`
+- **Format:** ZIP files with versioned clients
+- **Usage:** Distribution and deployment
+
+## Development Workflow
+
+1. **Make changes** to your Django models, views, or serializers
+2. **Generate clients** with `poetry run python manage.py auto_generate`
+3. **Test the API** using Swagger UI
+4. **Use generated clients** in your frontend or other services
+
+## Troubleshooting
+
+### Static Files Not Loading
+
+If Swagger UI static files don't load:
+
+```bash
+poetry run python manage.py collectstatic
+```
+
+### Generation Errors
+
+Check that all required dependencies are installed:
+
+```bash
+poetry install
+```
+
+### Zone Configuration Issues
+
+Verify your zone configuration in `settings.py` and ensure all apps are in `INSTALLED_APPS`.

@@ -14,25 +14,23 @@ title: API Reference
 Main configuration class for Django Revolution.
 
 ```python
-from django_revolution.config import DjangoRevolutionSettings
+from django_revolution.app_config import ZoneConfig, get_revolution_config
 
-settings = DjangoRevolutionSettings(
-    zones={
-        'public': ZoneModel(
-            apps=['accounts', 'billing'],
-            title='Public API',
-            description='Public endpoints',
-            public=True,
-            auth_required=False,
-            version='v1',
-            path_prefix='public'
-        )
-    },
-    output_dir='openapi',
-    auto_install_deps=True,
-    typescript_enabled=True,
-    python_enabled=True,
-    archive_clients=True
+zones = {
+    'public': ZoneConfig(
+        apps=['accounts', 'billing'],
+        title='Public API',
+        description='Public endpoints',
+        public=True,
+        auth_required=False,
+        version='v1'
+    )
+}
+
+DJANGO_REVOLUTION = get_revolution_config(
+    project_root=BASE_DIR,
+    zones=zones,
+    debug=DEBUG
 )
 ```
 
@@ -41,16 +39,15 @@ settings = DjangoRevolutionSettings(
 Configuration for a single API zone.
 
 ```python
-from django_revolution.config import ZoneModel
+from django_revolution.app_config import ZoneConfig
 
-zone = ZoneModel(
+zone = ZoneConfig(
     apps=['accounts', 'billing'],      # Django apps to include
     title='Public API',                # Human-readable title
     description='Public endpoints',    # Zone description
     public=True,                       # Is publicly accessible
     auth_required=False,               # Requires authentication
-    version='v1',                      # API version
-    path_prefix='public'               # URL path prefix
+    version='v1'                       # API version
 )
 ```
 
@@ -67,8 +64,7 @@ zone = ZoneConfig(
     description='Public endpoints',    # Zone description
     public=True,                       # Is publicly accessible
     auth_required=False,               # Requires authentication
-    version='v1',                      # API version
-    path_prefix='public'               # URL path prefix
+    version='v1'                       # API version
 )
 ```
 
@@ -491,13 +487,15 @@ zones = {
         title='Public API',
         description='Public endpoints',
         public=True,
-        auth_required=False
+        auth_required=False,
+        version='v1'
     )
 }
 
 DJANGO_REVOLUTION = get_revolution_config(
     project_root=BASE_DIR,
-    zones=zones
+    zones=zones,
+    debug=DEBUG
 )
 ```
 
@@ -514,8 +512,7 @@ zones = {
         description='Public endpoints',
         public=True,
         auth_required=False,
-        version='v1',
-        path_prefix='public'
+        version='v1'
     ),
     'admin': ZoneConfig(
         apps=['admin_panel', 'analytics'],
@@ -523,8 +520,7 @@ zones = {
         description='Administrative endpoints',
         public=False,
         auth_required=True,
-        version='v1',
-        path_prefix='admin'
+        version='v1'
     )
 }
 
@@ -538,18 +534,7 @@ DJANGO_REVOLUTION = get_revolution_config(
     project_root=BASE_DIR,
     zones=zones,
     monorepo=monorepo,
-    debug=DEBUG,
-    output_config={
-        'base_directory': 'custom_openapi',
-        'typescript': {
-            'enabled': True,
-            'package_name': '@myorg/custom-api'
-        },
-        'python': {
-            'enabled': True,
-            'package_name': 'myorg_custom_api'
-        }
-    }
+    debug=DEBUG
 )
 ```
 

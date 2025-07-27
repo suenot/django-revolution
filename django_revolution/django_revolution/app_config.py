@@ -19,7 +19,6 @@ class ZoneConfig(BaseModel):
     public: bool = Field(True, description="Is zone public")
     auth_required: bool = Field(False, description="Authentication required")
     version: str = Field("v1", description="API version")
-    path_prefix: str = Field(..., description="URL path prefix")
 
 
 class MonorepoConfig(BaseModel):
@@ -55,6 +54,7 @@ def get_revolution_config(
     zones: Dict[str, ZoneConfig],
     debug: bool = False,
     monorepo: Optional[MonorepoConfig] = None,
+    api_prefix: str = "apix",
 ) -> Dict[str, Any]:
     """Get Django Revolution configuration as dictionary."""
 
@@ -63,7 +63,7 @@ def get_revolution_config(
         monorepo = MonorepoConfig(enabled=False, path="", api_package_path="")
 
     config = DjangoRevolutionConfig(
-        api_prefix="apix",
+        api_prefix=api_prefix,
         debug=debug,
         auto_install_deps=True,
         monorepo=monorepo,
@@ -74,7 +74,12 @@ def get_revolution_config(
 
 
 def setup_revolution(
-    project_root: Path, zones: Dict[str, ZoneConfig], debug: bool = False
+    project_root: Path,
+    zones: Dict[str, ZoneConfig],
+    debug: bool = False,
+    api_prefix: str = "apix",
 ) -> Dict[str, Any]:
     """Alias for get_revolution_config for backward compatibility."""
-    return get_revolution_config(project_root=project_root, zones=zones, debug=debug)
+    return get_revolution_config(
+        project_root=project_root, zones=zones, debug=debug, api_prefix=api_prefix
+    )

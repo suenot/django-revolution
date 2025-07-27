@@ -42,8 +42,7 @@ zones = {
         description='API for public client applications',
         public=True,
         auth_required=False,
-        version='v1',
-        path_prefix='public'
+        version='v1'
     ),
     'admin': ZoneConfig(
         apps=['admin_panel', 'services'],
@@ -51,8 +50,7 @@ zones = {
         description='Administrative API endpoints',
         public=False,
         auth_required=True,
-        version='v1',
-        path_prefix='admin'
+        version='v1'
     )
 }
 

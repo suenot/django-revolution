@@ -1,0 +1,1 @@
+# Core app for Django Revolution sample project 

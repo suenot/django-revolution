@@ -140,8 +140,7 @@ zones = {
         description='Public API endpoints',
         public=True,
         auth_required=False,
-        version='v1',
-        path_prefix='public'
+        version='v1'
     ),
     'admin': ZoneConfig(
         apps=['admin_panel', 'analytics'],
@@ -149,8 +148,7 @@ zones = {
         description='Administrative endpoints',
         public=False,
         auth_required=True,
-        version='v1',
-        path_prefix='admin'
+        version='v1'
     )
 }
 

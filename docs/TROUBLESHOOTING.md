@@ -78,14 +78,14 @@ zones = {
         description='Public endpoints',
         public=True,
         auth_required=False,
-        version='v1',
-        path_prefix='public'
+        version='v1'
     )
 }
 
 DJANGO_REVOLUTION = get_revolution_config(
     project_root=BASE_DIR,
-    zones=zones
+    zones=zones,
+    debug=DEBUG
 )
 ```
 

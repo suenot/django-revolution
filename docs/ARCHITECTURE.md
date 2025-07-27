@@ -68,8 +68,7 @@ zones = {
         description='Public endpoints',
         public=True,
         auth_required=False,
-        version='v1',
-        path_prefix='public'
+        version='v1'
     ),
     'private': ZoneConfig(
         apps=['orders', 'profile'],
@@ -77,14 +76,14 @@ zones = {
         description='Authenticated endpoints',
         public=False,
         auth_required=True,
-        version='v1',
-        path_prefix='private'
+        version='v1'
     )
 }
 
 DJANGO_REVOLUTION = get_revolution_config(
     project_root=BASE_DIR,
-    zones=zones
+    zones=zones,
+    debug=DEBUG
 )
 ```
 

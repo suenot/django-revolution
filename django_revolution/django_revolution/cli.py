@@ -285,35 +285,20 @@ def handle_generate_interactive(generator):
     """Interactive generation flow."""
     console.print("\n[bold]🚀 API Client Generation[/bold]")
 
-    # Zone selection
+    # Zone selection - use all available zones
     available_zones = list(generator.zone_manager.zones.keys())
+    
     if not available_zones:
         console.print("❌ No zones configured")
         return 1
 
-    selected_zones = questionary.checkbox(
-        "Select zones to generate:",
-        choices=[{"name": zone, "value": zone} for zone in available_zones],
-        default=available_zones
-    ).ask()
+    # Use all zones by default
+    selected_zones = available_zones
+    console.print(f"📋 Generating clients for zones: {', '.join(selected_zones)}")
 
-    if not selected_zones:
-        console.print("⚠️  No zones selected. Exiting.")
-        return 1
-
-    # Client type selection
-    client_types = questionary.checkbox(
-        "Select client types to generate:",
-        choices=[
-            {"name": "TypeScript", "value": "typescript"},
-            {"name": "Python", "value": "python"}
-        ],
-        default=["typescript", "python"]
-    ).ask()
-
-    if not client_types:
-        console.print("⚠️  No client types selected. Exiting.")
-        return 1
+    # Client type selection - use both by default
+    client_types = ["typescript", "python"]
+    console.print(f"📦 Generating client types: {', '.join(client_types)}")
 
     # Archive option
     create_archive = questionary.confirm(

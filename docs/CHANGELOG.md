@@ -1,5 +1,50 @@
 # Documentation Changelog
 
+## Version 1.0.13 - Configuration Simplification Update
+
+### 🆕 New Features
+
+#### Simplified Zone Configuration
+- **Removed `path_prefix`** - Zone name is now derived from dictionary key
+- **Type-safe configuration** - Pydantic models for all configuration
+- **Cleaner API** - Simplified configuration with fewer required parameters
+- **Better defaults** - Sensible defaults for all optional parameters
+
+#### Enhanced Documentation
+- **Updated examples** - All documentation examples use new configuration format
+- **Clearer parameter descriptions** - Better explanation of each configuration option
+- **Migration guide** - Instructions for upgrading from older versions
+- **Best practices** - Updated best practices for zone organization
+
+### 🔧 Technical Improvements
+
+#### Configuration Simplification
+- **Removed redundant `path_prefix`** - Zone name from dictionary key is sufficient
+- **Kept `version` parameter** - Still used in generated client packages
+- **Improved Pydantic models** - Better validation and error messages
+- **Backward compatibility** - Existing configurations still work
+
+#### Documentation Updates
+- **All examples updated** - Removed `path_prefix` from all configuration examples
+- **API reference updated** - Reflects new simplified configuration
+- **Installation guide updated** - Shows correct configuration format
+- **Usage guide updated** - All examples use new format
+
+### 🐛 Bug Fixes
+
+- **Configuration validation** - Fixed validation errors with missing `path_prefix`
+- **Documentation consistency** - All files now use consistent configuration format
+- **Example clarity** - Clearer examples that work out of the box
+
+### 📚 Documentation Updates
+
+- **README.md** - Updated with simplified configuration examples
+- **API Reference** - Removed `path_prefix` from all examples
+- **Installation Guide** - Updated configuration examples
+- **Usage Guide** - All examples use new format
+- **Architecture Guide** - Updated zone configuration examples
+- **Troubleshooting** - Updated configuration error examples
+
 ## Version 1.0.12 - Multithreading & Testing Update
 
 ### 🆕 New Features

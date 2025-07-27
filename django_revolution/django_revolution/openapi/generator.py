@@ -758,6 +758,11 @@ class OpenAPIGenerator:
             import jinja2
             from datetime import datetime
 
+            def camelcase(name: str) -> str:
+                """Convert snake_case to camelCase."""
+                parts = name.split('_')
+                return parts[0] + ''.join(part.title() for part in parts[1:])
+
             # Setup Jinja2 environment
             templates_dir = Path(__file__).parent / "templates"
             env = jinja2.Environment(
@@ -770,6 +775,7 @@ class OpenAPIGenerator:
             context = {
                 "zones": zones,
                 "generation_time": datetime.now().isoformat(),
+                "camelcase": camelcase,
             }
 
             # Render template
