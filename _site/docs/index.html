@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Django Revolution | Zone-based API architecture for Django. Install and go.</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Django Revolution" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Zone-based API architecture for Django. Install and go." />
+<meta property="og:description" content="Zone-based API architecture for Django. Install and go." />
+<link rel="canonical" href="https://markolofsen.github.io/django-revolution/docs/" />
+<meta property="og:url" content="https://markolofsen.github.io/django-revolution/docs/" />
+<meta property="og:site_name" content="Django Revolution" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Django Revolution" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Zone-based API architecture for Django. Install and go.","headline":"Django Revolution","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://markolofsen.github.io/django-revolution/assets/logo.svg"}},"url":"https://markolofsen.github.io/django-revolution/docs/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/django-revolution/assets/css/style.css?v=">
+    <!-- Custom styles for navigation and layout -->
+<style>
+  .navigation {
+    background: #f6f8fa;
+    border-bottom: 1px solid #e1e4e8;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation li {
+    margin: 0;
+  }
+
+  .navigation a {
+    color: #586069;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .navigation a:hover {
+    background: #e1e4e8;
+    color: #24292e;
+  }
+
+  .navigation a.active {
+    background: #0366d6;
+    color: white;
+  }
+
+  /* GitHub banner styles */
+  .github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+
+  /* Custom header styles */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .page-header h1 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navigation ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navigation a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+  </head>
+
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Django Revolution</h1>
+      <h2 class="project-tagline">Zone-based API architecture for Django. Install and go.</h2>
+      
+      
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" role="navigation">
+      <ul>
+        
+          <li>
+            <a href="/django-revolution/" 
+               >
+              Home
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/installation/" 
+               >
+              Installation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/usage/" 
+               >
+              Usage
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/cli/" 
+               >
+              CLI
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/api/" 
+               >
+              API Reference
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/architecture/" 
+               >
+              Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/troubleshooting/" 
+               >
+              Troubleshooting
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/changelog/" 
+               >
+              Changelog
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="-django-revolution---llm-optimized-documentation">🚀 Django Revolution - LLM-Optimized Documentation</h1>
+
+<h2 id="-overview">📖 Overview</h2>
+
+<p>Django Revolution is a <strong>zero-config TypeScript &amp; Python client generator</strong> for Django REST Framework that uses <strong>dynamic zone-based architecture</strong>. It automatically generates fully-authenticated clients from your Django API with no static files required.</p>
+
+<p><strong>Key Innovations:</strong></p>
+<ul>
+  <li><strong>Dynamic Zone Management</strong> - Zones generated in-memory, no static files</li>
+  <li><strong>Rich CLI Interface</strong> - Interactive commands with beautiful output</li>
+  <li><strong>Multithreaded Generation</strong> - Parallel processing for performance</li>
+  <li><strong>Monorepo Integration</strong> - Optional monorepo support</li>
+  <li><strong>Development Tools</strong> - Comprehensive CLI toolbox</li>
+</ul>
+
+<hr />
+
+<h2 id="-core-modules">📦 Core Modules</h2>
+
+<h3 id="django_revolutionapp_config">django_revolution.app_config</h3>
+<p><strong>Purpose</strong>: Core configuration management with Pydantic models.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">pydantic</code>, <code class="language-plaintext highlighter-rouge">pydantic-settings</code>, <code class="language-plaintext highlighter-rouge">pathlib</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">ZoneConfig</code>, <code class="language-plaintext highlighter-rouge">MonorepoConfig</code>, <code class="language-plaintext highlighter-rouge">get_revolution_config</code>
+<strong>Used in</strong>: Django settings, zone definition, CLI configuration</p>
+
+<h3 id="django_revolutionzones">django_revolution.zones</h3>
+<p><strong>Purpose</strong>: Dynamic zone management and URL generation.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">django.urls</code>, <code class="language-plaintext highlighter-rouge">types.ModuleType</code>, <code class="language-plaintext highlighter-rouge">django_revolution.app_config</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">DynamicZoneManager</code>, <code class="language-plaintext highlighter-rouge">DynamicZoneDetector</code>, <code class="language-plaintext highlighter-rouge">validate_zone_configuration</code>
+<strong>Used in</strong>: Zone URL patterns, app detection, dynamic module creation</p>
+
+<h3 id="django_revolutionopenapigenerator">django_revolution.openapi.generator</h3>
+<p><strong>Purpose</strong>: OpenAPI schema and client generation.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">@hey-api/openapi-ts</code>, <code class="language-plaintext highlighter-rouge">datamodel-code-generator</code>, <code class="language-plaintext highlighter-rouge">drf-spectacular</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">OpenAPIGenerator</code>, <code class="language-plaintext highlighter-rouge">ArchiveManager</code>, <code class="language-plaintext highlighter-rouge">GenerationResult</code>
+<strong>Used in</strong>: Schema generation, TypeScript/Python clients, archive management</p>
+
+<h3 id="django_revolutioncli">django_revolution.cli</h3>
+<p><strong>Purpose</strong>: Command-line interface with multiple modes.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">questionary</code>, <code class="language-plaintext highlighter-rouge">rich</code>, <code class="language-plaintext highlighter-rouge">click</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">main</code> (CLI entry point), interactive/command line modes
+<strong>Used in</strong>: Django management commands, standalone CLI, development scripts</p>
+
+<hr />
+
+<h2 id="-apis-readmellm-format">🧾 APIs (ReadMe.LLM Format)</h2>
+
+<p>%%README.LLM id=zone-config%%</p>
+
+<h2 id="-library-description">🧭 Library Description</h2>
+<p>Type-safe zone configuration using Pydantic models. Defines API zones with apps, authentication, and metadata.</p>
+
+<h2 id="-rules">✅ Rules</h2>
+<ul>
+  <li>Always use Pydantic models for type safety</li>
+  <li>Zone name comes from dictionary key, not path_prefix</li>
+  <li>All zones must have apps list and version</li>
+  <li>Public zones can have auth_required=False</li>
+</ul>
+
+<h2 id="-functions">🧪 Functions</h2>
+
+<h3 id="zoneconfigapps-liststr-title-str-description-str-public-bool-auth_required-bool-version-str">ZoneConfig(apps: List[str], title: str, description: str, public: bool, auth_required: bool, version: str)</h3>
+<p><strong>Creates a zone configuration.</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">zone</span> <span class="o">=</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+    <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">billing</span><span class="sh">'</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Public API</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Public endpoints</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">public</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">auth_required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="get_revolution_configproject_root-path-zones-dictstr-zoneconfig-debug-bool--false-monorepo-optionalmonorepoconfig--none">get_revolution_config(project_root: Path, zones: Dict[str, ZoneConfig], debug: bool = False, monorepo: Optional[MonorepoConfig] = None)</h3>
+<p><strong>Creates Django Revolution configuration.</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="nf">get_revolution_config</span><span class="p">(</span>
+    <span class="n">project_root</span><span class="o">=</span><span class="n">BASE_DIR</span><span class="p">,</span>
+    <span class="n">zones</span><span class="o">=</span><span class="n">zones</span><span class="p">,</span>
+    <span class="n">debug</span><span class="o">=</span><span class="n">DEBUG</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<p>%%README.LLM id=cli-commands%%</p>
+
+<h2 id="-library-description-1">🧭 Library Description</h2>
+<p>Django management command for client generation with interactive and command-line modes.</p>
+
+<h2 id="-rules-1">✅ Rules</h2>
+<ul>
+  <li>Always validate zones before generation</li>
+  <li>Use multithreading for multiple zones</li>
+  <li>Clean output directories before generation</li>
+  <li>Test schema generation regularly</li>
+</ul>
+
+<h2 id="-functions-1">🧪 Functions</h2>
+
+<h3 id="python-managepy-revolution-options">python manage.py revolution [options]</h3>
+<p><strong>Main CLI command with multiple modes.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Interactive generation</span>
+python manage.py revolution
+
+<span class="c"># Specific zones</span>
+python manage.py revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># TypeScript only</span>
+python manage.py revolution <span class="nt">--typescript</span>
+
+<span class="c"># With multithreading</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 16
+</code></pre></div></div>
+
+<h3 id="validate-zones">–validate-zones</h3>
+<p><strong>Validates all zone configurations.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py revolution <span class="nt">--validate-zones</span>
+</code></pre></div></div>
+
+<h3 id="test-schemas">–test-schemas</h3>
+<p><strong>Tests OpenAPI schema generation.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py revolution <span class="nt">--test-schemas</span>
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<hr />
+
+<h2 id="-core-flows">🔁 Core Flows</h2>
+
+<h3 id="client-generation-workflow">Client Generation Workflow</h3>
+<ol>
+  <li><strong>Zone Detection</strong> - <code class="language-plaintext highlighter-rouge">DynamicZoneManager</code> detects apps in each zone</li>
+  <li><strong>URL Generation</strong> - Creates dynamic URL modules in-memory</li>
+  <li><strong>Schema Generation</strong> - <code class="language-plaintext highlighter-rouge">OpenAPIGenerator</code> creates OpenAPI schemas</li>
+  <li><strong>Client Generation</strong> - Parallel generation of TypeScript and Python clients</li>
+  <li><strong>Archive Creation</strong> - Packages clients into timestamped archives</li>
+  <li><strong>Monorepo Sync</strong> - Optional sync to monorepo structure</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.zones.DynamicZoneManager</code>, <code class="language-plaintext highlighter-rouge">django_revolution.openapi.generator.OpenAPIGenerator</code>, <code class="language-plaintext highlighter-rouge">django_revolution.cli</code></p>
+
+<h3 id="zone-validation-flow">Zone Validation Flow</h3>
+<ol>
+  <li><strong>Configuration Check</strong> - Validates Pydantic models</li>
+  <li><strong>App Detection</strong> - Verifies Django apps exist</li>
+  <li><strong>URL Pattern Validation</strong> - Tests URL pattern generation</li>
+  <li><strong>Schema Test Generation</strong> - Creates test schemas</li>
+  <li><strong>Error Reporting</strong> - Detailed error messages with suggestions</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.zones.DynamicZoneDetector</code>, <code class="language-plaintext highlighter-rouge">django_revolution.zones.validate_zone_configuration</code></p>
+
+<h3 id="multithreaded-generation-flow">Multithreaded Generation Flow</h3>
+<ol>
+  <li><strong>Worker Pool Creation</strong> - Configurable thread pool (default: 20)</li>
+  <li><strong>Zone Distribution</strong> - Zones distributed across workers</li>
+  <li><strong>Parallel Processing</strong> - Simultaneous schema and client generation</li>
+  <li><strong>Result Aggregation</strong> - Results collected and combined</li>
+  <li><strong>Index Generation</strong> - Final index files created after all clients ready</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.openapi.generator</code> (with threading), <code class="language-plaintext highlighter-rouge">concurrent.futures.ThreadPoolExecutor</code></p>
+
+<hr />
+
+<h2 id="-quick-start-configuration">🎯 Quick Start Configuration</h2>
+
+<h3 id="basic-zone-configuration">Basic Zone Configuration</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="kn">from</span> <span class="n">django_revolution.app_config</span> <span class="kn">import</span> <span class="n">ZoneConfig</span><span class="p">,</span> <span class="n">get_revolution_config</span>
+
+<span class="n">zones</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+        <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">billing</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">payments</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Public API</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">API for public client applications</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">public</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">auth_required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+    <span class="p">),</span>
+    <span class="sh">'</span><span class="s">admin</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+        <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">admin_panel</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">services</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Admin API</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Administrative API endpoints</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">public</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">auth_required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="nf">get_revolution_config</span><span class="p">(</span>
+    <span class="n">project_root</span><span class="o">=</span><span class="n">BASE_DIR</span><span class="p">,</span>
+    <span class="n">zones</span><span class="o">=</span><span class="n">zones</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="url-integration">URL Integration</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># urls.py
+</span><span class="kn">from</span> <span class="n">django_revolution.urls_integration</span> <span class="kn">import</span> <span class="n">add_revolution_urls</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># ... your URLs
+</span><span class="p">]</span>
+
+<span class="nf">add_revolution_urls</span><span class="p">(</span><span class="n">urlpatterns</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="generate-clients">Generate Clients</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Interactive generation (recommended)</span>
+python manage.py revolution
+
+<span class="c"># Direct generation</span>
+python manage.py revolution <span class="nt">--zones</span> public,admin <span class="nt">--typescript</span> <span class="nt">--python</span>
+
+<span class="c"># This creates:</span>
+<span class="c"># - openapi/schemas/{zone}.yaml</span>
+<span class="c"># - clients/typescript/</span>
+<span class="c"># - clients/python/</span>
+<span class="c"># - openapi/archive/</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-quick-troubleshooting">🚨 Quick Troubleshooting</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>Zone Validation Failures</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py revolution <span class="nt">--validate-zones</span>
+python manage.py revolution <span class="nt">--show-urls</span>
+</code></pre></div></div>
+
+<p><strong>Schema Generation Errors</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py revolution <span class="nt">--test-schemas</span>
+pip <span class="nb">install </span>drf-spectacular
+</code></pre></div></div>
+
+<p><strong>Performance Issues</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 16
+python manage.py revolution <span class="nt">--clean</span> <span class="nt">--generate</span>
+</code></pre></div></div>
+
+<h3 id="debug-mode">Debug Mode</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">DJANGO_REVOLUTION_DEBUG</span><span class="o">=</span>1
+python manage.py revolution <span class="nt">--debug</span>
+python manage.py revolution <span class="nt">--verbosity</span> 3
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-performance-characteristics">📊 Performance Characteristics</h2>
+
+<h3 id="memory-usage">Memory Usage</h3>
+<ul>
+  <li><strong>Dynamic Zone Generation</strong>: ~5-10MB per zone</li>
+  <li><strong>Module Registry</strong>: ~1-2MB total</li>
+  <li><strong>Zone Cache</strong>: ~2-5MB total</li>
+</ul>
+
+<h3 id="generation-speed">Generation Speed</h3>
+<ul>
+  <li><strong>Zone Detection</strong>: ~100-500ms per zone</li>
+  <li><strong>Schema Generation</strong>: ~1-3s per zone</li>
+  <li><strong>Client Generation</strong>: ~2-5s per client type</li>
+</ul>
+
+<h3 id="scalability">Scalability</h3>
+<ul>
+  <li><strong>Zones</strong>: Unlimited (limited by Django app count)</li>
+  <li><strong>Apps per Zone</strong>: 1-50 recommended</li>
+  <li><strong>Endpoints per Zone</strong>: 1-1000 recommended</li>
+</ul>
+
+<hr />
+
+<h2 id="-key-notes">🧠 Key Notes</h2>
+
+<ul>
+  <li><strong>Dynamic Architecture</strong>: No static zone files required, everything generated in-memory</li>
+  <li><strong>Type Safety</strong>: Pydantic models ensure configuration correctness</li>
+  <li><strong>Performance</strong>: Multithreading provides 2-3x speedup for multiple zones</li>
+  <li><strong>Development Tools</strong>: Comprehensive CLI toolbox for development workflow</li>
+  <li><strong>Monorepo Support</strong>: Optional integration for monorepo projects</li>
+  <li><strong>Zero Config</strong>: Works out of the box with sensible defaults</li>
+</ul>
+
+<hr />
+
+<h2 id="-documentation-structure">📚 Documentation Structure</h2>
+
+<ul>
+  <li><strong><a href="installation/">Installation</a></strong> - How to install and configure Django Revolution</li>
+  <li><strong><a href="usage/">Usage</a></strong> - How to use zones and generate clients</li>
+  <li><strong><a href="cli/">CLI Reference</a></strong> - Command-line interface documentation</li>
+  <li><strong><a href="api-reference/">API Reference</a></strong> - Detailed API documentation</li>
+  <li><strong><a href="architecture/">Architecture</a></strong> - Understanding zone-based architecture</li>
+  <li><strong><a href="troubleshooting/">Troubleshooting</a></strong> - Common issues and solutions</li>
+</ul>
+
+<h2 id="-examples">🧪 Examples</h2>
+
+<p>Check out our <a href="https://github.com/markolofsen/django-revolution/tree/main/django_sample">sample project</a> for a complete working example.</p>
+
+<h2 id="-ready-to-use-clients">🎯 Ready-to-Use Clients</h2>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">API</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@myorg/api-client</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">api</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">API</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://api.example.com</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">api</span><span class="p">.</span><span class="nf">setToken</span><span class="p">(</span><span class="dl">'</span><span class="s1">your-access-token</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">profile</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">api</span><span class="p">.</span><span class="k">public</span><span class="p">.</span><span class="nf">getProfile</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">items</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">api</span><span class="p">.</span><span class="k">public</span><span class="p">.</span><span class="nf">listItems</span><span class="p">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>🔐 Auth, ⚙️ Headers, 🔄 Refresh – handled automatically.</p>
+</blockquote>
+
+<h2 id="support">Support</h2>
+
+<ul>
+  <li>🐛 <a href="https://github.com/markolofsen/django-revolution/issues">Issues</a></li>
+  <li>💬 <a href="https://github.com/markolofsen/django-revolution/discussions">Discussions</a></li>
+</ul>
+
+<hr />
+
+<p>Made with ❤️ by <a href="https://unrealos.com">Unrealos</a></p>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html> 

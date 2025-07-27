@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Troubleshooting | Django Revolution</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Troubleshooting" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Zone-based API architecture for Django. Install and go." />
+<meta property="og:description" content="Zone-based API architecture for Django. Install and go." />
+<link rel="canonical" href="https://markolofsen.github.io/django-revolution/docs/troubleshooting/" />
+<meta property="og:url" content="https://markolofsen.github.io/django-revolution/docs/troubleshooting/" />
+<meta property="og:site_name" content="Django Revolution" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Troubleshooting" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Zone-based API architecture for Django. Install and go.","headline":"Troubleshooting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://markolofsen.github.io/django-revolution/assets/logo.svg"}},"url":"https://markolofsen.github.io/django-revolution/docs/troubleshooting/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/django-revolution/assets/css/style.css?v=">
+    <!-- Custom styles for navigation and layout -->
+<style>
+  .navigation {
+    background: #f6f8fa;
+    border-bottom: 1px solid #e1e4e8;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation li {
+    margin: 0;
+  }
+
+  .navigation a {
+    color: #586069;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .navigation a:hover {
+    background: #e1e4e8;
+    color: #24292e;
+  }
+
+  .navigation a.active {
+    background: #0366d6;
+    color: white;
+  }
+
+  /* GitHub banner styles */
+  .github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+
+  /* Custom header styles */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .page-header h1 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navigation ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navigation a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+  </head>
+
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Troubleshooting</h1>
+      <h2 class="project-tagline">Zone-based API architecture for Django. Install and go.</h2>
+      
+      
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" role="navigation">
+      <ul>
+        
+          <li>
+            <a href="/django-revolution/" 
+               >
+              Home
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/installation/" 
+               >
+              Installation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/usage/" 
+               >
+              Usage
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/cli/" 
+               >
+              CLI
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/api/" 
+               >
+              API Reference
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/architecture/" 
+               >
+              Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/troubleshooting/" 
+               >
+              Troubleshooting
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/changelog/" 
+               >
+              Changelog
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="-troubleshooting---llm-optimized">🚨 Troubleshooting - LLM-Optimized</h1>
+
+<h2 id="-overview">📖 Overview</h2>
+
+<p>Comprehensive troubleshooting guide for Django Revolution with common issues, solutions, and debugging techniques.</p>
+
+<p><strong>Key Features:</strong></p>
+
+<ul>
+  <li><strong>Installation issues</strong> - Common installation problems and solutions</li>
+  <li><strong>Configuration problems</strong> - Zone configuration and URL integration issues</li>
+  <li><strong>Generation errors</strong> - Client generation and schema creation problems</li>
+  <li><strong>Development script issues</strong> - Version management and publishing problems</li>
+</ul>
+
+<hr />
+
+<h2 id="-troubleshooting-modules">📦 Troubleshooting Modules</h2>
+
+<h3 id="django_revolutionutilserrorhandler">django_revolution.utils.ErrorHandler</h3>
+
+<p><strong>Purpose</strong>: Comprehensive error handling and validation.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">pathlib</code>, <code class="language-plaintext highlighter-rouge">logging</code>, <code class="language-plaintext highlighter-rouge">rich</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">handle_exception</code>, <code class="language-plaintext highlighter-rouge">validate_path</code>, <code class="language-plaintext highlighter-rouge">validate_file</code>
+<strong>Used in</strong>: Error handling, validation, debugging</p>
+
+<h3 id="django_revolutionutilslogger">django_revolution.utils.Logger</h3>
+
+<p><strong>Purpose</strong>: Enhanced logger with rich output.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">rich</code>, <code class="language-plaintext highlighter-rouge">logging</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">info</code>, <code class="language-plaintext highlighter-rouge">success</code>, <code class="language-plaintext highlighter-rouge">warning</code>, <code class="language-plaintext highlighter-rouge">error</code>, <code class="language-plaintext highlighter-rouge">debug</code>
+<strong>Used in</strong>: Debugging, logging, error reporting</p>
+
+<h3 id="django_revolutionutilsvalidate_environment">django_revolution.utils.validate_environment</h3>
+
+<p><strong>Purpose</strong>: Validate Django Revolution environment.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">pathlib</code>, <code class="language-plaintext highlighter-rouge">django.conf</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">validate_environment</code>
+<strong>Used in</strong>: Environment validation, setup verification</p>
+
+<hr />
+
+<h2 id="-apis-readmellm-format">🧾 APIs (ReadMe.LLM Format)</h2>
+
+<p>%%README.LLM id=error-handling%%</p>
+
+<h2 id="-library-description">🧭 Library Description</h2>
+
+<p>Comprehensive error handling and validation for Django Revolution.</p>
+
+<h2 id="-rules">✅ Rules</h2>
+
+<ul>
+  <li>Always handle exceptions gracefully</li>
+  <li>Provide detailed error messages</li>
+  <li>Validate paths and files before use</li>
+  <li>Log errors with context information</li>
+</ul>
+
+<h2 id="-functions">🧪 Functions</h2>
+
+<h3 id="errorhandler">ErrorHandler()</h3>
+
+<p><strong>Comprehensive error handling and validation.</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">django_revolution.utils</span> <span class="kn">import</span> <span class="n">ErrorHandler</span>
+
+<span class="n">error_handler</span> <span class="o">=</span> <span class="nc">ErrorHandler</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">error_handler</span><span class="p">.</span><span class="nf">handle_exception</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="sh">"</span><span class="s">zone generation</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">is_valid</span> <span class="o">=</span> <span class="n">error_handler</span><span class="p">.</span><span class="nf">validate_path</span><span class="p">(</span><span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">openapi/schemas</span><span class="sh">"</span><span class="p">))</span>
+<span class="n">is_valid</span> <span class="o">=</span> <span class="n">error_handler</span><span class="p">.</span><span class="nf">validate_file</span><span class="p">(</span><span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">settings.py</span><span class="sh">"</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="handle_exceptionexception-context-str">handle_exception(exception, context: str)</h3>
+
+<p><strong>Handle exception with context.</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">result</span> <span class="o">=</span> <span class="n">error_handler</span><span class="p">.</span><span class="nf">handle_exception</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="sh">"</span><span class="s">zone generation</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="validate_pathpath-path---bool">validate_path(path: Path) -&gt; bool</h3>
+
+<p><strong>Validate path exists and is accessible.</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">is_valid</span> <span class="o">=</span> <span class="n">error_handler</span><span class="p">.</span><span class="nf">validate_path</span><span class="p">(</span><span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">openapi/schemas</span><span class="sh">"</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="validate_filefile-path---bool">validate_file(file: Path) -&gt; bool</h3>
+
+<p><strong>Validate file exists and is readable.</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">is_valid</span> <span class="o">=</span> <span class="n">error_handler</span><span class="p">.</span><span class="nf">validate_file</span><span class="p">(</span><span class="nc">Path</span><span class="p">(</span><span class="sh">"</span><span class="s">settings.py</span><span class="sh">"</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<p>%%README.LLM id=environment-validation%%</p>
+
+<h2 id="-library-description-1">🧭 Library Description</h2>
+
+<p>Validate Django Revolution environment and configuration.</p>
+
+<h2 id="-rules-1">✅ Rules</h2>
+
+<ul>
+  <li>Check all required dependencies</li>
+  <li>Validate Django settings</li>
+  <li>Verify zone configuration</li>
+  <li>Test schema generation</li>
+</ul>
+
+<h2 id="-functions-1">🧪 Functions</h2>
+
+<h3 id="validate_environment---dict">validate_environment() -&gt; Dict</h3>
+
+<p><strong>Validate Django Revolution environment.</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">django_revolution.utils</span> <span class="kn">import</span> <span class="n">validate_environment</span>
+
+<span class="n">validation_result</span> <span class="o">=</span> <span class="nf">validate_environment</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">validation_result</span><span class="p">[</span><span class="sh">'</span><span class="s">success</span><span class="sh">'</span><span class="p">]:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">✅ Environment is valid</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">❌ Environment issues: </span><span class="si">{</span><span class="n">validation_result</span><span class="p">[</span><span class="sh">'</span><span class="s">errors</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<hr />
+
+<h2 id="-troubleshooting-flows">🔁 Troubleshooting Flows</h2>
+
+<h3 id="installation-troubleshooting-flow">Installation Troubleshooting Flow</h3>
+
+<ol>
+  <li><strong>Check Installation</strong> - Verify Django Revolution is installed</li>
+  <li><strong>Dependency Check</strong> - Ensure all dependencies are available</li>
+  <li><strong>Environment Validation</strong> - Validate Django environment</li>
+  <li><strong>Permission Check</strong> - Verify file and directory permissions</li>
+  <li><strong>Reinstallation</strong> - Clean reinstall if needed</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.utils.validate_environment</code>, <code class="language-plaintext highlighter-rouge">django_revolution.utils.ErrorHandler</code></p>
+
+<h3 id="configuration-troubleshooting-flow">Configuration Troubleshooting Flow</h3>
+
+<ol>
+  <li><strong>Zone Validation</strong> - Validate zone configuration</li>
+  <li><strong>URL Integration</strong> - Check URL integration</li>
+  <li><strong>Settings Verification</strong> - Verify Django settings</li>
+  <li><strong>Schema Testing</strong> - Test schema generation</li>
+  <li><strong>Error Reporting</strong> - Detailed error messages</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.zones.validate_zone_configuration</code>, <code class="language-plaintext highlighter-rouge">django_revolution.utils.Logger</code></p>
+
+<h3 id="generation-troubleshooting-flow">Generation Troubleshooting Flow</h3>
+
+<ol>
+  <li><strong>Zone Detection</strong> - Check zone detection</li>
+  <li><strong>Schema Generation</strong> - Test schema creation</li>
+  <li><strong>Client Generation</strong> - Verify client generation</li>
+  <li><strong>Performance Issues</strong> - Check memory and CPU usage</li>
+  <li><strong>Clean and Retry</strong> - Clean output and retry</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.openapi.generator</code>, <code class="language-plaintext highlighter-rouge">django_revolution.utils.ErrorHandler</code></p>
+
+<hr />
+
+<h2 id="-installation-issues">🚨 Installation Issues</h2>
+
+<h3 id="importerror-no-module-named-django_revolution">ImportError: No module named ‘django_revolution’</h3>
+
+<p><strong>Problem</strong>: Django Revolution is not installed or not in Python path.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Django Revolution</span>
+pip <span class="nb">install </span>django-revolution
+
+<span class="c"># Verify installation</span>
+python <span class="nt">-c</span> <span class="s2">"import django_revolution; print('✅ Installed')"</span>
+
+<span class="c"># Check version</span>
+python <span class="nt">-c</span> <span class="s2">"import django_revolution; print(django_revolution.__version__)"</span>
+</code></pre></div></div>
+
+<h3 id="modulenotfounderror-no-module-named-django_filters">ModuleNotFoundError: No module named ‘django_filters’</h3>
+
+<p><strong>Problem</strong>: Missing dependencies.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install missing dependencies</span>
+pip <span class="nb">install </span>django-filter djangorestframework-simplejwt
+
+<span class="c"># Or let Django Revolution install them</span>
+python manage.py revolution <span class="nt">--install-deps</span>
+
+<span class="c"># Or install from requirements</span>
+pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div>
+
+<h3 id="toml-parsing-issues">TOML Parsing Issues</h3>
+
+<p><strong>Problem</strong>: <code class="language-plaintext highlighter-rouge">ModuleNotFoundError: No module named 'toml'</code> or <code class="language-plaintext highlighter-rouge">tomllib</code>.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install toml package</span>
+pip <span class="nb">install </span>toml
+
+<span class="c"># Or install development dependencies</span>
+pip <span class="nb">install</span> <span class="nt">-r</span> requirements-dev.txt
+
+<span class="c"># The script automatically handles both tomllib (Python 3.11+) and toml package</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="️-configuration-issues">⚙️ Configuration Issues</h2>
+
+<h3 id="zone-configuration-error">Zone Configuration Error</h3>
+
+<p><strong>Problem</strong>: Invalid zone configuration in settings.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py - Correct format with Pydantic models
+</span><span class="kn">from</span> <span class="n">django_revolution.app_config</span> <span class="kn">import</span> <span class="n">ZoneConfig</span><span class="p">,</span> <span class="n">get_revolution_config</span>
+
+<span class="n">zones</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+        <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">billing</span><span class="sh">'</span><span class="p">],</span>  <span class="c1"># List of apps
+</span>        <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Public API</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Public endpoints</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">public</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">auth_required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="nf">get_revolution_config</span><span class="p">(</span>
+    <span class="n">project_root</span><span class="o">=</span><span class="n">BASE_DIR</span><span class="p">,</span>
+    <span class="n">zones</span><span class="o">=</span><span class="n">zones</span><span class="p">,</span>
+    <span class="n">debug</span><span class="o">=</span><span class="n">DEBUG</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="url-integration-error">URL Integration Error</h3>
+
+<p><strong>Problem</strong>: URLs not properly integrated.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># urls.py - Correct integration
+</span><span class="kn">from</span> <span class="n">django_revolution.urls_integration</span> <span class="kn">import</span> <span class="n">add_revolution_urls</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Your existing URLs
+</span><span class="p">]</span>
+
+<span class="c1"># Add Django Revolution URLs
+</span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="nf">add_revolution_urls</span><span class="p">(</span><span class="n">urlpatterns</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-generation-issues">🔧 Generation Issues</h2>
+
+<h3 id="command-not-found-revolution">Command Not Found: revolution</h3>
+
+<p><strong>Problem</strong>: Django management command not recognized.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check if app is in INSTALLED_APPS</span>
+python manage.py check
+
+<span class="c"># Verify command exists</span>
+python manage.py <span class="nb">help</span> | <span class="nb">grep </span>revolution
+
+<span class="c"># Reinstall if needed</span>
+pip uninstall django-revolution
+pip <span class="nb">install </span>django-revolution
+
+<span class="c"># Or use standalone CLI</span>
+django-revolution <span class="nt">--help</span>
+</code></pre></div></div>
+
+<h3 id="zone-validation-failures">Zone Validation Failures</h3>
+
+<p><strong>Problem</strong>: Zones fail validation during generation.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Validate zones with detailed output</span>
+python manage.py revolution <span class="nt">--validate-zones</span>
+
+<span class="c"># Check specific zone</span>
+python manage.py revolution <span class="nt">--show-urls</span>
+
+<span class="c"># Test schema generation</span>
+python manage.py revolution <span class="nt">--test-schemas</span>
+
+<span class="c"># Check status</span>
+python manage.py revolution <span class="nt">--status</span>
+</code></pre></div></div>
+
+<h3 id="schema-generation-errors">Schema Generation Errors</h3>
+
+<p><strong>Problem</strong>: OpenAPI schema generation fails.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test schema generation</span>
+python manage.py revolution <span class="nt">--test-schemas</span>
+
+<span class="c"># Check drf-spectacular installation</span>
+pip <span class="nb">install </span>drf-spectacular
+
+<span class="c"># Verify Django settings</span>
+python manage.py check
+
+<span class="c"># Clean and retry</span>
+python manage.py revolution <span class="nt">--clean</span>
+python manage.py revolution
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="️-development-scripts-issues">🛠️ Development Scripts Issues</h2>
+
+<h3 id="script-permission-errors">Script Permission Errors</h3>
+
+<p><strong>Problem</strong>: Scripts are not executable.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Make scripts executable</span>
+<span class="nb">chmod</span> +x scripts/<span class="k">*</span>.py scripts/<span class="k">*</span>.sh
+
+<span class="c"># Or run with python</span>
+python scripts/dev_cli.py
+</code></pre></div></div>
+
+<h3 id="import-errors-in-scripts">Import Errors in Scripts</h3>
+
+<p><strong>Problem</strong>: <code class="language-plaintext highlighter-rouge">ImportError: attempted relative import with no known parent package</code>.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run from correct directory</span>
+<span class="nb">cd</span> /path/to/django_revolution
+python scripts/dev_cli.py
+
+<span class="c"># Or install in development mode</span>
+pip <span class="nb">install</span> <span class="nt">-e</span> <span class="nb">.</span>
+
+<span class="c"># Use package commands</span>
+dev-cli
+version-manager get
+</code></pre></div></div>
+
+<h3 id="version-management-issues">Version Management Issues</h3>
+
+<p><strong>Problem</strong>: Version bumping or validation fails.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check current version</span>
+python scripts/version_manager.py get
+
+<span class="c"># Validate version consistency</span>
+python scripts/version_manager.py validate
+
+<span class="c"># Bump version with specific type</span>
+python scripts/version_manager.py bump <span class="nt">--bump-type</span> patch
+
+<span class="c"># Regenerate requirements after version bump</span>
+python scripts/version_manager.py requirements
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-publishing-issues">📦 Publishing Issues</h2>
+
+<h3 id="build-failures">Build Failures</h3>
+
+<p><strong>Problem</strong>: Package build fails during publishing.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clean old builds</span>
+<span class="nb">rm</span> <span class="nt">-rf</span> build/ dist/ <span class="k">*</span>.egg-info/
+
+<span class="c"># Install build dependencies</span>
+pip <span class="nb">install </span>build twine
+
+<span class="c"># Build manually</span>
+python <span class="nt">-m</span> build
+
+<span class="c"># Check build artifacts</span>
+<span class="nb">ls</span> <span class="nt">-la</span> dist/
+</code></pre></div></div>
+
+<h3 id="pypi-upload-errors">PyPI Upload Errors</h3>
+
+<p><strong>Problem</strong>: Upload to PyPI fails.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use interactive publisher</span>
+python scripts/publisher.py
+
+<span class="c"># Check credentials</span>
+python <span class="nt">-m</span> twine check dist/<span class="k">*</span>
+
+<span class="c"># Test upload to TestPyPI first</span>
+python <span class="nt">-m</span> twine upload <span class="nt">--repository</span> testpypi dist/<span class="k">*</span>
+
+<span class="c"># Then upload to PyPI</span>
+python <span class="nt">-m</span> twine upload dist/<span class="k">*</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-debugging">🔍 Debugging</h2>
+
+<h3 id="enable-debug-mode">Enable Debug Mode</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set debug environment variable</span>
+<span class="nb">export </span><span class="nv">DJANGO_REVOLUTION_DEBUG</span><span class="o">=</span>1
+
+<span class="c"># Run with debug output</span>
+python manage.py revolution <span class="nt">--debug</span>
+
+<span class="c"># Check logs</span>
+python manage.py revolution <span class="nt">--status</span>
+</code></pre></div></div>
+
+<h3 id="check-dependencies">Check Dependencies</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check all dependencies</span>
+python manage.py revolution <span class="nt">--check-deps</span>
+
+<span class="c"># Install missing dependencies</span>
+python manage.py revolution <span class="nt">--install-deps</span>
+
+<span class="c"># Verify Node.js installation</span>
+node <span class="nt">--version</span>
+npm <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h3 id="validate-environment">Validate Environment</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Validate entire environment</span>
+python manage.py revolution <span class="nt">--validate</span>
+
+<span class="c"># Check Django setup</span>
+python manage.py check
+
+<span class="c"># Verify zone configuration</span>
+python manage.py revolution <span class="nt">--validate-zones</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-performance-issues">🚀 Performance Issues</h2>
+
+<h3 id="slow-generation">Slow Generation</h3>
+
+<p><strong>Problem</strong>: Client generation takes too long.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate specific zones only</span>
+python manage.py revolution <span class="nt">--zones</span> public
+
+<span class="c"># Skip archive creation</span>
+python manage.py revolution <span class="nt">--no-archive</span>
+
+<span class="c"># Use development mode for faster iteration</span>
+<span class="nb">export </span><span class="nv">DJANGO_REVOLUTION_DEBUG</span><span class="o">=</span>1
+</code></pre></div></div>
+
+<h3 id="memory-issues">Memory Issues</h3>
+
+<p><strong>Problem</strong>: High memory usage during generation.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clean up old modules</span>
+python manage.py revolution <span class="nt">--clean</span>
+
+<span class="c"># Generate zones one by one</span>
+python manage.py revolution <span class="nt">--zones</span> public
+python manage.py revolution <span class="nt">--zones</span> admin
+
+<span class="c"># Monitor memory usage</span>
+python manage.py revolution <span class="nt">--status</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-cli-issues">🔧 CLI Issues</h2>
+
+<h3 id="interactive-cli-problems">Interactive CLI Problems</h3>
+
+<p><strong>Problem</strong>: Interactive CLI doesn’t work properly.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check questionary installation</span>
+pip <span class="nb">install </span>questionary
+
+<span class="c"># Use command line mode instead</span>
+python manage.py revolution <span class="nt">--zones</span> public <span class="nt">--typescript</span>
+
+<span class="c"># Or use standalone CLI</span>
+django-revolution <span class="nt">--zones</span> public <span class="nt">--typescript</span>
+</code></pre></div></div>
+
+<h3 id="rich-output-issues">Rich Output Issues</h3>
+
+<p><strong>Problem</strong>: Terminal output is not formatted properly.</p>
+
+<p><strong>Solution</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check rich installation</span>
+pip <span class="nb">install </span>rich
+
+<span class="c"># Use plain output</span>
+<span class="nb">export </span><span class="nv">DJANGO_REVOLUTION_NO_RICH</span><span class="o">=</span>1
+python manage.py revolution <span class="nt">--status</span>
+
+<span class="c"># Or use simple output</span>
+python manage.py revolution <span class="nt">--status</span> <span class="nt">--no-color</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-common-error-messages">📋 Common Error Messages</h2>
+
+<h3 id="zone-public-not-found">“Zone ‘public’ not found”</h3>
+
+<p><strong>Solution</strong>: Check zone configuration in settings.py</p>
+
+<h3 id="no-apps-found-for-zone-public">“No apps found for zone ‘public’”</h3>
+
+<p><strong>Solution</strong>: Verify app names in zone configuration</p>
+
+<h3 id="schema-generation-failed">“Schema generation failed”</h3>
+
+<p><strong>Solution</strong>: Check drf-spectacular configuration</p>
+
+<h3 id="client-generation-failed">“Client generation failed”</h3>
+
+<p><strong>Solution</strong>: Verify Node.js and npm installation</p>
+
+<h3 id="monorepo-sync-failed">“Monorepo sync failed”</h3>
+
+<p><strong>Solution</strong>: Check monorepo configuration and permissions</p>
+
+<hr />
+
+<h2 id="-getting-help">🆘 Getting Help</h2>
+
+<h3 id="self-diagnosis">Self-Diagnosis</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run comprehensive diagnostics</span>
+python manage.py revolution <span class="nt">--status</span>
+python manage.py revolution <span class="nt">--validate</span>
+python manage.py revolution <span class="nt">--validate-zones</span>
+python manage.py revolution <span class="nt">--test-schemas</span>
+</code></pre></div></div>
+
+<h3 id="log-files">Log Files</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check Django logs</span>
+<span class="nb">tail</span> <span class="nt">-f</span> logs/django.log
+
+<span class="c"># Check system logs</span>
+journalctl <span class="nt">-u</span> your-service <span class="nt">-f</span>
+</code></pre></div></div>
+
+<h3 id="community-support">Community Support</h3>
+
+<ul>
+  <li>🐛 <a href="https://github.com/markolofsen/django-revolution/issues">GitHub Issues</a></li>
+  <li>💬 <a href="https://github.com/markolofsen/django-revolution/discussions">GitHub Discussions</a></li>
+  <li>📧 <a href="mailto:developers@unrealos.com">Email Support</a></li>
+</ul>
+
+<h3 id="debug-information">Debug Information</h3>
+
+<p>When reporting issues, include:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># System information</span>
+python <span class="nt">--version</span>
+django-admin <span class="nt">--version</span>
+node <span class="nt">--version</span>
+npm <span class="nt">--version</span>
+
+<span class="c"># Django Revolution version</span>
+python <span class="nt">-c</span> <span class="s2">"import django_revolution; print(django_revolution.__version__)"</span>
+
+<span class="c"># Configuration</span>
+python manage.py revolution <span class="nt">--status</span>
+
+<span class="c"># Error logs</span>
+python manage.py revolution <span class="nt">--debug</span> 2&gt;&amp;1
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-key-notes">🧠 Key Notes</h2>
+
+<ul>
+  <li><strong>Comprehensive error handling</strong> - Detailed error messages and solutions</li>
+  <li><strong>Environment validation</strong> - Automatic validation of setup and configuration</li>
+  <li><strong>Debug mode</strong> - Enhanced logging and debugging capabilities</li>
+  <li><strong>Performance monitoring</strong> - Memory and CPU usage tracking</li>
+  <li><strong>Community support</strong> - Multiple channels for getting help</li>
+  <li><strong>Self-diagnosis tools</strong> - Built-in diagnostic commands</li>
+</ul>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="usage.html">← Back to Usage</a></td>
+      <td><a href="api-reference.html">Next: API Reference →</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html> 

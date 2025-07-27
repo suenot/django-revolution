@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Usage | Django Revolution</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Usage" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Zone-based API architecture for Django. Install and go." />
+<meta property="og:description" content="Zone-based API architecture for Django. Install and go." />
+<link rel="canonical" href="https://markolofsen.github.io/django-revolution/docs/usage/" />
+<meta property="og:url" content="https://markolofsen.github.io/django-revolution/docs/usage/" />
+<meta property="og:site_name" content="Django Revolution" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Usage" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Zone-based API architecture for Django. Install and go.","headline":"Usage","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://markolofsen.github.io/django-revolution/assets/logo.svg"}},"url":"https://markolofsen.github.io/django-revolution/docs/usage/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/django-revolution/assets/css/style.css?v=">
+    <!-- Custom styles for navigation and layout -->
+<style>
+  .navigation {
+    background: #f6f8fa;
+    border-bottom: 1px solid #e1e4e8;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation li {
+    margin: 0;
+  }
+
+  .navigation a {
+    color: #586069;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .navigation a:hover {
+    background: #e1e4e8;
+    color: #24292e;
+  }
+
+  .navigation a.active {
+    background: #0366d6;
+    color: white;
+  }
+
+  /* GitHub banner styles */
+  .github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+
+  /* Custom header styles */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .page-header h1 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navigation ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navigation a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+  </head>
+
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Usage</h1>
+      <h2 class="project-tagline">Zone-based API architecture for Django. Install and go.</h2>
+      
+      
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" role="navigation">
+      <ul>
+        
+          <li>
+            <a href="/django-revolution/" 
+               >
+              Home
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/installation/" 
+               >
+              Installation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/usage/" 
+               >
+              Usage
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/cli/" 
+               >
+              CLI
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/api/" 
+               >
+              API Reference
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/architecture/" 
+               >
+              Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/troubleshooting/" 
+               >
+              Troubleshooting
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/changelog/" 
+               >
+              Changelog
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="-usage-guide---llm-optimized">🚀 Usage Guide - LLM-Optimized</h1>
+
+<h2 id="-overview">📖 Overview</h2>
+
+<p>Comprehensive usage guide for Django Revolution with performance optimization, multithreading, and advanced configuration patterns.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+  <li><strong>Multithreaded generation</strong> - Parallel processing for performance</li>
+  <li><strong>Zone-specific generation</strong> - Generate specific zones only</li>
+  <li><strong>Performance optimization</strong> - Configurable worker threads and memory management</li>
+  <li><strong>CI/CD integration</strong> - Automated workflows and artifact management</li>
+</ul>
+
+<hr />
+
+<h2 id="-basic-usage">🚀 Basic Usage</h2>
+
+<h3 id="generate-clients">Generate Clients</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Interactive generation (recommended)</span>
+python manage.py revolution
+
+<span class="c"># Generate specific zones</span>
+python manage.py revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># TypeScript only</span>
+python manage.py revolution <span class="nt">--typescript</span>
+
+<span class="c"># Python only</span>
+python manage.py revolution <span class="nt">--python</span>
+
+<span class="c"># Skip archive creation</span>
+python manage.py revolution <span class="nt">--no-archive</span>
+</code></pre></div></div>
+
+<h3 id="-multithreaded-generation">⚡ Multithreaded Generation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use default multithreading (20 workers)</span>
+python manage.py revolution <span class="nt">--generate</span>
+
+<span class="c"># Custom number of worker threads</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 16
+
+<span class="c"># Disable multithreading for debugging</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--no-multithreading</span>
+
+<span class="c"># Performance optimization for large projects</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 32 <span class="nt">--clean</span>
+</code></pre></div></div>
+
+<h3 id="-validation--testing">🔍 Validation &amp; Testing</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Validate all zones</span>
+python manage.py revolution <span class="nt">--validate-zones</span>
+
+<span class="c"># Test schema generation</span>
+python manage.py revolution <span class="nt">--test-schemas</span>
+
+<span class="c"># Show URL patterns</span>
+python manage.py revolution <span class="nt">--show-urls</span>
+
+<span class="c"># Check status</span>
+python manage.py revolution <span class="nt">--status</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-advanced-usage">🎯 Advanced Usage</h2>
+
+<h3 id="performance-optimization">Performance Optimization</h3>
+
+<h4 id="multithreading-configuration">Multithreading Configuration</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py - Optimize for your system
+</span><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">enable_multithreading</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">max_workers</span><span class="sh">'</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>  <span class="c1"># Adjust based on your CPU cores
+</span>    <span class="c1"># ... other settings
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="worker-thread-guidelines">Worker Thread Guidelines</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>System Type</th>
+      <th>Recommended Workers</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Development</strong></td>
+      <td>4-8</td>
+      <td>Local development</td>
+    </tr>
+    <tr>
+      <td><strong>CI/CD</strong></td>
+      <td>8-16</td>
+      <td>Automated builds</td>
+    </tr>
+    <tr>
+      <td><strong>Production</strong></td>
+      <td>16-32</td>
+      <td>High-performance servers</td>
+    </tr>
+    <tr>
+      <td><strong>Large Projects</strong></td>
+      <td>32-64</td>
+      <td>Enterprise applications</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="memory-management">Memory Management</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clean before generation</span>
+python manage.py revolution <span class="nt">--clean</span> <span class="nt">--generate</span>
+
+<span class="c"># Monitor memory usage</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 8
+
+<span class="c"># Batch processing for large projects</span>
+<span class="k">for </span>zone <span class="k">in </span>public admin internal<span class="p">;</span> <span class="k">do
+    </span>python manage.py revolution <span class="nt">--zones</span> <span class="nv">$zone</span> <span class="nt">--clean</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h3 id="zone-specific-generation">Zone-Specific Generation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate only public zone</span>
+python manage.py revolution <span class="nt">--zones</span> public
+
+<span class="c"># Generate multiple specific zones</span>
+python manage.py revolution <span class="nt">--zones</span> public admin internal
+
+<span class="c"># Generate with custom output</span>
+python manage.py revolution <span class="nt">--zones</span> public <span class="nt">--output-dir</span> /custom/path
+</code></pre></div></div>
+
+<h3 id="client-type-selection">Client Type Selection</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># TypeScript only</span>
+python manage.py revolution <span class="nt">--typescript</span>
+
+<span class="c"># Python only</span>
+python manage.py revolution <span class="nt">--python</span>
+
+<span class="c"># Both (default)</span>
+python manage.py revolution <span class="nt">--typescript</span> <span class="nt">--python</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-configuration-examples">🔧 Configuration Examples</h2>
+
+<h3 id="basic-zone-configuration">Basic Zone Configuration</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="kn">from</span> <span class="n">django_revolution.app_config</span> <span class="kn">import</span> <span class="n">ZoneConfig</span><span class="p">,</span> <span class="n">get_revolution_config</span>
+
+<span class="n">zones</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+        <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">billing</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Public API</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Public API endpoints</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">public</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">auth_required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+    <span class="p">),</span>
+    <span class="sh">'</span><span class="s">admin</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+        <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">admin_panel</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">analytics</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Admin API</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Administrative endpoints</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">public</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">auth_required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="nf">get_revolution_config</span><span class="p">(</span>
+    <span class="n">project_root</span><span class="o">=</span><span class="n">BASE_DIR</span><span class="p">,</span>
+    <span class="n">zones</span><span class="o">=</span><span class="n">zones</span><span class="p">,</span>
+    <span class="n">debug</span><span class="o">=</span><span class="n">DEBUG</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="multithreading-configuration-1">Multithreading Configuration</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py - Performance optimized
+</span><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">enable_multithreading</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">max_workers</span><span class="sh">'</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>  <span class="c1"># Adjust based on your system
+</span>    <span class="sh">'</span><span class="s">zones</span><span class="sh">'</span><span class="p">:</span> <span class="n">zones</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">output</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">base_directory</span><span class="sh">'</span><span class="p">:</span> <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="sh">'</span><span class="s">openapi</span><span class="sh">'</span><span class="p">,</span>
+        <span class="sh">'</span><span class="s">schemas_directory</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">schemas</span><span class="sh">'</span><span class="p">,</span>
+        <span class="sh">'</span><span class="s">clients_directory</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">clients</span><span class="sh">'</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="sh">'</span><span class="s">generators</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">typescript</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">enabled</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">output_format</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">prettier</span><span class="sh">'</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="sh">'</span><span class="s">python</span><span class="sh">'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">enabled</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">overwrite</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="environment-specific-configuration">Environment-Specific Configuration</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings/development.py
+</span><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">enable_multithreading</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">max_workers</span><span class="sh">'</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>  <span class="c1"># Lower for development
+</span>    <span class="sh">'</span><span class="s">debug</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="c1"># ... zones configuration
+</span><span class="p">}</span>
+
+<span class="c1"># settings/production.py
+</span><span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">enable_multithreading</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="sh">'</span><span class="s">max_workers</span><span class="sh">'</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>  <span class="c1"># Higher for production
+</span>    <span class="sh">'</span><span class="s">debug</span><span class="sh">'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="c1"># ... zones configuration
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-performance-monitoring">📊 Performance Monitoring</h2>
+
+<h3 id="generation-time-tracking">Generation Time Tracking</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Time the generation process</span>
+<span class="nb">time </span>python manage.py revolution <span class="nt">--generate</span>
+
+<span class="c"># Compare sequential vs multithreaded</span>
+<span class="nb">time </span>python manage.py revolution <span class="nt">--generate</span> <span class="nt">--no-multithreading</span>
+<span class="nb">time </span>python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 16
+</code></pre></div></div>
+
+<h3 id="memory-usage-monitoring">Memory Usage Monitoring</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Monitor memory usage during generation</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 8 2&gt;&amp;1 | <span class="nb">tee </span>generation.log
+
+<span class="c"># Check for memory leaks</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--clean</span>
+</code></pre></div></div>
+
+<h3 id="worker-thread-optimization">Worker Thread Optimization</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test different worker counts</span>
+<span class="k">for </span>workers <span class="k">in </span>4 8 16 32<span class="p">;</span> <span class="k">do
+    </span><span class="nb">echo</span> <span class="s2">"Testing with </span><span class="nv">$workers</span><span class="s2"> workers:"</span>
+    <span class="nb">time </span>python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> <span class="nv">$workers</span> <span class="nt">--clean</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-testing--validation">🧪 Testing &amp; Validation</h2>
+
+<h3 id="zone-validation">Zone Validation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Validate all zones</span>
+python manage.py revolution <span class="nt">--validate-zones</span>
+
+<span class="c"># Expected output:</span>
+<span class="c"># ✅ Zone 'public' is valid</span>
+<span class="c"># ✅ Zone 'admin' is valid</span>
+<span class="c"># 🎉 All zones are valid!</span>
+</code></pre></div></div>
+
+<h3 id="schema-testing">Schema Testing</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test schema generation</span>
+python manage.py revolution <span class="nt">--test-schemas</span>
+
+<span class="c"># Expected output:</span>
+<span class="c"># ✅ Schema generated: public.yaml (14KB)</span>
+<span class="c"># ✅ Schema generated: admin.yaml (33KB)</span>
+<span class="c"># 🎉 All schema tests passed!</span>
+</code></pre></div></div>
+
+<h3 id="url-pattern-inspection">URL Pattern Inspection</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Show URL patterns</span>
+python manage.py revolution <span class="nt">--show-urls</span>
+
+<span class="c"># Expected output:</span>
+<span class="c"># PUBLIC ZONE:</span>
+<span class="c">#   • public_api/</span>
+<span class="c">#   • schema/ -&gt; public-schema</span>
+<span class="c">#   • schema/swagger/ -&gt; public-swagger</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-cicd-integration">🔄 CI/CD Integration</h2>
+
+<h3 id="github-actions-example">GitHub Actions Example</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># .github/workflows/generate-clients.yml</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">Generate API Clients</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
+  <span class="na">pull_request</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">main</span><span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">generate</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v3</span>
+      
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Set up Python</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-python@v4</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">python-version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.10'</span>
+          
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install dependencies</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">pip install poetry</span>
+          <span class="s">poetry install</span>
+          
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Generate API clients</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">poetry run python manage.py revolution --generate --max-workers 8 --clean</span>
+          
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Upload generated clients</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/upload-artifact@v3</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s">api-clients</span>
+          <span class="na">path</span><span class="pi">:</span> <span class="s">openapi/clients/</span>
+</code></pre></div></div>
+
+<h3 id="gitlab-ci-example">GitLab CI Example</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># .gitlab-ci.yml</span>
+<span class="na">generate_clients</span><span class="pi">:</span>
+  <span class="na">stage</span><span class="pi">:</span> <span class="s">build</span>
+  <span class="na">image</span><span class="pi">:</span> <span class="s">python:3.10</span>
+  <span class="na">script</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">pip install poetry</span>
+    <span class="pi">-</span> <span class="s">poetry install</span>
+    <span class="pi">-</span> <span class="s">poetry run python manage.py revolution --generate --max-workers 8 --clean</span>
+  <span class="na">artifacts</span><span class="pi">:</span>
+    <span class="na">paths</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">openapi/clients/</span>
+    <span class="na">expire_in</span><span class="pi">:</span> <span class="s">1 week</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-troubleshooting">🚨 Troubleshooting</h2>
+
+<h3 id="common-performance-issues">Common Performance Issues</h3>
+
+<p><strong>Slow Generation:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable multithreading</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 16
+
+<span class="c"># Clean before generation</span>
+python manage.py revolution <span class="nt">--clean</span> <span class="nt">--generate</span>
+
+<span class="c"># Check system resources</span>
+htop  <span class="c"># or top</span>
+</code></pre></div></div>
+
+<p><strong>Memory Issues:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Reduce worker count</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 4
+
+<span class="c"># Clean between generations</span>
+python manage.py revolution <span class="nt">--clean</span>
+
+<span class="c"># Monitor memory usage</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--debug</span>
+</code></pre></div></div>
+
+<p><strong>Django Setup Issues:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check Django settings</span>
+python manage.py check
+
+<span class="c"># Validate environment</span>
+python manage.py revolution <span class="nt">--validate</span>
+
+<span class="c"># Debug mode</span>
+python manage.py revolution <span class="nt">--debug</span> <span class="nt">--verbosity</span> 3
+</code></pre></div></div>
+
+<h3 id="debug-mode">Debug Mode</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable debug logging</span>
+python manage.py revolution <span class="nt">--debug</span>
+
+<span class="c"># Maximum verbosity</span>
+python manage.py revolution <span class="nt">--verbosity</span> 3
+
+<span class="c"># Show full stack traces</span>
+python manage.py revolution <span class="nt">--traceback</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-best-practices">📈 Best Practices</h2>
+
+<h3 id="performance-optimization-1">Performance Optimization</h3>
+
+<ol>
+  <li><strong>Use multithreading</strong> - Enable for multiple zones</li>
+  <li><strong>Optimize worker count</strong> - Match your CPU cores</li>
+  <li><strong>Clean regularly</strong> - Remove old generated files</li>
+  <li><strong>Monitor resources</strong> - Watch memory and CPU usage</li>
+  <li><strong>Batch processing</strong> - Generate zones separately if needed</li>
+</ol>
+
+<h3 id="configuration-management">Configuration Management</h3>
+
+<ol>
+  <li><strong>Environment-specific configs</strong> - Different settings per environment</li>
+  <li><strong>Version control</strong> - Track configuration changes</li>
+  <li><strong>Validation</strong> - Always validate zones before generation</li>
+  <li><strong>Testing</strong> - Test schema generation regularly</li>
+  <li><strong>Documentation</strong> - Document zone configurations</li>
+</ol>
+
+<h3 id="cicd-integration">CI/CD Integration</h3>
+
+<ol>
+  <li><strong>Automated generation</strong> - Generate on every deployment</li>
+  <li><strong>Artifact management</strong> - Store generated clients as artifacts</li>
+  <li><strong>Performance monitoring</strong> - Track generation times</li>
+  <li><strong>Error handling</strong> - Proper error reporting and recovery</li>
+  <li><strong>Caching</strong> - Cache dependencies for faster builds</li>
+</ol>
+
+<hr />
+
+<h2 id="-key-notes">🧠 Key Notes</h2>
+
+<ul>
+  <li><strong>Multithreading performance</strong> - 2-3x speedup for multiple zones</li>
+  <li><strong>Memory optimization</strong> - Configurable worker threads and cleanup</li>
+  <li><strong>CI/CD ready</strong> - Automated workflows with artifact management</li>
+  <li><strong>Environment flexibility</strong> - Different configs for dev/prod</li>
+  <li><strong>Monitoring tools</strong> - Built-in performance tracking and validation</li>
+  <li><strong>Best practices</strong> - Comprehensive guidelines for optimal usage</li>
+</ul>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="installation.html">← Back to Installation</a></td>
+      <td><a href="cli.html">Next: CLI Reference →</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html> 

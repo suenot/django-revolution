@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>CLI Reference | Django Revolution</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="CLI Reference" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Zone-based API architecture for Django. Install and go." />
+<meta property="og:description" content="Zone-based API architecture for Django. Install and go." />
+<link rel="canonical" href="https://markolofsen.github.io/django-revolution/docs/cli/" />
+<meta property="og:url" content="https://markolofsen.github.io/django-revolution/docs/cli/" />
+<meta property="og:site_name" content="Django Revolution" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CLI Reference" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Zone-based API architecture for Django. Install and go.","headline":"CLI Reference","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://markolofsen.github.io/django-revolution/assets/logo.svg"}},"url":"https://markolofsen.github.io/django-revolution/docs/cli/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/django-revolution/assets/css/style.css?v=">
+    <!-- Custom styles for navigation and layout -->
+<style>
+  .navigation {
+    background: #f6f8fa;
+    border-bottom: 1px solid #e1e4e8;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation li {
+    margin: 0;
+  }
+
+  .navigation a {
+    color: #586069;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .navigation a:hover {
+    background: #e1e4e8;
+    color: #24292e;
+  }
+
+  .navigation a.active {
+    background: #0366d6;
+    color: white;
+  }
+
+  /* GitHub banner styles */
+  .github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+
+  /* Custom header styles */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .page-header h1 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navigation ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navigation a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+  </head>
+
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">CLI Reference</h1>
+      <h2 class="project-tagline">Zone-based API architecture for Django. Install and go.</h2>
+      
+      
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" role="navigation">
+      <ul>
+        
+          <li>
+            <a href="/django-revolution/" 
+               >
+              Home
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/installation/" 
+               >
+              Installation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/usage/" 
+               >
+              Usage
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/cli/" 
+               >
+              CLI
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/api/" 
+               >
+              API Reference
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/architecture/" 
+               >
+              Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/troubleshooting/" 
+               >
+              Troubleshooting
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/changelog/" 
+               >
+              Changelog
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="-cli-reference---llm-optimized">🎯 CLI Reference - LLM-Optimized</h1>
+
+<h2 id="-overview">📖 Overview</h2>
+
+<p>Command-line interface for Django Revolution with multiple modes, interactive features, and comprehensive development tools.</p>
+
+<p><strong>Key Features:</strong></p>
+<ul>
+  <li><strong>Multiple CLI interfaces</strong> - Django management commands, standalone CLI, development scripts</li>
+  <li><strong>Interactive mode</strong> - Beautiful terminal interface with questionary</li>
+  <li><strong>Command line mode</strong> - Direct command execution</li>
+  <li><strong>Development tools</strong> - Comprehensive CLI toolbox for development</li>
+</ul>
+
+<hr />
+
+<h2 id="-cli-modules">📦 CLI Modules</h2>
+
+<h3 id="django_revolutioncli">django_revolution.cli</h3>
+<p><strong>Purpose</strong>: Main CLI entry point with multiple modes.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">questionary</code>, <code class="language-plaintext highlighter-rouge">rich</code>, <code class="language-plaintext highlighter-rouge">click</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">main</code> (CLI entry point), interactive/command line modes
+<strong>Used in</strong>: Django management commands, standalone CLI</p>
+
+<h3 id="scriptsdev_cli">scripts.dev_cli</h3>
+<p><strong>Purpose</strong>: Interactive development interface.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">questionary</code>, <code class="language-plaintext highlighter-rouge">rich</code>, <code class="language-plaintext highlighter-rouge">django_revolution</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">main</code> (development CLI)
+<strong>Used in</strong>: Development workflow, interactive commands</p>
+
+<h3 id="scriptsversion_manager">scripts.version_manager</h3>
+<p><strong>Purpose</strong>: Version management across package files.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">toml</code>, <code class="language-plaintext highlighter-rouge">pathlib</code>, <code class="language-plaintext highlighter-rouge">semver</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">VersionManager</code>, version bumping functions
+<strong>Used in</strong>: Version control, requirements generation</p>
+
+<h3 id="scriptspublisher">scripts.publisher</h3>
+<p><strong>Purpose</strong>: Interactive package publishing.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">twine</code>, <code class="language-plaintext highlighter-rouge">build</code>, <code class="language-plaintext highlighter-rouge">questionary</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">main</code> (publishing interface)
+<strong>Used in</strong>: PyPI publishing, package distribution</p>
+
+<hr />
+
+<h2 id="-apis-readmellm-format">🧾 APIs (ReadMe.LLM Format)</h2>
+
+<p>%%README.LLM id=django-management-command%%</p>
+
+<h2 id="-library-description">🧭 Library Description</h2>
+<p>Django management command for client generation with interactive and command-line modes.</p>
+
+<h2 id="-rules">✅ Rules</h2>
+<ul>
+  <li>Always validate zones before generation</li>
+  <li>Use multithreading for multiple zones</li>
+  <li>Clean output directories before generation</li>
+  <li>Test schema generation regularly</li>
+</ul>
+
+<h2 id="-functions">🧪 Functions</h2>
+
+<h3 id="python-managepy-revolution-options">python manage.py revolution [options]</h3>
+<p><strong>Main CLI command with multiple modes.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Interactive generation</span>
+python manage.py revolution
+
+<span class="c"># Specific zones</span>
+python manage.py revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># TypeScript only</span>
+python manage.py revolution <span class="nt">--typescript</span>
+
+<span class="c"># With multithreading</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 16
+</code></pre></div></div>
+
+<h3 id="validate-zones">–validate-zones</h3>
+<p><strong>Validates all zone configurations.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py revolution <span class="nt">--validate-zones</span>
+</code></pre></div></div>
+
+<h3 id="test-schemas">–test-schemas</h3>
+<p><strong>Tests OpenAPI schema generation.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py revolution <span class="nt">--test-schemas</span>
+</code></pre></div></div>
+
+<h3 id="show-urls">–show-urls</h3>
+<p><strong>Shows URL patterns for each zone.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py revolution <span class="nt">--show-urls</span>
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<p>%%README.LLM id=standalone-cli%%</p>
+
+<h2 id="-library-description-1">🧭 Library Description</h2>
+<p>Standalone CLI with interactive and command-line modes.</p>
+
+<h2 id="-rules-1">✅ Rules</h2>
+<ul>
+  <li>Interactive mode is default</li>
+  <li>Use command line mode for automation</li>
+  <li>Rich output for better user experience</li>
+  <li>Debug mode for troubleshooting</li>
+</ul>
+
+<h2 id="-functions-1">🧪 Functions</h2>
+
+<h3 id="django-revolution-options">django-revolution [options]</h3>
+<p><strong>Standalone CLI command.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Interactive mode (default)</span>
+django-revolution
+
+<span class="c"># Command line mode</span>
+django-revolution <span class="nt">--generate</span>
+
+<span class="c"># Specific zones</span>
+django-revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># Custom output directory</span>
+django-revolution <span class="nt">--output-dir</span> /custom/path
+</code></pre></div></div>
+
+<h3 id="interactive">–interactive</h3>
+<p><strong>Forces interactive mode.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>django-revolution <span class="nt">--interactive</span>
+</code></pre></div></div>
+
+<h3 id="debug">–debug</h3>
+<p><strong>Enables debug logging.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>django-revolution <span class="nt">--debug</span>
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<p>%%README.LLM id=development-scripts%%</p>
+
+<h2 id="-library-description-2">🧭 Library Description</h2>
+<p>Development scripts for version management, publishing, and requirements generation.</p>
+
+<h2 id="-rules-2">✅ Rules</h2>
+<ul>
+  <li>Run from project root directory</li>
+  <li>Use interactive mode for user input</li>
+  <li>Validate before publishing</li>
+  <li>Generate requirements after version bump</li>
+</ul>
+
+<h2 id="-functions-2">🧪 Functions</h2>
+
+<h3 id="python-scriptsdev_clipy">python scripts/dev_cli.py</h3>
+<p><strong>Interactive development interface.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python scripts/dev_cli.py
+</code></pre></div></div>
+
+<h3 id="python-scriptsversion_managerpy-command">python scripts/version_manager.py [command]</h3>
+<p><strong>Version management commands.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get current version</span>
+python scripts/version_manager.py get
+
+<span class="c"># Bump version</span>
+python scripts/version_manager.py bump <span class="nt">--bump-type</span> patch
+
+<span class="c"># Validate version consistency</span>
+python scripts/version_manager.py validate
+
+<span class="c"># Regenerate requirements</span>
+python scripts/version_manager.py requirements
+</code></pre></div></div>
+
+<h3 id="python-scriptspublisherpy">python scripts/publisher.py</h3>
+<p><strong>Interactive publishing.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python scripts/publisher.py
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<hr />
+
+<h2 id="-cli-flows">🔁 CLI Flows</h2>
+
+<h3 id="interactive-generation-flow">Interactive Generation Flow</h3>
+<ol>
+  <li><strong>Zone Selection</strong> - Checkbox-based zone selection</li>
+  <li><strong>Client Type Selection</strong> - TypeScript/Python options</li>
+  <li><strong>Archive Options</strong> - Archive creation settings</li>
+  <li><strong>Progress Tracking</strong> - Real-time generation progress</li>
+  <li><strong>Results Summary</strong> - Beautiful results table</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.cli</code>, <code class="language-plaintext highlighter-rouge">questionary</code>, <code class="language-plaintext highlighter-rouge">rich</code></p>
+
+<h3 id="command-line-generation-flow">Command Line Generation Flow</h3>
+<ol>
+  <li><strong>Parameter Parsing</strong> - Parse command line arguments</li>
+  <li><strong>Zone Validation</strong> - Validate selected zones</li>
+  <li><strong>Generation Execution</strong> - Execute generation process</li>
+  <li><strong>Output Display</strong> - Show results and statistics</li>
+  <li><strong>Error Handling</strong> - Handle and display errors</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.cli</code>, <code class="language-plaintext highlighter-rouge">click</code></p>
+
+<h3 id="development-workflow-flow">Development Workflow Flow</h3>
+<ol>
+  <li><strong>Interactive CLI</strong> - <code class="language-plaintext highlighter-rouge">python scripts/dev_cli.py</code></li>
+  <li><strong>Version Management</strong> - Automated version bumping</li>
+  <li><strong>Requirements Generation</strong> - Automatic requirements.txt creation</li>
+  <li><strong>Testing</strong> - Zone validation and schema testing</li>
+  <li><strong>Publishing</strong> - Interactive PyPI publishing</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">scripts.dev_cli</code>, <code class="language-plaintext highlighter-rouge">scripts.version_manager</code>, <code class="language-plaintext highlighter-rouge">scripts.publisher</code></p>
+
+<hr />
+
+<h2 id="-django-management-commands">🚀 Django Management Commands</h2>
+
+<h3 id="generate-clients">Generate Clients</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Interactive generation (default)</span>
+python manage.py revolution
+
+<span class="c"># Generate specific zones</span>
+python manage.py revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># TypeScript only</span>
+python manage.py revolution <span class="nt">--typescript</span>
+
+<span class="c"># Python only</span>
+python manage.py revolution <span class="nt">--python</span>
+
+<span class="c"># Without archiving</span>
+python manage.py revolution <span class="nt">--no-archive</span>
+
+<span class="c"># Without monorepo sync</span>
+python manage.py revolution <span class="nt">--no-monorepo</span>
+</code></pre></div></div>
+
+<h3 id="-multithreading-options">⚡ Multithreading Options</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use custom number of worker threads</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 10
+
+<span class="c"># Disable multithreading (sequential processing)</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--no-multithreading</span>
+
+<span class="c"># Interactive mode with multithreading options</span>
+python manage.py revolution <span class="nt">--interactive</span>
+</code></pre></div></div>
+
+<h3 id="-validation--testing-commands">🔍 Validation &amp; Testing Commands</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Validate all zones with detailed logging</span>
+python manage.py revolution <span class="nt">--validate-zones</span>
+
+<span class="c"># Show URL patterns for each zone</span>
+python manage.py revolution <span class="nt">--show-urls</span>
+
+<span class="c"># Test schema generation for each zone</span>
+python manage.py revolution <span class="nt">--test-schemas</span>
+
+<span class="c"># Validate environment and configuration</span>
+python manage.py revolution <span class="nt">--validate</span>
+
+<span class="c"># List all available zones</span>
+python manage.py revolution <span class="nt">--list-zones</span>
+</code></pre></div></div>
+
+<h3 id="-status--information">📊 Status &amp; Information</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Show current status and configuration</span>
+python manage.py revolution <span class="nt">--status</span>
+
+<span class="c"># Show program version</span>
+python manage.py revolution <span class="nt">--version</span>
+
+<span class="c"># Enable debug logging</span>
+python manage.py revolution <span class="nt">--debug</span>
+
+<span class="c"># Set verbosity level (0-3)</span>
+python manage.py revolution <span class="nt">--verbosity</span> 2
+</code></pre></div></div>
+
+<h3 id="️-utility-commands">🛠️ Utility Commands</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clean output directories</span>
+python manage.py revolution <span class="nt">--clean</span>
+
+<span class="c"># Install required dependencies</span>
+python manage.py revolution <span class="nt">--install-deps</span>
+
+<span class="c"># Override output directory</span>
+python manage.py revolution <span class="nt">--output-dir</span> /custom/path
+
+<span class="c"># Skip system checks</span>
+python manage.py revolution <span class="nt">--skip-checks</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-standalone-cli">🎨 Standalone CLI</h2>
+
+<h3 id="interactive-mode">Interactive Mode</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Launch interactive CLI</span>
+django-revolution
+
+<span class="c"># Or run directly</span>
+python <span class="nt">-m</span> django_revolution.cli
+</code></pre></div></div>
+
+<p>The interactive CLI provides:</p>
+<ul>
+  <li>🎯 <strong>Zone selection</strong> - Checkbox-based zone selection</li>
+  <li>🔧 <strong>Client type selection</strong> - TypeScript/Python options</li>
+  <li>📦 <strong>Archive options</strong> - Archive creation settings</li>
+  <li>📊 <strong>Progress tracking</strong> - Real-time generation progress</li>
+  <li>✅ <strong>Results summary</strong> - Beautiful results table</li>
+</ul>
+
+<h3 id="command-line-mode">Command Line Mode</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate all clients</span>
+django-revolution <span class="nt">--generate</span>
+
+<span class="c"># Generate specific zones</span>
+django-revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># TypeScript only</span>
+django-revolution <span class="nt">--typescript</span>
+
+<span class="c"># With custom output directory</span>
+django-revolution <span class="nt">--output-dir</span> /custom/path
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-development-scripts">🔧 Development Scripts</h2>
+
+<h3 id="interactive-development-cli">Interactive Development CLI</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Main development interface</span>
+python scripts/dev_cli.py
+
+<span class="c"># Or install and use as package command</span>
+pip <span class="nb">install</span> <span class="nt">-e</span> <span class="nb">.</span>
+dev-cli
+</code></pre></div></div>
+
+<h3 id="individual-scripts">Individual Scripts</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Version management</span>
+python scripts/version_manager.py get
+python scripts/version_manager.py bump <span class="nt">--bump-type</span> patch
+
+<span class="c"># Generate requirements files</span>
+python scripts/generate_requirements.py
+
+<span class="c"># Interactive publishing</span>
+python scripts/publisher.py
+
+<span class="c"># Test generation</span>
+./scripts/test_generation.sh
+</code></pre></div></div>
+
+<h3 id="package-commands-after-installation">Package Commands (after installation)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Version management</span>
+version-manager get
+version-manager bump <span class="nt">--bump-type</span> minor
+
+<span class="c"># Publishing</span>
+publisher
+
+<span class="c"># Requirements generation</span>
+generate-requirements
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-command-reference">📋 Command Reference</h2>
+
+<h3 id="django-management-command-options">Django Management Command Options</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--generate, -g</code></td>
+      <td>Generate API clients</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--zones [ZONES ...], -z [ZONES ...]</code></td>
+      <td>Specific zones to generate</td>
+      <td>All zones</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--typescript, -t</code></td>
+      <td>Generate TypeScript clients only</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--python, -p</code></td>
+      <td>Generate Python clients only</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-typescript</code></td>
+      <td>Skip TypeScript client generation</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-python</code></td>
+      <td>Skip Python client generation</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-archive</code></td>
+      <td>Skip archiving generated clients</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-monorepo</code></td>
+      <td>Skip monorepo sync</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--clean</code></td>
+      <td>Clean output directories before generation</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-multithreading</code></td>
+      <td>Disable multithreaded generation</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--max-workers MAX_WORKERS</code></td>
+      <td>Maximum number of worker threads</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--status</code></td>
+      <td>Show current status and configuration</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--list-zones</code></td>
+      <td>List all available zones</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--validate</code></td>
+      <td>Validate environment and configuration</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--show-urls</code></td>
+      <td>Show URL patterns for each zone</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--validate-zones</code></td>
+      <td>Validate each zone with detailed logging</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--test-schemas</code></td>
+      <td>Test schema generation for each zone</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--install-deps</code></td>
+      <td>Install required dependencies</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--output-dir OUTPUT_DIR</code></td>
+      <td>Override output directory</td>
+      <td>Auto-detected</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--debug</code></td>
+      <td>Enable debug logging</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--interactive, -i</code></td>
+      <td>Run in interactive mode</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--version</code></td>
+      <td>Show program’s version number and exit</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-v {0,1,2,3}, --verbosity {0,1,2,3}</code></td>
+      <td>Verbosity level</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--settings SETTINGS</code></td>
+      <td>Django settings module</td>
+      <td>Auto-detected</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--pythonpath PYTHONPATH</code></td>
+      <td>Python path</td>
+      <td>Auto-detected</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--traceback</code></td>
+      <td>Display full stack trace on errors</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-color</code></td>
+      <td>Don’t colorize output</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--force-color</code></td>
+      <td>Force colorization of output</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--skip-checks</code></td>
+      <td>Skip system checks</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="standalone-cli-options">Standalone CLI Options</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--generate</code></td>
+      <td>Generate API clients</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--zones [ZONES ...]</code></td>
+      <td>Specific zones to generate</td>
+      <td>All zones</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--typescript</code></td>
+      <td>Generate TypeScript clients only</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--python</code></td>
+      <td>Generate Python clients only</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--output-dir OUTPUT_DIR</code></td>
+      <td>Override output directory</td>
+      <td>Auto-detected</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--interactive</code></td>
+      <td>Run in interactive mode</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--debug</code></td>
+      <td>Enable debug logging</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--version</code></td>
+      <td>Show version and exit</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-examples">🎯 Examples</h2>
+
+<h3 id="basic-generation">Basic Generation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Generate all clients interactively</span>
+python manage.py revolution
+
+<span class="c"># Generate specific zones</span>
+python manage.py revolution <span class="nt">--zones</span> public admin
+
+<span class="c"># TypeScript only with custom workers</span>
+python manage.py revolution <span class="nt">--typescript</span> <span class="nt">--max-workers</span> 8
+</code></pre></div></div>
+
+<h3 id="validation--testing">Validation &amp; Testing</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Validate all zones</span>
+python manage.py revolution <span class="nt">--validate-zones</span>
+
+<span class="c"># Test schema generation</span>
+python manage.py revolution <span class="nt">--test-schemas</span>
+
+<span class="c"># Show URL patterns</span>
+python manage.py revolution <span class="nt">--show-urls</span>
+</code></pre></div></div>
+
+<h3 id="performance-optimization">Performance Optimization</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use 16 worker threads for faster generation</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--max-workers</span> 16
+
+<span class="c"># Disable multithreading for debugging</span>
+python manage.py revolution <span class="nt">--generate</span> <span class="nt">--no-multithreading</span>
+
+<span class="c"># Clean and regenerate</span>
+python manage.py revolution <span class="nt">--clean</span> <span class="nt">--generate</span>
+</code></pre></div></div>
+
+<h3 id="development-workflow">Development Workflow</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Interactive development</span>
+python scripts/dev_cli.py
+
+<span class="c"># Version bump</span>
+python scripts/version_manager.py bump <span class="nt">--bump-type</span> minor
+
+<span class="c"># Generate requirements</span>
+python scripts/generate_requirements.py
+
+<span class="c"># Publish to PyPI</span>
+python scripts/publisher.py
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-troubleshooting">🚨 Troubleshooting</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+
+<p><strong>Command not found:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install in development mode</span>
+pip <span class="nb">install</span> <span class="nt">-e</span> <span class="nb">.</span>
+
+<span class="c"># Or use Python module directly</span>
+python <span class="nt">-m</span> django_revolution.cli
+</code></pre></div></div>
+
+<p><strong>Django settings not found:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set Django settings module</span>
+<span class="nb">export </span><span class="nv">DJANGO_SETTINGS_MODULE</span><span class="o">=</span>myproject.settings
+
+<span class="c"># Or use --settings option</span>
+python manage.py revolution <span class="nt">--settings</span> myproject.settings
+</code></pre></div></div>
+
+<p><strong>Permission errors:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check file permissions</span>
+<span class="nb">ls</span> <span class="nt">-la</span> openapi/
+
+<span class="c"># Fix permissions if needed</span>
+<span class="nb">chmod</span> <span class="nt">-R</span> 755 openapi/
+</code></pre></div></div>
+
+<h3 id="debug-mode">Debug Mode</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable debug logging</span>
+python manage.py revolution <span class="nt">--debug</span>
+
+<span class="c"># Set verbosity to maximum</span>
+python manage.py revolution <span class="nt">--verbosity</span> 3
+
+<span class="c"># Show full stack traces</span>
+python manage.py revolution <span class="nt">--traceback</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-performance-tips">📊 Performance Tips</h2>
+
+<h3 id="multithreading-optimization">Multithreading Optimization</h3>
+
+<ul>
+  <li><strong>Default workers</strong>: 20 (good for most systems)</li>
+  <li><strong>High-end systems</strong>: 32-64 workers</li>
+  <li><strong>Low-end systems</strong>: 4-8 workers</li>
+  <li><strong>Single zone</strong>: Automatically uses sequential processing</li>
+</ul>
+
+<h3 id="memory-usage">Memory Usage</h3>
+
+<ul>
+  <li><strong>Large projects</strong>: Monitor memory usage with high worker counts</li>
+  <li><strong>Batch processing</strong>: Use <code class="language-plaintext highlighter-rouge">--clean</code> between generations</li>
+  <li><strong>Archive management</strong>: Regular cleanup of old archives</li>
+</ul>
+
+<h3 id="network-optimization">Network Optimization</h3>
+
+<ul>
+  <li><strong>Monorepo sync</strong>: Use <code class="language-plaintext highlighter-rouge">--no-monorepo</code> for local-only generation</li>
+  <li><strong>Archive downloads</strong>: Compressed archives for faster transfers</li>
+  <li><strong>Caching</strong>: Zone caching reduces repeated work</li>
+</ul>
+
+<hr />
+
+<h2 id="-key-notes">🧠 Key Notes</h2>
+
+<ul>
+  <li><strong>Multiple interfaces</strong> - Django management commands, standalone CLI, development scripts</li>
+  <li><strong>Interactive mode</strong> - Beautiful terminal interface with questionary</li>
+  <li><strong>Rich output</strong> - Beautiful formatting with progress tracking</li>
+  <li><strong>Development tools</strong> - Comprehensive CLI toolbox for development</li>
+  <li><strong>Performance optimization</strong> - Configurable multithreading and memory management</li>
+  <li><strong>Troubleshooting</strong> - Comprehensive debugging and error handling</li>
+</ul>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="usage.html">← Back to Usage</a></td>
+      <td><a href="api-reference.html">Next: API Reference →</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html> 

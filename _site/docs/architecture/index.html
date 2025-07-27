@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Architecture | Django Revolution</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Architecture" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Zone-based API architecture for Django. Install and go." />
+<meta property="og:description" content="Zone-based API architecture for Django. Install and go." />
+<link rel="canonical" href="https://markolofsen.github.io/django-revolution/docs/architecture/" />
+<meta property="og:url" content="https://markolofsen.github.io/django-revolution/docs/architecture/" />
+<meta property="og:site_name" content="Django Revolution" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Architecture" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Zone-based API architecture for Django. Install and go.","headline":"Architecture","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://markolofsen.github.io/django-revolution/assets/logo.svg"}},"url":"https://markolofsen.github.io/django-revolution/docs/architecture/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/django-revolution/assets/css/style.css?v=">
+    <!-- Custom styles for navigation and layout -->
+<style>
+  .navigation {
+    background: #f6f8fa;
+    border-bottom: 1px solid #e1e4e8;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation li {
+    margin: 0;
+  }
+
+  .navigation a {
+    color: #586069;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .navigation a:hover {
+    background: #e1e4e8;
+    color: #24292e;
+  }
+
+  .navigation a.active {
+    background: #0366d6;
+    color: white;
+  }
+
+  /* GitHub banner styles */
+  .github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  @keyframes octocat-wave {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    20%,
+    60% {
+      transform: rotate(-25deg);
+    }
+    40%,
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+
+  /* Custom header styles */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .page-header h1 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .navigation ul {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .navigation a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+  </head>
+
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Architecture</h1>
+      <h2 class="project-tagline">Zone-based API architecture for Django. Install and go.</h2>
+      
+      
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" role="navigation">
+      <ul>
+        
+          <li>
+            <a href="/django-revolution/" 
+               >
+              Home
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/installation/" 
+               >
+              Installation
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/usage/" 
+               >
+              Usage
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/cli/" 
+               >
+              CLI
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/api/" 
+               >
+              API Reference
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/architecture/" 
+               >
+              Architecture
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/troubleshooting/" 
+               >
+              Troubleshooting
+            </a>
+          </li>
+        
+          <li>
+            <a href="/django-revolution/changelog/" 
+               >
+              Changelog
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="️-architecture---llm-optimized">🏗️ Architecture - LLM-Optimized</h1>
+
+<h2 id="-overview">📖 Overview</h2>
+
+<p>Django Revolution introduces a <strong>dynamic zone-based architecture</strong> that organizes your Django API into logical, isolated sections. Each zone represents a different context or access level for your API endpoints, with <strong>in-memory generation</strong> eliminating the need for static files.</p>
+
+<p><strong>Key Innovations:</strong></p>
+<ul>
+  <li><strong>Dynamic Zone Management</strong> - No static zone files required</li>
+  <li><strong>In-Memory Generation</strong> - Everything generated dynamically</li>
+  <li><strong>Zone-Based Organization</strong> - Logical grouping of API endpoints</li>
+  <li><strong>Performance Optimization</strong> - Multithreaded processing and caching</li>
+</ul>
+
+<hr />
+
+<h2 id="-architecture-modules">📦 Architecture Modules</h2>
+
+<h3 id="django_revolutionzonesdynamiczonemanager">django_revolution.zones.DynamicZoneManager</h3>
+<p><strong>Purpose</strong>: Manages zone configuration and URL generation in-memory.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">django.urls</code>, <code class="language-plaintext highlighter-rouge">types.ModuleType</code>, <code class="language-plaintext highlighter-rouge">django_revolution.app_config</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">create_dynamic_urlconf_module</code>, <code class="language-plaintext highlighter-rouge">detect_apps_in_zone</code>, <code class="language-plaintext highlighter-rouge">validate_zone_configuration</code>
+<strong>Used in</strong>: Zone URL pattern generation, app detection, dynamic module creation</p>
+
+<h3 id="django_revolutionzonesdynamiczonedetector">django_revolution.zones.DynamicZoneDetector</h3>
+<p><strong>Purpose</strong>: Detects Django apps and their URL patterns.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">django.apps</code>, <code class="language-plaintext highlighter-rouge">django.urls</code>, <code class="language-plaintext highlighter-rouge">pathlib</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">detect_apps</code>, <code class="language-plaintext highlighter-rouge">get_app_url_patterns</code>, <code class="language-plaintext highlighter-rouge">app_exists</code>
+<strong>Used in</strong>: App discovery, URL pattern analysis, zone validation</p>
+
+<h3 id="django_revolutionopenapigeneratoropenapigenerator">django_revolution.openapi.generator.OpenAPIGenerator</h3>
+<p><strong>Purpose</strong>: Generates OpenAPI schemas and client libraries.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">@hey-api/openapi-ts</code>, <code class="language-plaintext highlighter-rouge">datamodel-code-generator</code>, <code class="language-plaintext highlighter-rouge">drf-spectacular</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">generate_schemas</code>, <code class="language-plaintext highlighter-rouge">generate_typescript_client</code>, <code class="language-plaintext highlighter-rouge">generate_python_client</code>
+<strong>Used in</strong>: Schema generation, TypeScript/Python clients, archive management</p>
+
+<h3 id="django_revolutioncli">django_revolution.cli</h3>
+<p><strong>Purpose</strong>: Command-line interface with multiple modes.
+<strong>Dependencies</strong>: <code class="language-plaintext highlighter-rouge">questionary</code>, <code class="language-plaintext highlighter-rouge">rich</code>, <code class="language-plaintext highlighter-rouge">click</code>
+<strong>Exports</strong>: <code class="language-plaintext highlighter-rouge">main</code> (CLI entry point), interactive/command line modes
+<strong>Used in</strong>: Django management commands, standalone CLI, development scripts</p>
+
+<hr />
+
+<h2 id="-apis-readmellm-format">🧾 APIs (ReadMe.LLM Format)</h2>
+
+<p>%%README.LLM id=dynamic-zone-architecture%%</p>
+
+<h2 id="-library-description">🧭 Library Description</h2>
+<p>Dynamic zone-based architecture with in-memory generation and no static files.</p>
+
+<h2 id="-rules">✅ Rules</h2>
+<ul>
+  <li>No static zone files required</li>
+  <li>Zones generated in-memory dynamically</li>
+  <li>Zone name comes from dictionary key</li>
+  <li>Validate zone configuration before generation</li>
+</ul>
+
+<h2 id="-functions">🧪 Functions</h2>
+
+<h3 id="dynamiczonemanager">DynamicZoneManager()</h3>
+<p><strong>Manages zone configuration and URL generation in-memory.</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">django_revolution.zones</span> <span class="kn">import</span> <span class="n">DynamicZoneManager</span>
+
+<span class="n">zone_manager</span> <span class="o">=</span> <span class="nc">DynamicZoneManager</span><span class="p">()</span>
+<span class="n">urlconf_module</span> <span class="o">=</span> <span class="n">zone_manager</span><span class="p">.</span><span class="nf">create_dynamic_urlconf_module</span><span class="p">(</span><span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">,</span> <span class="n">zone_config</span><span class="p">)</span>
+<span class="n">apps</span> <span class="o">=</span> <span class="n">zone_manager</span><span class="p">.</span><span class="nf">detect_apps_in_zone</span><span class="p">(</span><span class="n">zone_config</span><span class="p">)</span>
+<span class="n">is_valid</span> <span class="o">=</span> <span class="n">zone_manager</span><span class="p">.</span><span class="nf">validate_zone_configuration</span><span class="p">(</span><span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">,</span> <span class="n">zone_config</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="create_dynamic_urlconf_modulezone_name-str-zone_config-zoneconfig---moduletype">create_dynamic_urlconf_module(zone_name: str, zone_config: ZoneConfig) -&gt; ModuleType</h3>
+<p><strong>Create URL configuration module in-memory.</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">urlconf_module</span> <span class="o">=</span> <span class="n">zone_manager</span><span class="p">.</span><span class="nf">create_dynamic_urlconf_module</span><span class="p">(</span><span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">,</span> <span class="n">zone_config</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="detect_apps_in_zonezone_config-zoneconfig---liststr">detect_apps_in_zone(zone_config: ZoneConfig) -&gt; List[str]</h3>
+<p><strong>Detect Django apps that belong to a zone.</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">apps</span> <span class="o">=</span> <span class="n">zone_manager</span><span class="p">.</span><span class="nf">detect_apps_in_zone</span><span class="p">(</span><span class="n">zone_config</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<p>%%README.LLM id=zone-types%%</p>
+
+<h2 id="-library-description-1">🧭 Library Description</h2>
+<p>Different zone types for organizing API endpoints by access level and purpose.</p>
+
+<h2 id="-rules-1">✅ Rules</h2>
+<ul>
+  <li>Public zones can have auth_required=False</li>
+  <li>Private zones require authentication</li>
+  <li>Admin zones for administrative operations</li>
+  <li>Internal zones for service-to-service communication</li>
+</ul>
+
+<h2 id="-functions-1">🧪 Functions</h2>
+
+<h3 id="public-zone">Public Zone</h3>
+<p><strong>External-facing API endpoints.</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+    <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">products</span><span class="sh">'</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Public API</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Public endpoints</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">public</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">auth_required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="private-zone">Private Zone</h3>
+<p><strong>Authenticated user endpoints.</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sh">'</span><span class="s">private</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+    <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">orders</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">profile</span><span class="sh">'</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Private API</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Authenticated endpoints</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">public</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">auth_required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="admin-zone">Admin Zone</h3>
+<p><strong>Administrative operations.</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sh">'</span><span class="s">admin</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+    <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">admin_panel</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">analytics</span><span class="sh">'</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Admin API</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Administrative endpoints</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">public</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">auth_required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>%%END%%</p>
+
+<hr />
+
+<h2 id="-architecture-flows">🔁 Architecture Flows</h2>
+
+<h3 id="dynamic-url-structure-flow">Dynamic URL Structure Flow</h3>
+<ol>
+  <li><strong>Zone Configuration</strong> - Pydantic models define zone structure</li>
+  <li><strong>App Detection</strong> - <code class="language-plaintext highlighter-rouge">DynamicZoneDetector</code> finds apps in each zone</li>
+  <li><strong>URL Generation</strong> - <code class="language-plaintext highlighter-rouge">DynamicZoneManager</code> creates URL modules in-memory</li>
+  <li><strong>Pattern Registration</strong> - URL patterns registered with Django router</li>
+  <li><strong>Schema Generation</strong> - OpenAPI schemas generated for each zone</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.zones.DynamicZoneManager</code>, <code class="language-plaintext highlighter-rouge">django_revolution.zones.DynamicZoneDetector</code>, <code class="language-plaintext highlighter-rouge">django_revolution.openapi.generator</code></p>
+
+<h3 id="zone-based-organization-flow">Zone-Based Organization Flow</h3>
+<ol>
+  <li><strong>Zone Definition</strong> - Define zones with apps, authentication, and metadata</li>
+  <li><strong>Access Level Assignment</strong> - Public, private, admin, or internal zones</li>
+  <li><strong>Authentication Configuration</strong> - JWT, session, or no authentication</li>
+  <li><strong>Rate Limiting Setup</strong> - Different limits per zone</li>
+  <li><strong>Documentation Generation</strong> - Separate OpenAPI schemas per zone</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.app_config.ZoneConfig</code>, <code class="language-plaintext highlighter-rouge">django_revolution.zones</code></p>
+
+<h3 id="in-memory-generation-flow">In-Memory Generation Flow</h3>
+<ol>
+  <li><strong>Configuration Parsing</strong> - Parse zone configuration from settings</li>
+  <li><strong>Module Creation</strong> - Create URL modules dynamically in memory</li>
+  <li><strong>Pattern Detection</strong> - Detect URL patterns from Django apps</li>
+  <li><strong>Schema Generation</strong> - Generate OpenAPI schemas for each zone</li>
+  <li><strong>Client Generation</strong> - Generate TypeScript and Python clients</li>
+</ol>
+
+<p><strong>Modules</strong>: <code class="language-plaintext highlighter-rouge">django_revolution.zones.DynamicZoneManager</code>, <code class="language-plaintext highlighter-rouge">django_revolution.openapi.generator.OpenAPIGenerator</code></p>
+
+<hr />
+
+<h2 id="-zone-based-architecture">🧩 Zone-Based Architecture</h2>
+
+<h3 id="what-are-zones">What are Zones?</h3>
+
+<p>Zones are logical groupings of API endpoints that share common characteristics:</p>
+
+<ul>
+  <li><strong>Access level</strong> (public, private, internal, admin)</li>
+  <li><strong>Authentication requirements</strong> (none, JWT, session)</li>
+  <li><strong>Rate limiting</strong> (different limits per zone)</li>
+  <li><strong>Documentation</strong> (separate OpenAPI schemas)</li>
+  <li><strong>Client generation</strong> (zone-specific clients)</li>
+</ul>
+
+<h3 id="zone-types">Zone Types</h3>
+
+<h4 id="public-zone-1">Public Zone</h4>
+<ul>
+  <li><strong>Purpose</strong>: External-facing API endpoints</li>
+  <li><strong>Authentication</strong>: Optional (JWT or none)</li>
+  <li><strong>Rate Limiting</strong>: Strict</li>
+  <li><strong>Examples</strong>: User registration, product catalog, public data</li>
+</ul>
+
+<h4 id="private-zone-1">Private Zone</h4>
+<ul>
+  <li><strong>Purpose</strong>: Authenticated user endpoints</li>
+  <li><strong>Authentication</strong>: Required (JWT)</li>
+  <li><strong>Rate Limiting</strong>: Moderate</li>
+  <li><strong>Examples</strong>: User profile, orders, personal data</li>
+</ul>
+
+<h4 id="internal-zone">Internal Zone</h4>
+<ul>
+  <li><strong>Purpose</strong>: Internal service communication</li>
+  <li><strong>Authentication</strong>: Service-to-service</li>
+  <li><strong>Rate Limiting</strong>: High</li>
+  <li><strong>Examples</strong>: Microservice APIs, internal tools</li>
+</ul>
+
+<h4 id="admin-zone-1">Admin Zone</h4>
+<ul>
+  <li><strong>Purpose</strong>: Administrative operations</li>
+  <li><strong>Authentication</strong>: Admin users only</li>
+  <li><strong>Rate Limiting</strong>: Low</li>
+  <li><strong>Examples</strong>: User management, analytics, system config</li>
+</ul>
+
+<hr />
+
+<h2 id="-dynamic-architecture-components">🚀 Dynamic Architecture Components</h2>
+
+<h3 id="1-zone-configuration-with-pydantic-models">1. Zone Configuration with Pydantic Models</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="kn">from</span> <span class="n">django_revolution.app_config</span> <span class="kn">import</span> <span class="n">ZoneConfig</span><span class="p">,</span> <span class="n">get_revolution_config</span>
+
+<span class="n">zones</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+        <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">accounts</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">products</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Public API</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Public endpoints</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">public</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">auth_required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+    <span class="p">),</span>
+    <span class="sh">'</span><span class="s">private</span><span class="sh">'</span><span class="p">:</span> <span class="nc">ZoneConfig</span><span class="p">(</span>
+        <span class="n">apps</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">orders</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">profile</span><span class="sh">'</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">Private API</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Authenticated endpoints</span><span class="sh">'</span><span class="p">,</span>
+        <span class="n">public</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">auth_required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">v1</span><span class="sh">'</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">DJANGO_REVOLUTION</span> <span class="o">=</span> <span class="nf">get_revolution_config</span><span class="p">(</span>
+    <span class="n">project_root</span><span class="o">=</span><span class="n">BASE_DIR</span><span class="p">,</span>
+    <span class="n">zones</span><span class="o">=</span><span class="n">zones</span><span class="p">,</span>
+    <span class="n">debug</span><span class="o">=</span><span class="n">DEBUG</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2-dynamic-url-structure">2. Dynamic URL Structure</h3>
+
+<p>Django Revolution automatically creates a structured URL hierarchy <strong>in-memory</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/api/
+├── public/
+│   ├── schema/          # Swagger UI
+│   ├── schema.yaml      # OpenAPI spec
+│   └── v1/              # API endpoints
+├── private/
+│   ├── schema/
+│   ├── schema.yaml
+│   └── v1/
+└── admin/
+</code></pre></div></div>
+
+<h3 id="3-dynamic-zone-management">3. Dynamic Zone Management</h3>
+
+<p><strong>Key Innovation</strong>: No static zone files required!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Old approach (static files)
+# zones/
+#   ├── public_urls.py
+#   ├── private_urls.py
+#   └── admin_urls.py
+</span>
+<span class="c1"># New approach (dynamic generation)
+</span><span class="kn">from</span> <span class="n">django_revolution.zones</span> <span class="kn">import</span> <span class="n">DynamicZoneManager</span>
+
+<span class="n">zone_manager</span> <span class="o">=</span> <span class="nc">DynamicZoneManager</span><span class="p">()</span>
+<span class="n">urlconf_module</span> <span class="o">=</span> <span class="n">zone_manager</span><span class="p">.</span><span class="nf">create_dynamic_urlconf_module</span><span class="p">(</span><span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">,</span> <span class="n">zone_config</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-data-flow-architecture">🔄 Data Flow Architecture</h2>
+
+<pre><code class="language-mermaid">graph TD
+    A[Django Settings] --&gt; B[Zone Configuration]
+    B --&gt; C[Dynamic Zone Manager]
+    C --&gt; D[In-Memory URL Modules]
+    D --&gt; E[OpenAPI Schema Generation]
+    E --&gt; F[Client Generation]
+    F --&gt; G[TypeScript Client]
+    F --&gt; H[Python Client]
+    F --&gt; I[Archive Management]
+    
+    J[CLI Interface] --&gt; K[Interactive Mode]
+    J --&gt; L[Command Line Mode]
+    K --&gt; M[Rich UI Selection]
+    L --&gt; N[Direct Generation]
+    M --&gt; F
+    N --&gt; F
+    
+    O[Zone Validation] --&gt; P[App Detection]
+    O --&gt; Q[URL Pattern Validation]
+    O --&gt; R[Schema Test Generation]
+    
+    subgraph "Dynamic Zone System"
+        C
+        D
+        S[Zone Cache]
+        T[Module Registry]
+    end
+    
+    subgraph "CLI Architecture"
+        J
+        K
+        L
+        M
+        N
+    end
+    
+    subgraph "Validation &amp; Testing"
+        O
+        P
+        Q
+        R
+    end
+    
+    subgraph "Output Generation"
+        F
+        G
+        H
+        I
+    end
+</code></pre>
+
+<hr />
+
+<h2 id="️-core-components">🛠️ Core Components</h2>
+
+<h3 id="1-dynamiczonemanager">1. DynamicZoneManager</h3>
+
+<p><strong>Purpose</strong>: Manages zone configuration and URL generation in-memory.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DynamicZoneManager</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">create_dynamic_urlconf_module</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">zone_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zone_config</span><span class="p">:</span> <span class="n">ZoneConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModuleType</span><span class="p">:</span>
+        <span class="sh">"""</span><span class="s">Create URL configuration module in-memory.</span><span class="sh">"""</span>
+        
+    <span class="k">def</span> <span class="nf">detect_apps_in_zone</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">zone_config</span><span class="p">:</span> <span class="n">ZoneConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sh">"""</span><span class="s">Detect Django apps that belong to a zone.</span><span class="sh">"""</span>
+        
+    <span class="k">def</span> <span class="nf">validate_zone_configuration</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">zone_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zone_config</span><span class="p">:</span> <span class="n">ZoneConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sh">"""</span><span class="s">Validate zone configuration and dependencies.</span><span class="sh">"""</span>
+</code></pre></div></div>
+
+<h3 id="2-openapigenerator">2. OpenAPIGenerator</h3>
+
+<p><strong>Purpose</strong>: Generates OpenAPI schemas and client libraries.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">OpenAPIGenerator</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">generate_schemas</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]:</span>
+        <span class="sh">"""</span><span class="s">Generate OpenAPI schemas for all zones.</span><span class="sh">"""</span>
+        
+    <span class="k">def</span> <span class="nf">generate_typescript_client</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="sh">"""</span><span class="s">Generate TypeScript client using @hey-api/openapi-ts.</span><span class="sh">"""</span>
+        
+    <span class="k">def</span> <span class="nf">generate_python_client</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="sh">"""</span><span class="s">Generate Python client using datamodel-code-generator.</span><span class="sh">"""</span>
+</code></pre></div></div>
+
+<h3 id="3-cli-architecture">3. CLI Architecture</h3>
+
+<p><strong>Purpose</strong>: Provides multiple interfaces for interaction.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Django Management Command
+</span><span class="n">python</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">revolution</span>
+
+<span class="c1"># Standalone CLI
+</span><span class="n">django</span><span class="o">-</span><span class="n">revolution</span>
+
+<span class="c1"># Development Scripts
+</span><span class="n">python</span> <span class="n">scripts</span><span class="o">/</span><span class="n">dev_cli</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-key-innovations">🎯 Key Innovations</h2>
+
+<h3 id="1-dynamic-zone-management">1. Dynamic Zone Management</h3>
+
+<p><strong>Before</strong>: Static zone files in <code class="language-plaintext highlighter-rouge">zones/</code> directory</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># zones/public_urls.py (static file)
+</span><span class="kn">from</span> <span class="n">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span> <span class="n">accounts.views</span> <span class="kn">import</span> <span class="n">UserViewSet</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nf">path</span><span class="p">(</span><span class="sh">'</span><span class="s">users/</span><span class="sh">'</span><span class="p">,</span> <span class="n">UserViewSet</span><span class="p">.</span><span class="nf">as_view</span><span class="p">()),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p><strong>After</strong>: In-memory generation from configuration</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Dynamic generation based on zone config
+</span><span class="n">zone_manager</span> <span class="o">=</span> <span class="nc">DynamicZoneManager</span><span class="p">()</span>
+<span class="n">urlconf_module</span> <span class="o">=</span> <span class="n">zone_manager</span><span class="p">.</span><span class="nf">create_dynamic_urlconf_module</span><span class="p">(</span><span class="sh">'</span><span class="s">public</span><span class="sh">'</span><span class="p">,</span> <span class="n">zone_config</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2-rich-cli-interface">2. Rich CLI Interface</h3>
+
+<p><strong>Interactive Mode</strong>: Beautiful terminal interface with questionary
+<strong>Command Line Mode</strong>: Direct command execution
+<strong>Development Tools</strong>: Comprehensive development workflow</p>
+
+<h3 id="3-validation--testing">3. Validation &amp; Testing</h3>
+
+<p><strong>Zone Validation</strong>: Detailed validation of each zone
+<strong>Schema Testing</strong>: Test OpenAPI schema generation
+<strong>URL Pattern Validation</strong>: Verify URL patterns are valid</p>
+
+<hr />
+
+<h2 id="-integration-points">🔧 Integration Points</h2>
+
+<h3 id="1-django-integration">1. Django Integration</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># urls.py
+</span><span class="kn">from</span> <span class="n">django_revolution.urls_integration</span> <span class="kn">import</span> <span class="n">add_revolution_urls</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Your existing URLs
+</span><span class="p">]</span>
+
+<span class="c1"># Add Django Revolution URLs dynamically
+</span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="nf">add_revolution_urls</span><span class="p">(</span><span class="n">urlpatterns</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2-drf--spectacular-integration">2. DRF + Spectacular Integration</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span><span class="kn">from</span> <span class="n">django_revolution.drf_config</span> <span class="kn">import</span> <span class="n">create_drf_config</span>
+
+<span class="n">drf_config</span> <span class="o">=</span> <span class="nf">create_drf_config</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="sh">'</span><span class="s">My API</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">My awesome API</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="sh">'</span><span class="s">1.0.0</span><span class="sh">'</span>
+<span class="p">)</span>
+
+<span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="n">drf_config</span><span class="p">.</span><span class="nf">get_rest_framework_settings</span><span class="p">()</span>
+<span class="n">SPECTACULAR_SETTINGS</span> <span class="o">=</span> <span class="n">drf_config</span><span class="p">.</span><span class="nf">get_spectacular_settings</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="3-monorepo-integration">3. Monorepo Integration</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Optional monorepo integration
+</span><span class="n">monorepo</span> <span class="o">=</span> <span class="nc">MonorepoConfig</span><span class="p">(</span>
+    <span class="n">enabled</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="sh">'</span><span class="s">/path/to/monorepo</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">api_package_path</span><span class="o">=</span><span class="sh">'</span><span class="s">packages/api/src</span><span class="sh">'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-performance-characteristics">📊 Performance Characteristics</h2>
+
+<h3 id="memory-usage">Memory Usage</h3>
+<ul>
+  <li><strong>Dynamic Zone Generation</strong>: ~5-10MB per zone</li>
+  <li><strong>Module Registry</strong>: ~1-2MB total</li>
+  <li><strong>Zone Cache</strong>: ~2-5MB total</li>
+</ul>
+
+<h3 id="generation-speed">Generation Speed</h3>
+<ul>
+  <li><strong>Zone Detection</strong>: ~100-500ms per zone</li>
+  <li><strong>Schema Generation</strong>: ~1-3s per zone</li>
+  <li><strong>Client Generation</strong>: ~2-5s per client type</li>
+</ul>
+
+<h3 id="scalability">Scalability</h3>
+<ul>
+  <li><strong>Zones</strong>: Unlimited (limited by Django app count)</li>
+  <li><strong>Apps per Zone</strong>: 1-50 recommended</li>
+  <li><strong>Endpoints per Zone</strong>: 1-1000 recommended</li>
+</ul>
+
+<hr />
+
+<h2 id="-monitoring--debugging">🔍 Monitoring &amp; Debugging</h2>
+
+<h3 id="debug-mode">Debug Mode</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">DJANGO_REVOLUTION_DEBUG</span><span class="o">=</span>1
+python manage.py revolution <span class="nt">--debug</span>
+</code></pre></div></div>
+
+<h3 id="validation-commands">Validation Commands</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Validate zones</span>
+python manage.py revolution <span class="nt">--validate-zones</span>
+
+<span class="c"># Test schema generation</span>
+python manage.py revolution <span class="nt">--test-schemas</span>
+
+<span class="c"># Show zone URLs</span>
+python manage.py revolution <span class="nt">--show-urls</span>
+</code></pre></div></div>
+
+<h3 id="logging">Logging</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">logging</span>
+<span class="n">logging</span><span class="p">.</span><span class="nf">getLogger</span><span class="p">(</span><span class="sh">'</span><span class="s">django_revolution</span><span class="sh">'</span><span class="p">).</span><span class="nf">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="p">.</span><span class="n">DEBUG</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-best-practices">🎯 Best Practices</h2>
+
+<h3 id="1-zone-organization">1. Zone Organization</h3>
+
+<ul>
+  <li><strong>Keep zones focused</strong>: Each zone should have a clear purpose</li>
+  <li><strong>Limit apps per zone</strong>: 5-15 apps per zone is optimal</li>
+  <li><strong>Use descriptive names</strong>: <code class="language-plaintext highlighter-rouge">public</code>, <code class="language-plaintext highlighter-rouge">admin</code>, <code class="language-plaintext highlighter-rouge">internal</code>, <code class="language-plaintext highlighter-rouge">mobile</code></li>
+</ul>
+
+<h3 id="2-configuration-management">2. Configuration Management</h3>
+
+<ul>
+  <li><strong>Use Pydantic models</strong>: Type-safe configuration</li>
+  <li><strong>Environment-specific configs</strong>: Different zones for different environments</li>
+  <li><strong>Version control</strong>: Track zone configuration changes</li>
+</ul>
+
+<h3 id="3-development-workflow">3. Development Workflow</h3>
+
+<ul>
+  <li><strong>Use development CLI</strong>: <code class="language-plaintext highlighter-rouge">python scripts/dev_cli.py</code></li>
+  <li><strong>Validate before generation</strong>: Always validate zones first</li>
+  <li><strong>Test schema generation</strong>: Ensure schemas are valid</li>
+</ul>
+
+<h3 id="4-performance-optimization">4. Performance Optimization</h3>
+
+<ul>
+  <li><strong>Cache zone detection</strong>: Results are cached for performance</li>
+  <li><strong>Lazy loading</strong>: Modules are created only when needed</li>
+  <li><strong>Memory management</strong>: Old modules are cleaned up automatically</li>
+</ul>
+
+<hr />
+
+<h2 id="-key-notes">🧠 Key Notes</h2>
+
+<ul>
+  <li><strong>Dynamic Architecture</strong>: No static zone files required, everything generated in-memory</li>
+  <li><strong>Zone-Based Organization</strong>: Logical grouping of API endpoints by access level</li>
+  <li><strong>Performance</strong>: Multithreading provides 2-3x speedup for multiple zones</li>
+  <li><strong>Type Safety</strong>: Pydantic models ensure configuration correctness</li>
+  <li><strong>Development Tools</strong>: Comprehensive CLI toolbox for development workflow</li>
+  <li><strong>Scalability</strong>: Unlimited zones with configurable performance characteristics</li>
+</ul>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="usage.html">← Back to Usage</a></td>
+      <td><a href="api-reference.html">Next: API Reference →</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+      <footer class="site-footer">
+        
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+      </footer>
+    </main>
+  </body>
+</html> 
