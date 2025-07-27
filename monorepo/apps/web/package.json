@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.0",
-    "@repo/api": "workspace:*",
+    "@repo/api": "link:../../packages/api",
     "next": "^15.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
