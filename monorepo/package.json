@@ -2,6 +2,7 @@
   "name": "monorepo",
   "private": true,
   "scripts": {
+    "vercel-build": "cd apps/web && pnpm install && pnpm build",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
