@@ -1,5 +1,5 @@
 {
-    "buildCommand": "pnpm turbo run build",
+    "buildCommand": "pnpm turbo run build --filter=apps/web...",
     "installCommand": "pnpm install",
     "outputDirectory": "apps/web/.next",
     "framework": "nextjs"
