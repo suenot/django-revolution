@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useEffect } from 'react';
 import { useDjangoServer } from '@/hooks/useDjangoServer';
 
 interface LocalDjangoNotificationProps {
@@ -10,7 +10,14 @@ interface LocalDjangoNotificationProps {
 
 export default function LocalDjangoNotification({ className = '', children }: LocalDjangoNotificationProps) {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const { serverStatus, lastChecked, checkServer } = useDjangoServer();
+
+    // Smooth fade-in effect
+    useEffect(() => {
+        const timer = setTimeout(() => setIsVisible(true), 100);
+        return () => clearTimeout(timer);
+    }, []);
 
     const getStatusIcon = () => {
         switch (serverStatus) {
@@ -60,7 +67,10 @@ export default function LocalDjangoNotification({ className = '', children }: Lo
     return (
         <>
             {/* Server Status Notification */}
-            <div className={`${getStatusColor()} border rounded-lg p-4 ${className}`}>
+            <div
+                className={`${getStatusColor()} border rounded-lg p-4 transition-all duration-300 ease-in-out ${className} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                    }`}
+            >
                 <div className="flex">
                     <div className="flex-shrink-0">
                         {getStatusIcon()}
@@ -76,7 +86,7 @@ export default function LocalDjangoNotification({ className = '', children }: Lo
                                 </span>
                             )}
                         </div>
-                        
+
                         {serverStatus === 'offline' && (
                             <div className="mt-2 text-sm text-gray-700">
                                 <p>
@@ -86,14 +96,14 @@ export default function LocalDjangoNotification({ className = '', children }: Lo
                                 {!isExpanded && (
                                     <button
                                         onClick={() => setIsExpanded(true)}
-                                        className="mt-2 text-blue-600 hover:text-blue-500 font-medium underline"
+                                        className="mt-2 text-blue-600 hover:text-blue-500 font-medium underline transition-colors duration-200"
                                     >
                                         Show setup instructions
                                     </button>
                                 )}
 
                                 {isExpanded && (
-                                    <div className="mt-3 space-y-3">
+                                    <div className="mt-3 space-y-3 animate-in slide-in-from-top-2 duration-300">
                                         <div className="bg-white rounded-md p-3 border border-gray-200">
                                             <h4 className="font-medium text-gray-900 mb-2">Quick Setup:</h4>
                                             <ol className="list-decimal list-inside space-y-1 text-sm">
@@ -138,7 +148,7 @@ export default function LocalDjangoNotification({ className = '', children }: Lo
 
                                         <button
                                             onClick={() => setIsExpanded(false)}
-                                            className="text-blue-600 hover:text-blue-500 font-medium underline text-sm"
+                                            className="text-blue-600 hover:text-blue-500 font-medium underline text-sm transition-colors duration-200"
                                         >
                                             Hide instructions
                                         </button>
@@ -154,7 +164,7 @@ export default function LocalDjangoNotification({ className = '', children }: Lo
                                 </p>
                                 <button
                                     onClick={checkServer}
-                                    className="mt-2 text-blue-600 hover:text-blue-500 font-medium underline text-sm"
+                                    className="mt-2 text-blue-600 hover:text-blue-500 font-medium underline text-sm transition-colors duration-200"
                                 >
                                     Refresh status
                                 </button>

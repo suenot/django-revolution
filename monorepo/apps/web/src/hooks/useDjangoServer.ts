@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 
 type ServerStatus = 'checking' | 'online' | 'offline';
@@ -6,9 +6,15 @@ type ServerStatus = 'checking' | 'online' | 'offline';
 export const useDjangoServer = () => {
   const [serverStatus, setServerStatus] = useState<ServerStatus>('checking');
   const [lastChecked, setLastChecked] = useState<Date | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isCheckingRef = useRef(false);
 
-  const checkDjangoServer = async () => {
-    setServerStatus('checking');
+  const checkDjangoServer = useCallback(async () => {
+    // Prevent multiple simultaneous checks
+    if (isCheckingRef.current) return;
+    
+    isCheckingRef.current = true;
+    
     try {
       // Try to connect to Django admin or any endpoint
       await axios.get('http://localhost:8000/admin/', {
@@ -22,29 +28,40 @@ export const useDjangoServer = () => {
     } catch {
       setServerStatus('offline');
       setLastChecked(new Date());
+    } finally {
+      isCheckingRef.current = false;
     }
-  };
+  }, []);
 
   useEffect(() => {
+    // Initial check
     checkDjangoServer();
     
-    let interval: NodeJS.Timeout;
+    // Clear any existing interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
     
-    // If server is offline, check every second
-    // If server is online, check every 30 seconds
-    const startInterval = () => {
-      const intervalTime = serverStatus === 'online' ? 30000 : 1000;
-      interval = setInterval(checkDjangoServer, intervalTime);
-    };
+    // Set up interval based on current status
+    const intervalTime = serverStatus === 'online' ? 30000 : 5000; // 30s for online, 5s for offline
     
-    startInterval();
+    intervalRef.current = setInterval(checkDjangoServer, intervalTime);
     
     return () => {
-      if (interval) {
-        clearInterval(interval);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
       }
     };
-  }, [serverStatus]); // Re-run effect when serverStatus changes
+  }, [serverStatus, checkDjangoServer]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
 
   return {
     serverStatus,

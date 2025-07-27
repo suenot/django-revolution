@@ -8,12 +8,15 @@ import { useAuth } from '../context';
 import { registerSchema, type RegisterFormData } from '../lib/validations';
 import { DjangoErrorHandler } from '@repo/api';
 import FormInput from './FormInput';
+import LocalDjangoNotification from './LocalDjangoNotification';
+import { useDjangoServer } from '@/hooks/useDjangoServer';
 
 export default function RegisterForm() {
   const { register: registerUser, error: authError } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const { isOffline } = useDjangoServer();
 
   const {
     register,
@@ -93,7 +96,7 @@ export default function RegisterForm() {
   // Memoize error display to prevent unnecessary re-renders
   const errorDisplay = useMemo(() => {
     if (!apiError) return null;
-    
+
     return (
       <div className="bg-red-50 border border-red-200 rounded-lg p-4">
         <div className="flex">
@@ -112,109 +115,113 @@ export default function RegisterForm() {
   }, [apiError]);
 
   return (
-    <div className="max-w-md mx-auto">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* API Error Display */}
-        {errorDisplay}
+    <LocalDjangoNotification>
+      <div className="max-w-md mx-auto">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* API Error Display */}
+          {errorDisplay}
 
-        {/* First Name Field */}
-        <FormInput
-          {...register('first_name')}
-          label="First Name"
-          type="text"
-          id="first_name"
-          placeholder="Enter your first name"
-          disabled={isLoading}
-          autoComplete="given-name"
-          error={errors.first_name?.message}
-        />
+          {/* First Name Field */}
+          <FormInput
+            {...register('first_name')}
+            label="First Name"
+            type="text"
+            id="first_name"
+            placeholder="Enter your first name"
+            disabled={isLoading || isOffline}
+            autoComplete="given-name"
+            error={errors.first_name?.message}
+          />
 
-        {/* Last Name Field */}
-        <FormInput
-          {...register('last_name')}
-          label="Last Name"
-          type="text"
-          id="last_name"
-          placeholder="Enter your last name"
-          disabled={isLoading}
-          autoComplete="family-name"
-          error={errors.last_name?.message}
-        />
+          {/* Last Name Field */}
+          <FormInput
+            {...register('last_name')}
+            label="Last Name"
+            type="text"
+            id="last_name"
+            placeholder="Enter your last name"
+            disabled={isLoading || isOffline}
+            autoComplete="family-name"
+            error={errors.last_name?.message}
+          />
 
-        {/* Username Field */}
-        <FormInput
-          {...register('username')}
-          label="Username"
-          type="text"
-          id="username"
-          placeholder="Choose a username"
-          disabled={isLoading}
-          autoComplete="username"
-          error={errors.username?.message}
-        />
+          {/* Username Field */}
+          <FormInput
+            {...register('username')}
+            label="Username"
+            type="text"
+            id="username"
+            placeholder="Choose a username"
+            disabled={isLoading || isOffline}
+            autoComplete="username"
+            error={errors.username?.message}
+          />
 
-        {/* Email Field */}
-        <FormInput
-          {...register('email')}
-          label="Email"
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          disabled={isLoading}
-          autoComplete="email"
-          error={errors.email?.message}
-        />
+          {/* Email Field */}
+          <FormInput
+            {...register('email')}
+            label="Email"
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            disabled={isLoading || isOffline}
+            autoComplete="email"
+            error={errors.email?.message}
+          />
 
-        {/* Password Field */}
-        <FormInput
-          {...register('password')}
-          label="Password"
-          type="password"
-          id="password"
-          placeholder="Create a password"
-          disabled={isLoading}
-          autoComplete="new-password"
-          error={errors.password?.message}
-        />
+          {/* Password Field */}
+          <FormInput
+            {...register('password')}
+            label="Password"
+            type="password"
+            id="password"
+            placeholder="Create a password"
+            disabled={isLoading || isOffline}
+            autoComplete="new-password"
+            error={errors.password?.message}
+          />
 
-        {/* Confirm Password Field */}
-        <FormInput
-          {...register('password_confirm')}
-          label="Confirm Password"
-          type="password"
-          id="password_confirm"
-          placeholder="Confirm your password"
-          disabled={isLoading}
-          autoComplete="new-password"
-          error={errors.password_confirm?.message}
-        />
+          {/* Confirm Password Field */}
+          <FormInput
+            {...register('password_confirm')}
+            label="Confirm Password"
+            type="password"
+            id="password_confirm"
+            placeholder="Confirm your password"
+            disabled={isLoading || isOffline}
+            autoComplete="new-password"
+            error={errors.password_confirm?.message}
+          />
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isLoading ? (
-            <div className="flex items-center justify-center space-x-2">
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              <span>Creating account...</span>
-            </div>
-          ) : (
-            'Create Account'
-          )}
-        </button>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isLoading || isOffline}
+            className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Creating account...</span>
+              </div>
+            ) : isOffline ? (
+              'Django Server Offline'
+            ) : (
+              'Create Account'
+            )}
+          </button>
 
-        {/* Links */}
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
-            Already have an account?{' '}
-            <a href="/auth" className="font-medium text-primary-600 hover:text-primary-500">
-              Sign in here
-            </a>
-          </p>
-        </div>
-      </form>
-    </div>
+          {/* Links */}
+          <div className="text-center">
+            <p className="text-sm text-gray-600">
+              Already have an account?{' '}
+              <a href="/auth" className="font-medium text-primary-600 hover:text-primary-500">
+                Sign in here
+              </a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </LocalDjangoNotification>
   );
 } 
