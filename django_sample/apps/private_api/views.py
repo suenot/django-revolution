@@ -1,15 +1,24 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from .models import Category, Product, Order, OrderItem
 from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    """ViewSet for Category model with drf-spectacular documentation."""
+    """ViewSet for Category model with nested routing and drf-spectacular documentation."""
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+    
+    def get_queryset(self):
+        """Filter categories if needed."""
+        queryset = super().get_queryset()
+        # Add any filtering logic here if needed
+        return queryset
     
     @extend_schema(
         summary="Get active categories",
@@ -19,8 +28,21 @@ class CategoryViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def active(self, request):
         """Get only active categories."""
-        categories = Category.objects.filter(is_active=True)
+        categories = self.get_queryset().filter(is_active=True)
         serializer = self.get_serializer(categories, many=True)
+        return Response(serializer.data)
+    
+    @extend_schema(
+        summary="Get category products",
+        description="Returns all products in specific category",
+        responses={200: ProductSerializer(many=True)}
+    )
+    @action(detail=True, methods=['get'])
+    def products(self, request, pk=None):
+        """Get all products in category."""
+        category = self.get_object()
+        products = Product.objects.filter(category=category)
+        serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
 
@@ -28,18 +50,32 @@ class ProductViewSet(viewsets.ModelViewSet):
     """ViewSet for Product model with nested routing."""
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+    
+    def get_queryset(self):
+        """Filter products by category if category_id is provided."""
+        queryset = super().get_queryset()
+        category_id = self.kwargs.get('category_pk')
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        return queryset.select_related('category')
     
     @extend_schema(
         summary="Get products by category",
         parameters=[
-            OpenApiParameter(name='category_id', type=int, location=OpenApiParameter.PATH)
+            OpenApiParameter(name='category_id', type=int, location=OpenApiParameter.QUERY)
         ],
         responses={200: ProductSerializer(many=True)}
     )
-    @action(detail=False, methods=['get'], url_path='by-category/(?P<category_id>[^/.]+)')
-    def by_category(self, request, category_id=None):
+    @action(detail=False, methods=['get'])
+    def by_category(self, request):
         """Get products filtered by category."""
-        products = Product.objects.filter(category_id=category_id)
+        category_id = request.query_params.get('category_id')
+        if category_id:
+            products = self.get_queryset().filter(category_id=category_id)
+        else:
+            products = self.get_queryset()
         serializer = self.get_serializer(products, many=True)
         return Response(serializer.data)
     
@@ -51,21 +87,55 @@ class ProductViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def low_stock(self, request):
         """Get products with low stock."""
-        products = Product.objects.filter(stock__lt=10)
+        products = self.get_queryset().filter(stock__lt=10)
         serializer = self.get_serializer(products, many=True)
+        return Response(serializer.data)
+    
+    @extend_schema(
+        summary="Get product order items",
+        description="Returns all order items for specific product",
+        responses={200: OrderItemSerializer(many=True)}
+    )
+    @action(detail=True, methods=['get'])
+    def order_items(self, request, pk=None):
+        """Get all order items for product."""
+        product = self.get_object()
+        order_items = OrderItem.objects.filter(product=product)
+        serializer = OrderItemSerializer(order_items, many=True)
         return Response(serializer.data)
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):
-    """ViewSet for OrderItem model."""
+    """ViewSet for OrderItem model with nested routing."""
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+    
+    def get_queryset(self):
+        """Filter order items by order or product if provided."""
+        queryset = super().get_queryset()
+        order_id = self.kwargs.get('order_pk')
+        product_id = self.kwargs.get('product_pk')
+        
+        if order_id:
+            queryset = queryset.filter(order_id=order_id)
+        if product_id:
+            queryset = queryset.filter(product_id=product_id)
+            
+        return queryset.select_related('order', 'product')
 
 
 class OrderViewSet(viewsets.ModelViewSet):
     """ViewSet for Order model with nested routing."""
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+    
+    def get_queryset(self):
+        """Get orders with prefetched items."""
+        return super().get_queryset().prefetch_related('items')
     
     @extend_schema(
         summary="Get orders by status",
@@ -79,9 +149,9 @@ class OrderViewSet(viewsets.ModelViewSet):
         """Get orders filtered by status."""
         status_param = request.query_params.get('status')
         if status_param:
-            orders = Order.objects.filter(status=status_param)
+            orders = self.get_queryset().filter(status=status_param)
         else:
-            orders = Order.objects.all()
+            orders = self.get_queryset()
         serializer = self.get_serializer(orders, many=True)
         return Response(serializer.data)
     
@@ -96,4 +166,17 @@ class OrderViewSet(viewsets.ModelViewSet):
         order.status = 'cancelled'
         order.save()
         serializer = self.get_serializer(order)
+        return Response(serializer.data)
+    
+    @extend_schema(
+        summary="Get order items",
+        description="Returns all items in specific order",
+        responses={200: OrderItemSerializer(many=True)}
+    )
+    @action(detail=True, methods=['get'])
+    def items(self, request, pk=None):
+        """Get all items in order."""
+        order = self.get_object()
+        order_items = order.items.all()
+        serializer = OrderItemSerializer(order_items, many=True)
         return Response(serializer.data) 

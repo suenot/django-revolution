@@ -39,6 +39,13 @@ This is a test Django project for Django Revolution, demonstrating zone-based AP
    - **Public API endpoints:** http://localhost:8000/api/public/
    - **Private API endpoints:** http://localhost:8000/api/private/
 
+5. **CORS Configuration:**
+
+   The project includes CORS configuration for frontend development:
+   - Allowed origins: `http://localhost:3000`, `http://localhost:3001`
+   - Credentials allowed
+   - All common HTTP methods and headers supported
+
 ## Client Generation
 
 ### Generate All Clients
@@ -140,6 +147,7 @@ SPECTACULAR_SETTINGS = settings_dict["SPECTACULAR_SETTINGS"]
 ```python
 # settings.py - Zone configuration with Pydantic models
 from django_revolution.app_config import ZoneConfig, get_revolution_config
+from django_revolution.app_config import MonorepoConfig
 
 def create_revolution_config() -> dict:
     """Get Django Revolution configuration as dictionary."""
@@ -163,10 +171,17 @@ def create_revolution_config() -> dict:
         )
     }
 
+    # With monorepo sync enabled
+    monorepo = MonorepoConfig(
+        enabled=True,
+        path=str(BASE_DIR.parent / 'monorepo'),
+        api_package_path='packages/api/src'
+    )
     return get_revolution_config(
         project_root=BASE_DIR, 
         zones=zones, 
         debug=DEBUG,
+        monorepo=monorepo,
         api_prefix="api"
     )
 
@@ -239,6 +254,12 @@ After running `poetry run python manage.py auto_generate`, you'll find:
 - **Location:** `openapi/archive/`
 - **Format:** ZIP files with versioned clients
 - **Usage:** Distribution and deployment
+
+### Monorepo Sync
+
+- **Location:** `../monorepo/packages/api/src/typescript/`
+- **Files:** TypeScript clients automatically synced to monorepo
+- **Usage:** Import from `@unrealos/api` package in monorepo projects
 
 ## Development Workflow
 

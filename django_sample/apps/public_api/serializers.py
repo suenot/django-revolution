@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from .models import User, Post
+from django.contrib.auth import get_user_model
+from .models import Post
+
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -7,13 +10,16 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'created_at']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'date_joined']
+        read_only_fields = ['id', 'date_joined']
 
 
 class PostSerializer(serializers.ModelSerializer):
     """Serializer for Post model."""
     author = UserSerializer(read_only=True)
+    author_id = serializers.IntegerField(write_only=True, source='author')
     
     class Meta:
         model = Post
-        fields = ['id', 'title', 'content', 'author', 'published', 'created_at'] 
+        fields = ['id', 'title', 'content', 'author', 'author_id', 'published', 'created_at']
+        read_only_fields = ['id', 'created_at'] 

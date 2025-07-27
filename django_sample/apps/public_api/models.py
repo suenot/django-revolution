@@ -1,14 +1,8 @@
 from django.db import models
+from django.conf import settings
+from django.contrib.auth import get_user_model
 
-
-class User(models.Model):
-    """Test user model for public API."""
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        app_label = 'public_api'
+User = get_user_model()
 
 
 class Post(models.Model):
