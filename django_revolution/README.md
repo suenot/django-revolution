@@ -907,7 +907,7 @@ isort django_revolution/
 
 ## 📞 Support
 
-- **Documentation**: [https://markolofsen.github.io/django-revolution/](https://markolofsen.github.io/django-revolution/)
+- **Documentation**: [https://revolution.unrealos.com/](https://revolution.unrealos.com/)
 - **Issues**: [https://github.com/markolofsen/django-revolution/issues](https://github.com/markolofsen/django-revolution/issues)
 - **Discussions**: [https://github.com/markolofsen/django-revolution/discussions](https://github.com/markolofsen/django-revolution/discussions)
 

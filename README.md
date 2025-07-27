@@ -257,7 +257,7 @@ return get_revolution_config(
 
 ## 📚 Documentation
 
-Comprehensive documentation is available at [GitHub Pages](https://markolofsen.github.io/django-revolution/).
+Comprehensive documentation is available at [GitHub Pages](https://revolution.unrealos.com/).
 
 ## 🔧 Requirements
 
@@ -278,6 +278,6 @@ For commercial use, please contact Unrealos Inc. at licensing@unrealos.com
 
 ## 🆘 Support
 
-- 📖 [Documentation](https://markolofsen.github.io/django-revolution/)
+- 📖 [Documentation](https://revolution.unrealos.com/)
 - 🐛 [Issue Tracker](https://github.com/markolofsen/django-revolution/issues)
 - 💬 [Discussions](https://github.com/markolofsen/django-revolution/discussions)
