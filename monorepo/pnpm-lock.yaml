@@ -61,7 +61,7 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0(react-hook-form@7.61.1(react@19.1.0))
       '@repo/api':
-        specifier: workspace:*
+        specifier: link:../../packages/api
         version: link:../../packages/api
       next:
         specifier: ^15.4.2
