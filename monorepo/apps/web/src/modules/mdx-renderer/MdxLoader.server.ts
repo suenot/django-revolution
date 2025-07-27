@@ -3,6 +3,7 @@ import path from 'path';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import remarkGfm from 'remark-gfm';
+import remarkMermaid from 'remark-mermaid';
 
 import { MdxDocumentation } from './types';
 
@@ -22,7 +23,10 @@ class MdxLoaderServer {
     return await serialize(content, { 
       scope,
       mdxOptions: {
-        remarkPlugins: [remarkGfm],
+        remarkPlugins: [
+          remarkGfm,
+          [remarkMermaid, { theme: 'default' }]
+        ],
       },
     });
   }

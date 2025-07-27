@@ -4,9 +4,10 @@ import React from 'react';
 import { Language } from 'prism-react-renderer';
 
 import PrettyCode from './PrettyCode';
+import Mermaid from './Mermaid';
 
 // Custom components for MDX
-const CustomLink = ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+const CustomLink = ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) => {
   const hrefString = typeof href === 'string' ? href : '';
   return (
     <a
@@ -96,17 +97,35 @@ const mdxComponents = {
         />
       );
     } else if (src) {
-      return (
-        <div className="relative w-full pt-[56.25%]">
-          <NextImage
+      // Check if this is a badge (shields.io or similar)
+      const isBadge = src.includes('shields.io') || src.includes('badge.fury.io') || src.includes('img.shields.io');
+      
+      if (isBadge) {
+        // For badges, use regular img tag with reasonable max dimensions
+        return (
+          <img
             src={src}
             alt={alt || ''}
-            fill
-            className="object-contain rounded-lg"
-            {...(rest as Omit<React.ComponentProps<typeof NextImage>, 'src' | 'alt' | 'fill'>)}
+            className="inline-block max-h-6 max-w-none rounded"
+            style={{ maxWidth: 'none' }}
+            {...rest}
           />
-        </div>
-      );
+        );
+      } else {
+        // For other images, use NextImage with fill but with better sizing
+        return (
+          <div className="relative w-full max-w-2xl mx-auto">
+            <NextImage
+              src={src}
+              alt={alt || ''}
+              width={800}
+              height={600}
+              className="rounded-lg shadow-sm w-full h-auto"
+              {...(rest as Omit<React.ComponentProps<typeof NextImage>, 'src' | 'alt' | 'width' | 'height'>)}
+            />
+          </div>
+        );
+      }
     }
     return null;
   },
@@ -142,12 +161,35 @@ const mdxComponents = {
         .trim();
     }
 
+    // Check if this is a mermaid diagram
+    // Check by language or content
+    const isMermaid = language === 'mermaid' || 
+                     codeContent.trim().startsWith('graph') || 
+                     codeContent.trim().startsWith('flowchart') ||
+                     codeContent.trim().startsWith('sequenceDiagram') ||
+                     codeContent.trim().startsWith('classDiagram') ||
+                     codeContent.trim().startsWith('stateDiagram') ||
+                     codeContent.trim().startsWith('erDiagram') ||
+                     codeContent.trim().startsWith('journey') ||
+                     codeContent.trim().startsWith('gantt') ||
+                     codeContent.trim().startsWith('pie') ||
+                     codeContent.trim().startsWith('gitgraph');
+    
+    if (isMermaid) {
+      return <Mermaid chart={codeContent} className="my-6" />;
+    }
+
     return <PrettyCode data={codeContent} language={language} className="my-6" />;
   },
   code: (props: React.HTMLAttributes<HTMLElement>) => {
     const { children, className } = props;
     const language = (className?.replace(/language-/, '').trim() as Language) || 'plaintext';
     const code = typeof children === 'string' ? children : '';
+
+    // Check if this is a mermaid diagram
+    if (language === 'mermaid') {
+      return <Mermaid chart={code} className="my-4" />;
+    }
 
     return <PrettyCode data={code} language={language} inline={true} />;
   },

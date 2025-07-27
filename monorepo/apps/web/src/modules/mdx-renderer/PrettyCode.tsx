@@ -10,27 +10,6 @@ interface PrettyCodeProps {
 }
 
 const PrettyCode = ({ data, language, className, mode = 'light', inline = false }: PrettyCodeProps) => {
-  console.log('PrettyCode render:', { language, normalizedLanguage: (() => {
-    switch (language) {
-      case 'bash':
-      case 'shell':
-        return 'shell';
-      case 'python':
-        return 'python';
-      case 'javascript':
-      case 'js':
-        return 'javascript';
-      case 'typescript':
-      case 'ts':
-        return 'typescript';
-      case 'json':
-        return 'json';
-      case 'yaml':
-        return 'yaml';
-      default:
-        return 'shell';
-    }
-  })() });
   // Select the Prism theme based on the mode
   const prismTheme =
     mode === 'dark'
@@ -100,6 +79,8 @@ const PrettyCode = ({ data, language, className, mode = 'light', inline = false 
         return 'json';
       case 'yaml':
         return 'yaml';
+      case 'mermaid':
+        return 'mermaid';
       default:
         return 'shell'; // Default to shell for unknown languages
     }
