@@ -3,9 +3,19 @@ layout: default
 title: Usage
 ---
 
-# Usage Guide
+# 🚀 Usage Guide - LLM-Optimized
 
-**How to use Django Revolution in your projects.**
+## 📖 Overview
+
+Comprehensive usage guide for Django Revolution with performance optimization, multithreading, and advanced configuration patterns.
+
+**Key Features:**
+- **Multithreaded generation** - Parallel processing for performance
+- **Zone-specific generation** - Generate specific zones only
+- **Performance optimization** - Configurable worker threads and memory management
+- **CI/CD integration** - Automated workflows and artifact management
+
+---
 
 ## 🚀 Basic Usage
 
@@ -59,6 +69,8 @@ python manage.py revolution --show-urls
 # Check status
 python manage.py revolution --status
 ```
+
+---
 
 ## 🎯 Advanced Usage
 
@@ -124,6 +136,8 @@ python manage.py revolution --python
 # Both (default)
 python manage.py revolution --typescript --python
 ```
+
+---
 
 ## 🔧 Configuration Examples
 
@@ -205,6 +219,8 @@ DJANGO_REVOLUTION = {
 }
 ```
 
+---
+
 ## 📊 Performance Monitoring
 
 ### Generation Time Tracking
@@ -237,6 +253,8 @@ for workers in 4 8 16 32; do
     time python manage.py revolution --generate --max-workers $workers --clean
 done
 ```
+
+---
 
 ## 🧪 Testing & Validation
 
@@ -276,6 +294,8 @@ python manage.py revolution --show-urls
 #   • schema/ -> public-schema
 #   • schema/swagger/ -> public-swagger
 ```
+
+---
 
 ## 🔄 CI/CD Integration
 
@@ -335,6 +355,8 @@ generate_clients:
     expire_in: 1 week
 ```
 
+---
+
 ## 🚨 Troubleshooting
 
 ### Common Performance Issues
@@ -388,6 +410,8 @@ python manage.py revolution --verbosity 3
 python manage.py revolution --traceback
 ```
 
+---
+
 ## 📈 Best Practices
 
 ### Performance Optimization
@@ -413,3 +437,18 @@ python manage.py revolution --traceback
 3. **Performance monitoring** - Track generation times
 4. **Error handling** - Proper error reporting and recovery
 5. **Caching** - Cache dependencies for faster builds
+
+---
+
+## 🧠 Key Notes
+
+- **Multithreading performance** - 2-3x speedup for multiple zones
+- **Memory optimization** - Configurable worker threads and cleanup
+- **CI/CD ready** - Automated workflows with artifact management
+- **Environment flexibility** - Different configs for dev/prod
+- **Monitoring tools** - Built-in performance tracking and validation
+- **Best practices** - Comprehensive guidelines for optimal usage
+
+---
+
+[← Back to Installation](installation.html) | [Next: CLI Reference →](cli.html)
