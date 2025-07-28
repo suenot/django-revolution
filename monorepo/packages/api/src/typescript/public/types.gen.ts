@@ -76,7 +76,7 @@ export type PostWritable = {
     published?: boolean;
 };
 
-export type ApiPublicApiPostsListData = {
+export type ApixPublicApiPostsListData = {
     body?: never;
     path?: never;
     query?: {
@@ -93,29 +93,29 @@ export type ApiPublicApiPostsListData = {
          */
         search?: string;
     };
-    url: '/api/public_api/posts/';
+    url: '/apix/public_api/posts/';
 };
 
-export type ApiPublicApiPostsListResponses = {
+export type ApixPublicApiPostsListResponses = {
     200: PaginatedPostList;
 };
 
-export type ApiPublicApiPostsListResponse = ApiPublicApiPostsListResponses[keyof ApiPublicApiPostsListResponses];
+export type ApixPublicApiPostsListResponse = ApixPublicApiPostsListResponses[keyof ApixPublicApiPostsListResponses];
 
-export type ApiPublicApiPostsCreateData = {
+export type ApixPublicApiPostsCreateData = {
     body: PostWritable;
     path?: never;
     query?: never;
-    url: '/api/public_api/posts/';
+    url: '/apix/public_api/posts/';
 };
 
-export type ApiPublicApiPostsCreateResponses = {
+export type ApixPublicApiPostsCreateResponses = {
     201: Post;
 };
 
-export type ApiPublicApiPostsCreateResponse = ApiPublicApiPostsCreateResponses[keyof ApiPublicApiPostsCreateResponses];
+export type ApixPublicApiPostsCreateResponse = ApixPublicApiPostsCreateResponses[keyof ApixPublicApiPostsCreateResponses];
 
-export type ApiPublicApiPostsDestroyData = {
+export type ApixPublicApiPostsDestroyData = {
     body?: never;
     path: {
         /**
@@ -124,19 +124,19 @@ export type ApiPublicApiPostsDestroyData = {
         id: number;
     };
     query?: never;
-    url: '/api/public_api/posts/{id}/';
+    url: '/apix/public_api/posts/{id}/';
 };
 
-export type ApiPublicApiPostsDestroyResponses = {
+export type ApixPublicApiPostsDestroyResponses = {
     /**
      * No response body
      */
     204: void;
 };
 
-export type ApiPublicApiPostsDestroyResponse = ApiPublicApiPostsDestroyResponses[keyof ApiPublicApiPostsDestroyResponses];
+export type ApixPublicApiPostsDestroyResponse = ApixPublicApiPostsDestroyResponses[keyof ApixPublicApiPostsDestroyResponses];
 
-export type ApiPublicApiPostsRetrieveData = {
+export type ApixPublicApiPostsRetrieveData = {
     body?: never;
     path: {
         /**
@@ -145,16 +145,16 @@ export type ApiPublicApiPostsRetrieveData = {
         id: number;
     };
     query?: never;
-    url: '/api/public_api/posts/{id}/';
+    url: '/apix/public_api/posts/{id}/';
 };
 
-export type ApiPublicApiPostsRetrieveResponses = {
+export type ApixPublicApiPostsRetrieveResponses = {
     200: Post;
 };
 
-export type ApiPublicApiPostsRetrieveResponse = ApiPublicApiPostsRetrieveResponses[keyof ApiPublicApiPostsRetrieveResponses];
+export type ApixPublicApiPostsRetrieveResponse = ApixPublicApiPostsRetrieveResponses[keyof ApixPublicApiPostsRetrieveResponses];
 
-export type ApiPublicApiPostsPartialUpdateData = {
+export type ApixPublicApiPostsPartialUpdateData = {
     body?: PatchedPostWritable;
     path: {
         /**
@@ -163,16 +163,16 @@ export type ApiPublicApiPostsPartialUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/public_api/posts/{id}/';
+    url: '/apix/public_api/posts/{id}/';
 };
 
-export type ApiPublicApiPostsPartialUpdateResponses = {
+export type ApixPublicApiPostsPartialUpdateResponses = {
     200: Post;
 };
 
-export type ApiPublicApiPostsPartialUpdateResponse = ApiPublicApiPostsPartialUpdateResponses[keyof ApiPublicApiPostsPartialUpdateResponses];
+export type ApixPublicApiPostsPartialUpdateResponse = ApixPublicApiPostsPartialUpdateResponses[keyof ApixPublicApiPostsPartialUpdateResponses];
 
-export type ApiPublicApiPostsUpdateData = {
+export type ApixPublicApiPostsUpdateData = {
     body: PostWritable;
     path: {
         /**
@@ -181,16 +181,16 @@ export type ApiPublicApiPostsUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/public_api/posts/{id}/';
+    url: '/apix/public_api/posts/{id}/';
 };
 
-export type ApiPublicApiPostsUpdateResponses = {
+export type ApixPublicApiPostsUpdateResponses = {
     200: Post;
 };
 
-export type ApiPublicApiPostsUpdateResponse = ApiPublicApiPostsUpdateResponses[keyof ApiPublicApiPostsUpdateResponses];
+export type ApixPublicApiPostsUpdateResponse = ApixPublicApiPostsUpdateResponses[keyof ApixPublicApiPostsUpdateResponses];
 
-export type ApiPublicApiPostsPublishCreateData = {
+export type ApixPublicApiPostsPublishCreateData = {
     body: PostWritable;
     path: {
         /**
@@ -199,16 +199,16 @@ export type ApiPublicApiPostsPublishCreateData = {
         id: number;
     };
     query?: never;
-    url: '/api/public_api/posts/{id}/publish/';
+    url: '/apix/public_api/posts/{id}/publish/';
 };
 
-export type ApiPublicApiPostsPublishCreateResponses = {
+export type ApixPublicApiPostsPublishCreateResponses = {
     200: Post;
 };
 
-export type ApiPublicApiPostsPublishCreateResponse = ApiPublicApiPostsPublishCreateResponses[keyof ApiPublicApiPostsPublishCreateResponses];
+export type ApixPublicApiPostsPublishCreateResponse = ApixPublicApiPostsPublishCreateResponses[keyof ApixPublicApiPostsPublishCreateResponses];
 
-export type ApiPublicApiPostsUnpublishCreateData = {
+export type ApixPublicApiPostsUnpublishCreateData = {
     body: PostWritable;
     path: {
         /**
@@ -217,16 +217,16 @@ export type ApiPublicApiPostsUnpublishCreateData = {
         id: number;
     };
     query?: never;
-    url: '/api/public_api/posts/{id}/unpublish/';
+    url: '/apix/public_api/posts/{id}/unpublish/';
 };
 
-export type ApiPublicApiPostsUnpublishCreateResponses = {
+export type ApixPublicApiPostsUnpublishCreateResponses = {
     200: Post;
 };
 
-export type ApiPublicApiPostsUnpublishCreateResponse = ApiPublicApiPostsUnpublishCreateResponses[keyof ApiPublicApiPostsUnpublishCreateResponses];
+export type ApixPublicApiPostsUnpublishCreateResponse = ApixPublicApiPostsUnpublishCreateResponses[keyof ApixPublicApiPostsUnpublishCreateResponses];
 
-export type ApiPublicApiPostsByAuthorListData = {
+export type ApixPublicApiPostsByAuthorListData = {
     body?: never;
     path?: never;
     query?: {
@@ -244,16 +244,16 @@ export type ApiPublicApiPostsByAuthorListData = {
          */
         search?: string;
     };
-    url: '/api/public_api/posts/by_author/';
+    url: '/apix/public_api/posts/by_author/';
 };
 
-export type ApiPublicApiPostsByAuthorListResponses = {
+export type ApixPublicApiPostsByAuthorListResponses = {
     200: PaginatedPostList;
 };
 
-export type ApiPublicApiPostsByAuthorListResponse = ApiPublicApiPostsByAuthorListResponses[keyof ApiPublicApiPostsByAuthorListResponses];
+export type ApixPublicApiPostsByAuthorListResponse = ApixPublicApiPostsByAuthorListResponses[keyof ApixPublicApiPostsByAuthorListResponses];
 
-export type ApiPublicApiPostsPublishedListData = {
+export type ApixPublicApiPostsPublishedListData = {
     body?: never;
     path?: never;
     query?: {
@@ -270,14 +270,14 @@ export type ApiPublicApiPostsPublishedListData = {
          */
         search?: string;
     };
-    url: '/api/public_api/posts/published/';
+    url: '/apix/public_api/posts/published/';
 };
 
-export type ApiPublicApiPostsPublishedListResponses = {
+export type ApixPublicApiPostsPublishedListResponses = {
     200: PaginatedPostList;
 };
 
-export type ApiPublicApiPostsPublishedListResponse = ApiPublicApiPostsPublishedListResponses[keyof ApiPublicApiPostsPublishedListResponses];
+export type ApixPublicApiPostsPublishedListResponse = ApixPublicApiPostsPublishedListResponses[keyof ApixPublicApiPostsPublishedListResponses];
 
 export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});

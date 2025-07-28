@@ -114,7 +114,7 @@ export type RootRetrieveData = {
         username: string;
     };
     query?: never;
-    url: '/api/users/{username}/';
+    url: '/apix/users/{username}/';
 };
 
 export type RootRetrieveResponses = {
@@ -127,7 +127,7 @@ export type AuthLoginCreateData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/users/auth/login/';
+    url: '/apix/users/auth/login/';
 };
 
 export type AuthLoginCreateResponses = {
@@ -141,7 +141,7 @@ export type AuthLogoutCreateData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/users/auth/logout/';
+    url: '/apix/users/auth/logout/';
 };
 
 export type AuthLogoutCreateResponses = {
@@ -155,7 +155,7 @@ export type AuthPasswordChangeCreateData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/users/auth/password/change/';
+    url: '/apix/users/auth/password/change/';
 };
 
 export type AuthPasswordChangeCreateResponses = {
@@ -169,7 +169,7 @@ export type AuthPasswordResetCreateData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/users/auth/password/reset/';
+    url: '/apix/users/auth/password/reset/';
 };
 
 export type AuthPasswordResetCreateResponses = {
@@ -183,7 +183,7 @@ export type AuthPasswordResetConfirmCreateData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/users/auth/password/reset/confirm/';
+    url: '/apix/users/auth/password/reset/confirm/';
 };
 
 export type AuthPasswordResetConfirmCreateResponses = {
@@ -197,7 +197,7 @@ export type AuthRefreshCreateData = {
     body: TokenRefreshWritable;
     path?: never;
     query?: never;
-    url: '/api/users/auth/refresh/';
+    url: '/apix/users/auth/refresh/';
 };
 
 export type AuthRefreshCreateResponses = {
@@ -210,7 +210,7 @@ export type AuthRefreshTokenCreateData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/users/auth/refresh-token/';
+    url: '/apix/users/auth/refresh-token/';
 };
 
 export type AuthRefreshTokenCreateResponses = {
@@ -224,7 +224,7 @@ export type AuthRegisterCreateData = {
     body: UserCreate;
     path?: never;
     query?: never;
-    url: '/api/users/auth/register/';
+    url: '/apix/users/auth/register/';
 };
 
 export type AuthRegisterCreateResponses = {
@@ -250,7 +250,7 @@ export type ListListData = {
          */
         search?: string;
     };
-    url: '/api/users/list/';
+    url: '/apix/users/list/';
 };
 
 export type ListListResponses = {
@@ -263,7 +263,7 @@ export type MeRetrieveData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/users/me/';
+    url: '/apix/users/me/';
 };
 
 export type MeRetrieveResponses = {
@@ -277,7 +277,7 @@ export type ProfileRetrieveData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/users/profile/';
+    url: '/apix/users/profile/';
 };
 
 export type ProfileRetrieveResponses = {
@@ -290,7 +290,7 @@ export type ProfilePartialUpdateData = {
     body?: PatchedUserProfile;
     path?: never;
     query?: never;
-    url: '/api/users/profile/';
+    url: '/apix/users/profile/';
 };
 
 export type ProfilePartialUpdateResponses = {
@@ -303,7 +303,7 @@ export type ProfileUpdateData = {
     body?: UserProfile;
     path?: never;
     query?: never;
-    url: '/api/users/profile/';
+    url: '/apix/users/profile/';
 };
 
 export type ProfileUpdateResponses = {

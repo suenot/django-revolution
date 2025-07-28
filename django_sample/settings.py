@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.public_api",
     "apps.private_api",
+    "apps.trading_signals",
     "apps.core",
 ]
 
@@ -71,10 +72,32 @@ TEMPLATES = [
 WSGI_APPLICATION = "wsgi.application"
 
 # Database
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# PostgreSQL Configuration
+POSTGRES_HOST = os.getenv('POSTGRES_HOST', 'localhost')
+POSTGRES_PORT = os.getenv('POSTGRES_PORT', '5432')
+POSTGRES_USER = os.getenv('POSTGRES_USER', 'postgres')
+POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD', '')
+POSTGRES_DB = os.getenv('POSTGRES_DB', 'trading_signals')
+
+# PostgreSQL Configuration - только PostgreSQL
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "test_db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": POSTGRES_HOST,
+        "PORT": POSTGRES_PORT,
+        "NAME": POSTGRES_DB,
+        "USER": POSTGRES_USER,
+        "PASSWORD": POSTGRES_PASSWORD,
+        "OPTIONS": {
+            "sslmode": "disable",
+        },
     }
 }
 
@@ -253,15 +276,24 @@ def create_revolution_config() -> dict:
             auth_required=True,
             version="v1",
         ),
+        "trading": ZoneConfig(
+            apps=["apps.trading_signals"],
+            title="Trading Signals API",
+            description="API for trading signals, channels and messages",
+            public=True,
+            auth_required=False,
+            version="v1",
+        ),
     }
 
     # Option 1: With monorepo (enabled)
+    from django_revolution.app_config import MonorepoConfig
     monorepo = MonorepoConfig(
         enabled=True,
         path=str(BASE_DIR.parent / 'monorepo'),
         api_package_path='packages/api/src'
     )
-    return get_revolution_config(project_root=BASE_DIR, zones=zones, debug=DEBUG, monorepo=monorepo, api_prefix="api")
+    return get_revolution_config(project_root=BASE_DIR, zones=zones, debug=DEBUG, monorepo=monorepo)
 
 
 # Apply Django Revolution settings

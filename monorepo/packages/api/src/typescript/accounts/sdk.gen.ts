@@ -33,7 +33,7 @@ export const rootRetrieve = <ThrowOnError extends boolean = false>(options: Opti
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/{username}/',
+        url: '/apix/users/{username}/',
         ...options
     });
 };
@@ -53,7 +53,7 @@ export const authLoginCreate = <ThrowOnError extends boolean = false>(options?: 
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/auth/login/',
+        url: '/apix/users/auth/login/',
         ...options
     });
 };
@@ -73,7 +73,7 @@ export const authLogoutCreate = <ThrowOnError extends boolean = false>(options?:
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/auth/logout/',
+        url: '/apix/users/auth/logout/',
         ...options
     });
 };
@@ -93,7 +93,7 @@ export const authPasswordChangeCreate = <ThrowOnError extends boolean = false>(o
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/auth/password/change/',
+        url: '/apix/users/auth/password/change/',
         ...options
     });
 };
@@ -113,7 +113,7 @@ export const authPasswordResetCreate = <ThrowOnError extends boolean = false>(op
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/auth/password/reset/',
+        url: '/apix/users/auth/password/reset/',
         ...options
     });
 };
@@ -133,7 +133,7 @@ export const authPasswordResetConfirmCreate = <ThrowOnError extends boolean = fa
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/auth/password/reset/confirm/',
+        url: '/apix/users/auth/password/reset/confirm/',
         ...options
     });
 };
@@ -144,7 +144,7 @@ export const authPasswordResetConfirmCreate = <ThrowOnError extends boolean = fa
  */
 export const authRefreshCreate = <ThrowOnError extends boolean = false>(options: Options<AuthRefreshCreateData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<AuthRefreshCreateResponses, unknown, ThrowOnError>({
-        url: '/api/users/auth/refresh/',
+        url: '/apix/users/auth/refresh/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ export const authRefreshTokenCreate = <ThrowOnError extends boolean = false>(opt
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/auth/refresh-token/',
+        url: '/apix/users/auth/refresh-token/',
         ...options
     });
 };
@@ -188,7 +188,7 @@ export const authRegisterCreate = <ThrowOnError extends boolean = false>(options
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/auth/register/',
+        url: '/apix/users/auth/register/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ export const listList = <ThrowOnError extends boolean = false>(options?: Options
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/list/',
+        url: '/apix/users/list/',
         ...options
     });
 };
@@ -232,7 +232,7 @@ export const meRetrieve = <ThrowOnError extends boolean = false>(options?: Optio
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/me/',
+        url: '/apix/users/me/',
         ...options
     });
 };
@@ -252,7 +252,7 @@ export const profileRetrieve = <ThrowOnError extends boolean = false>(options?: 
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/profile/',
+        url: '/apix/users/profile/',
         ...options
     });
 };
@@ -272,7 +272,7 @@ export const profilePartialUpdate = <ThrowOnError extends boolean = false>(optio
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/profile/',
+        url: '/apix/users/profile/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -296,7 +296,7 @@ export const profileUpdate = <ThrowOnError extends boolean = false>(options?: Op
                 type: 'apiKey'
             }
         ],
-        url: '/api/users/profile/',
+        url: '/apix/users/profile/',
         ...options,
         headers: {
             'Content-Type': 'application/json',

@@ -144,7 +144,7 @@ export type CategoriesListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/categories/';
+    url: '/apix/private_api/categories/';
 };
 
 export type CategoriesListResponses = {
@@ -157,7 +157,7 @@ export type CategoriesCreateData = {
     body: Category;
     path?: never;
     query?: never;
-    url: '/api/private_api/categories/';
+    url: '/apix/private_api/categories/';
 };
 
 export type CategoriesCreateResponses = {
@@ -185,7 +185,7 @@ export type CategoriesProductsListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/categories/{category_id}/products/';
+    url: '/apix/private_api/categories/{category_id}/products/';
 };
 
 export type CategoriesProductsListResponses = {
@@ -200,7 +200,7 @@ export type CategoriesProductsCreateData = {
         category_id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{category_id}/products/';
+    url: '/apix/private_api/categories/{category_id}/products/';
 };
 
 export type CategoriesProductsCreateResponses = {
@@ -219,7 +219,7 @@ export type CategoriesProductsDestroyData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{category_id}/products/{id}/';
+    url: '/apix/private_api/categories/{category_id}/products/{id}/';
 };
 
 export type CategoriesProductsDestroyResponses = {
@@ -241,7 +241,7 @@ export type CategoriesProductsRetrieveData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{category_id}/products/{id}/';
+    url: '/apix/private_api/categories/{category_id}/products/{id}/';
 };
 
 export type CategoriesProductsRetrieveResponses = {
@@ -260,7 +260,7 @@ export type CategoriesProductsPartialUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{category_id}/products/{id}/';
+    url: '/apix/private_api/categories/{category_id}/products/{id}/';
 };
 
 export type CategoriesProductsPartialUpdateResponses = {
@@ -279,7 +279,7 @@ export type CategoriesProductsUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{category_id}/products/{id}/';
+    url: '/apix/private_api/categories/{category_id}/products/{id}/';
 };
 
 export type CategoriesProductsUpdateResponses = {
@@ -311,7 +311,7 @@ export type CategoriesProductsOrderItemsListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/categories/{category_id}/products/{id}/order_items/';
+    url: '/apix/private_api/categories/{category_id}/products/{id}/order_items/';
 };
 
 export type CategoriesProductsOrderItemsListResponses = {
@@ -340,7 +340,7 @@ export type CategoriesProductsByCategoryListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/categories/{category_id}/products/by_category/';
+    url: '/apix/private_api/categories/{category_id}/products/by_category/';
 };
 
 export type CategoriesProductsByCategoryListResponses = {
@@ -368,7 +368,7 @@ export type CategoriesProductsLowStockListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/categories/{category_id}/products/low_stock/';
+    url: '/apix/private_api/categories/{category_id}/products/low_stock/';
 };
 
 export type CategoriesProductsLowStockListResponses = {
@@ -386,7 +386,7 @@ export type CategoriesDestroyData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{id}/';
+    url: '/apix/private_api/categories/{id}/';
 };
 
 export type CategoriesDestroyResponses = {
@@ -407,7 +407,7 @@ export type CategoriesRetrieveData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{id}/';
+    url: '/apix/private_api/categories/{id}/';
 };
 
 export type CategoriesRetrieveResponses = {
@@ -425,7 +425,7 @@ export type CategoriesPartialUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{id}/';
+    url: '/apix/private_api/categories/{id}/';
 };
 
 export type CategoriesPartialUpdateResponses = {
@@ -443,7 +443,7 @@ export type CategoriesUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/categories/{id}/';
+    url: '/apix/private_api/categories/{id}/';
 };
 
 export type CategoriesUpdateResponses = {
@@ -474,7 +474,7 @@ export type CategoriesProductsList2Data = {
          */
         search?: string;
     };
-    url: '/api/private_api/categories/{id}/products/';
+    url: '/apix/private_api/categories/{id}/products/';
 };
 
 export type CategoriesProductsList2Responses = {
@@ -500,7 +500,7 @@ export type CategoriesActiveListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/categories/active/';
+    url: '/apix/private_api/categories/active/';
 };
 
 export type CategoriesActiveListResponses = {
@@ -526,7 +526,7 @@ export type OrderItemsListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/order-items/';
+    url: '/apix/private_api/order-items/';
 };
 
 export type OrderItemsListResponses = {
@@ -539,7 +539,7 @@ export type OrderItemsCreateData = {
     body: OrderItem;
     path?: never;
     query?: never;
-    url: '/api/private_api/order-items/';
+    url: '/apix/private_api/order-items/';
 };
 
 export type OrderItemsCreateResponses = {
@@ -557,7 +557,7 @@ export type OrderItemsDestroyData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/order-items/{id}/';
+    url: '/apix/private_api/order-items/{id}/';
 };
 
 export type OrderItemsDestroyResponses = {
@@ -578,7 +578,7 @@ export type OrderItemsRetrieveData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/order-items/{id}/';
+    url: '/apix/private_api/order-items/{id}/';
 };
 
 export type OrderItemsRetrieveResponses = {
@@ -596,7 +596,7 @@ export type OrderItemsPartialUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/order-items/{id}/';
+    url: '/apix/private_api/order-items/{id}/';
 };
 
 export type OrderItemsPartialUpdateResponses = {
@@ -614,7 +614,7 @@ export type OrderItemsUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/order-items/{id}/';
+    url: '/apix/private_api/order-items/{id}/';
 };
 
 export type OrderItemsUpdateResponses = {
@@ -640,7 +640,7 @@ export type OrdersListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/orders/';
+    url: '/apix/private_api/orders/';
 };
 
 export type OrdersListResponses = {
@@ -653,7 +653,7 @@ export type OrdersCreateData = {
     body: Order;
     path?: never;
     query?: never;
-    url: '/api/private_api/orders/';
+    url: '/apix/private_api/orders/';
 };
 
 export type OrdersCreateResponses = {
@@ -671,7 +671,7 @@ export type OrdersDestroyData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{id}/';
+    url: '/apix/private_api/orders/{id}/';
 };
 
 export type OrdersDestroyResponses = {
@@ -692,7 +692,7 @@ export type OrdersRetrieveData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{id}/';
+    url: '/apix/private_api/orders/{id}/';
 };
 
 export type OrdersRetrieveResponses = {
@@ -710,7 +710,7 @@ export type OrdersPartialUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{id}/';
+    url: '/apix/private_api/orders/{id}/';
 };
 
 export type OrdersPartialUpdateResponses = {
@@ -728,7 +728,7 @@ export type OrdersUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{id}/';
+    url: '/apix/private_api/orders/{id}/';
 };
 
 export type OrdersUpdateResponses = {
@@ -746,7 +746,7 @@ export type OrdersCancelCreateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{id}/cancel/';
+    url: '/apix/private_api/orders/{id}/cancel/';
 };
 
 export type OrdersCancelCreateResponses = {
@@ -777,7 +777,7 @@ export type OrdersItemsListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/orders/{id}/items/';
+    url: '/apix/private_api/orders/{id}/items/';
 };
 
 export type OrdersItemsListResponses = {
@@ -805,7 +805,7 @@ export type OrdersItemsList2Data = {
          */
         search?: string;
     };
-    url: '/api/private_api/orders/{order_id}/items/';
+    url: '/apix/private_api/orders/{order_id}/items/';
 };
 
 export type OrdersItemsList2Responses = {
@@ -820,7 +820,7 @@ export type OrdersItemsCreateData = {
         order_id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{order_id}/items/';
+    url: '/apix/private_api/orders/{order_id}/items/';
 };
 
 export type OrdersItemsCreateResponses = {
@@ -839,7 +839,7 @@ export type OrdersItemsDestroyData = {
         order_id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{order_id}/items/{id}/';
+    url: '/apix/private_api/orders/{order_id}/items/{id}/';
 };
 
 export type OrdersItemsDestroyResponses = {
@@ -861,7 +861,7 @@ export type OrdersItemsRetrieveData = {
         order_id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{order_id}/items/{id}/';
+    url: '/apix/private_api/orders/{order_id}/items/{id}/';
 };
 
 export type OrdersItemsRetrieveResponses = {
@@ -880,7 +880,7 @@ export type OrdersItemsPartialUpdateData = {
         order_id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{order_id}/items/{id}/';
+    url: '/apix/private_api/orders/{order_id}/items/{id}/';
 };
 
 export type OrdersItemsPartialUpdateResponses = {
@@ -899,7 +899,7 @@ export type OrdersItemsUpdateData = {
         order_id: number;
     };
     query?: never;
-    url: '/api/private_api/orders/{order_id}/items/{id}/';
+    url: '/apix/private_api/orders/{order_id}/items/{id}/';
 };
 
 export type OrdersItemsUpdateResponses = {
@@ -926,7 +926,7 @@ export type OrdersByStatusListData = {
         search?: string;
         status?: string;
     };
-    url: '/api/private_api/orders/by_status/';
+    url: '/apix/private_api/orders/by_status/';
 };
 
 export type OrdersByStatusListResponses = {
@@ -952,7 +952,7 @@ export type ProductsListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/products/';
+    url: '/apix/private_api/products/';
 };
 
 export type ProductsListResponses = {
@@ -965,7 +965,7 @@ export type ProductsCreateData = {
     body: Product;
     path?: never;
     query?: never;
-    url: '/api/private_api/products/';
+    url: '/apix/private_api/products/';
 };
 
 export type ProductsCreateResponses = {
@@ -983,7 +983,7 @@ export type ProductsDestroyData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{id}/';
+    url: '/apix/private_api/products/{id}/';
 };
 
 export type ProductsDestroyResponses = {
@@ -1004,7 +1004,7 @@ export type ProductsRetrieveData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{id}/';
+    url: '/apix/private_api/products/{id}/';
 };
 
 export type ProductsRetrieveResponses = {
@@ -1022,7 +1022,7 @@ export type ProductsPartialUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{id}/';
+    url: '/apix/private_api/products/{id}/';
 };
 
 export type ProductsPartialUpdateResponses = {
@@ -1040,7 +1040,7 @@ export type ProductsUpdateData = {
         id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{id}/';
+    url: '/apix/private_api/products/{id}/';
 };
 
 export type ProductsUpdateResponses = {
@@ -1071,7 +1071,7 @@ export type ProductsOrderItemsListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/products/{id}/order_items/';
+    url: '/apix/private_api/products/{id}/order_items/';
 };
 
 export type ProductsOrderItemsListResponses = {
@@ -1099,7 +1099,7 @@ export type ProductsOrderItemsList2Data = {
          */
         search?: string;
     };
-    url: '/api/private_api/products/{product_id}/order-items/';
+    url: '/apix/private_api/products/{product_id}/order-items/';
 };
 
 export type ProductsOrderItemsList2Responses = {
@@ -1114,7 +1114,7 @@ export type ProductsOrderItemsCreateData = {
         product_id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{product_id}/order-items/';
+    url: '/apix/private_api/products/{product_id}/order-items/';
 };
 
 export type ProductsOrderItemsCreateResponses = {
@@ -1133,7 +1133,7 @@ export type ProductsOrderItemsDestroyData = {
         product_id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{product_id}/order-items/{id}/';
+    url: '/apix/private_api/products/{product_id}/order-items/{id}/';
 };
 
 export type ProductsOrderItemsDestroyResponses = {
@@ -1155,7 +1155,7 @@ export type ProductsOrderItemsRetrieveData = {
         product_id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{product_id}/order-items/{id}/';
+    url: '/apix/private_api/products/{product_id}/order-items/{id}/';
 };
 
 export type ProductsOrderItemsRetrieveResponses = {
@@ -1174,7 +1174,7 @@ export type ProductsOrderItemsPartialUpdateData = {
         product_id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{product_id}/order-items/{id}/';
+    url: '/apix/private_api/products/{product_id}/order-items/{id}/';
 };
 
 export type ProductsOrderItemsPartialUpdateResponses = {
@@ -1193,7 +1193,7 @@ export type ProductsOrderItemsUpdateData = {
         product_id: number;
     };
     query?: never;
-    url: '/api/private_api/products/{product_id}/order-items/{id}/';
+    url: '/apix/private_api/products/{product_id}/order-items/{id}/';
 };
 
 export type ProductsOrderItemsUpdateResponses = {
@@ -1220,7 +1220,7 @@ export type ProductsByCategoryListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/products/by_category/';
+    url: '/apix/private_api/products/by_category/';
 };
 
 export type ProductsByCategoryListResponses = {
@@ -1246,7 +1246,7 @@ export type ProductsLowStockListData = {
          */
         search?: string;
     };
-    url: '/api/private_api/products/low_stock/';
+    url: '/apix/private_api/products/low_stock/';
 };
 
 export type ProductsLowStockListResponses = {

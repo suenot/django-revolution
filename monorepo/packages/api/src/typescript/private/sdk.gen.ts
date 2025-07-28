@@ -33,7 +33,7 @@ export const categoriesList = <ThrowOnError extends boolean = false>(options?: O
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/',
+        url: '/apix/private_api/categories/',
         ...options
     });
 };
@@ -53,7 +53,7 @@ export const categoriesCreate = <ThrowOnError extends boolean = false>(options: 
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/',
+        url: '/apix/private_api/categories/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export const categoriesProductsList = <ThrowOnError extends boolean = false>(opt
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/',
+        url: '/apix/private_api/categories/{category_id}/products/',
         ...options
     });
 };
@@ -97,7 +97,7 @@ export const categoriesProductsCreate = <ThrowOnError extends boolean = false>(o
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/',
+        url: '/apix/private_api/categories/{category_id}/products/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export const categoriesProductsDestroy = <ThrowOnError extends boolean = false>(
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/{id}/',
+        url: '/apix/private_api/categories/{category_id}/products/{id}/',
         ...options
     });
 };
@@ -141,7 +141,7 @@ export const categoriesProductsRetrieve = <ThrowOnError extends boolean = false>
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/{id}/',
+        url: '/apix/private_api/categories/{category_id}/products/{id}/',
         ...options
     });
 };
@@ -161,7 +161,7 @@ export const categoriesProductsPartialUpdate = <ThrowOnError extends boolean = f
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/{id}/',
+        url: '/apix/private_api/categories/{category_id}/products/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -185,7 +185,7 @@ export const categoriesProductsUpdate = <ThrowOnError extends boolean = false>(o
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/{id}/',
+        url: '/apix/private_api/categories/{category_id}/products/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -210,7 +210,7 @@ export const categoriesProductsOrderItemsList = <ThrowOnError extends boolean = 
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/{id}/order_items/',
+        url: '/apix/private_api/categories/{category_id}/products/{id}/order_items/',
         ...options
     });
 };
@@ -231,7 +231,7 @@ export const categoriesProductsByCategoryList = <ThrowOnError extends boolean = 
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/by_category/',
+        url: '/apix/private_api/categories/{category_id}/products/by_category/',
         ...options
     });
 };
@@ -252,7 +252,7 @@ export const categoriesProductsLowStockList = <ThrowOnError extends boolean = fa
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{category_id}/products/low_stock/',
+        url: '/apix/private_api/categories/{category_id}/products/low_stock/',
         ...options
     });
 };
@@ -272,7 +272,7 @@ export const categoriesDestroy = <ThrowOnError extends boolean = false>(options:
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{id}/',
+        url: '/apix/private_api/categories/{id}/',
         ...options
     });
 };
@@ -292,7 +292,7 @@ export const categoriesRetrieve = <ThrowOnError extends boolean = false>(options
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{id}/',
+        url: '/apix/private_api/categories/{id}/',
         ...options
     });
 };
@@ -312,7 +312,7 @@ export const categoriesPartialUpdate = <ThrowOnError extends boolean = false>(op
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{id}/',
+        url: '/apix/private_api/categories/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -336,7 +336,7 @@ export const categoriesUpdate = <ThrowOnError extends boolean = false>(options: 
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{id}/',
+        url: '/apix/private_api/categories/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -361,7 +361,7 @@ export const categoriesProductsList2 = <ThrowOnError extends boolean = false>(op
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/{id}/products/',
+        url: '/apix/private_api/categories/{id}/products/',
         ...options
     });
 };
@@ -382,7 +382,7 @@ export const categoriesActiveList = <ThrowOnError extends boolean = false>(optio
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/categories/active/',
+        url: '/apix/private_api/categories/active/',
         ...options
     });
 };
@@ -402,7 +402,7 @@ export const orderItemsList = <ThrowOnError extends boolean = false>(options?: O
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/order-items/',
+        url: '/apix/private_api/order-items/',
         ...options
     });
 };
@@ -422,7 +422,7 @@ export const orderItemsCreate = <ThrowOnError extends boolean = false>(options: 
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/order-items/',
+        url: '/apix/private_api/order-items/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -446,7 +446,7 @@ export const orderItemsDestroy = <ThrowOnError extends boolean = false>(options:
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/order-items/{id}/',
+        url: '/apix/private_api/order-items/{id}/',
         ...options
     });
 };
@@ -466,7 +466,7 @@ export const orderItemsRetrieve = <ThrowOnError extends boolean = false>(options
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/order-items/{id}/',
+        url: '/apix/private_api/order-items/{id}/',
         ...options
     });
 };
@@ -486,7 +486,7 @@ export const orderItemsPartialUpdate = <ThrowOnError extends boolean = false>(op
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/order-items/{id}/',
+        url: '/apix/private_api/order-items/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -510,7 +510,7 @@ export const orderItemsUpdate = <ThrowOnError extends boolean = false>(options: 
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/order-items/{id}/',
+        url: '/apix/private_api/order-items/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -534,7 +534,7 @@ export const ordersList = <ThrowOnError extends boolean = false>(options?: Optio
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/',
+        url: '/apix/private_api/orders/',
         ...options
     });
 };
@@ -554,7 +554,7 @@ export const ordersCreate = <ThrowOnError extends boolean = false>(options: Opti
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/',
+        url: '/apix/private_api/orders/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -578,7 +578,7 @@ export const ordersDestroy = <ThrowOnError extends boolean = false>(options: Opt
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{id}/',
+        url: '/apix/private_api/orders/{id}/',
         ...options
     });
 };
@@ -598,7 +598,7 @@ export const ordersRetrieve = <ThrowOnError extends boolean = false>(options: Op
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{id}/',
+        url: '/apix/private_api/orders/{id}/',
         ...options
     });
 };
@@ -618,7 +618,7 @@ export const ordersPartialUpdate = <ThrowOnError extends boolean = false>(option
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{id}/',
+        url: '/apix/private_api/orders/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -642,7 +642,7 @@ export const ordersUpdate = <ThrowOnError extends boolean = false>(options: Opti
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{id}/',
+        url: '/apix/private_api/orders/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -667,7 +667,7 @@ export const ordersCancelCreate = <ThrowOnError extends boolean = false>(options
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{id}/cancel/',
+        url: '/apix/private_api/orders/{id}/cancel/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -692,7 +692,7 @@ export const ordersItemsList = <ThrowOnError extends boolean = false>(options: O
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{id}/items/',
+        url: '/apix/private_api/orders/{id}/items/',
         ...options
     });
 };
@@ -712,7 +712,7 @@ export const ordersItemsList2 = <ThrowOnError extends boolean = false>(options: 
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{order_id}/items/',
+        url: '/apix/private_api/orders/{order_id}/items/',
         ...options
     });
 };
@@ -732,7 +732,7 @@ export const ordersItemsCreate = <ThrowOnError extends boolean = false>(options:
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{order_id}/items/',
+        url: '/apix/private_api/orders/{order_id}/items/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -756,7 +756,7 @@ export const ordersItemsDestroy = <ThrowOnError extends boolean = false>(options
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{order_id}/items/{id}/',
+        url: '/apix/private_api/orders/{order_id}/items/{id}/',
         ...options
     });
 };
@@ -776,7 +776,7 @@ export const ordersItemsRetrieve = <ThrowOnError extends boolean = false>(option
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{order_id}/items/{id}/',
+        url: '/apix/private_api/orders/{order_id}/items/{id}/',
         ...options
     });
 };
@@ -796,7 +796,7 @@ export const ordersItemsPartialUpdate = <ThrowOnError extends boolean = false>(o
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{order_id}/items/{id}/',
+        url: '/apix/private_api/orders/{order_id}/items/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -820,7 +820,7 @@ export const ordersItemsUpdate = <ThrowOnError extends boolean = false>(options:
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/{order_id}/items/{id}/',
+        url: '/apix/private_api/orders/{order_id}/items/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -845,7 +845,7 @@ export const ordersByStatusList = <ThrowOnError extends boolean = false>(options
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/orders/by_status/',
+        url: '/apix/private_api/orders/by_status/',
         ...options
     });
 };
@@ -865,7 +865,7 @@ export const productsList = <ThrowOnError extends boolean = false>(options?: Opt
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/',
+        url: '/apix/private_api/products/',
         ...options
     });
 };
@@ -885,7 +885,7 @@ export const productsCreate = <ThrowOnError extends boolean = false>(options: Op
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/',
+        url: '/apix/private_api/products/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -909,7 +909,7 @@ export const productsDestroy = <ThrowOnError extends boolean = false>(options: O
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{id}/',
+        url: '/apix/private_api/products/{id}/',
         ...options
     });
 };
@@ -929,7 +929,7 @@ export const productsRetrieve = <ThrowOnError extends boolean = false>(options: 
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{id}/',
+        url: '/apix/private_api/products/{id}/',
         ...options
     });
 };
@@ -949,7 +949,7 @@ export const productsPartialUpdate = <ThrowOnError extends boolean = false>(opti
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{id}/',
+        url: '/apix/private_api/products/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -973,7 +973,7 @@ export const productsUpdate = <ThrowOnError extends boolean = false>(options: Op
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{id}/',
+        url: '/apix/private_api/products/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -998,7 +998,7 @@ export const productsOrderItemsList = <ThrowOnError extends boolean = false>(opt
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{id}/order_items/',
+        url: '/apix/private_api/products/{id}/order_items/',
         ...options
     });
 };
@@ -1018,7 +1018,7 @@ export const productsOrderItemsList2 = <ThrowOnError extends boolean = false>(op
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{product_id}/order-items/',
+        url: '/apix/private_api/products/{product_id}/order-items/',
         ...options
     });
 };
@@ -1038,7 +1038,7 @@ export const productsOrderItemsCreate = <ThrowOnError extends boolean = false>(o
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{product_id}/order-items/',
+        url: '/apix/private_api/products/{product_id}/order-items/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -1062,7 +1062,7 @@ export const productsOrderItemsDestroy = <ThrowOnError extends boolean = false>(
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{product_id}/order-items/{id}/',
+        url: '/apix/private_api/products/{product_id}/order-items/{id}/',
         ...options
     });
 };
@@ -1082,7 +1082,7 @@ export const productsOrderItemsRetrieve = <ThrowOnError extends boolean = false>
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{product_id}/order-items/{id}/',
+        url: '/apix/private_api/products/{product_id}/order-items/{id}/',
         ...options
     });
 };
@@ -1102,7 +1102,7 @@ export const productsOrderItemsPartialUpdate = <ThrowOnError extends boolean = f
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{product_id}/order-items/{id}/',
+        url: '/apix/private_api/products/{product_id}/order-items/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -1126,7 +1126,7 @@ export const productsOrderItemsUpdate = <ThrowOnError extends boolean = false>(o
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/{product_id}/order-items/{id}/',
+        url: '/apix/private_api/products/{product_id}/order-items/{id}/',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -1151,7 +1151,7 @@ export const productsByCategoryList = <ThrowOnError extends boolean = false>(opt
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/by_category/',
+        url: '/apix/private_api/products/by_category/',
         ...options
     });
 };
@@ -1172,7 +1172,7 @@ export const productsLowStockList = <ThrowOnError extends boolean = false>(optio
                 type: 'apiKey'
             }
         ],
-        url: '/api/private_api/products/low_stock/',
+        url: '/apix/private_api/products/low_stock/',
         ...options
     });
 };
