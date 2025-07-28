@@ -79,24 +79,14 @@ class Signal(models.Model):
         verbose_name="Direction"
     )
     ticker = models.CharField(max_length=20, verbose_name="Ticker")
-    entry_price = models.DecimalField(
-        max_digits=20, 
-        decimal_places=8,
-        verbose_name="Entry Price"
-    )
-    entry_price_now = models.DecimalField(
-        max_digits=20, 
-        decimal_places=8,
+    entry_price = models.FloatField(verbose_name="Entry Price")
+    entry_price_now = models.FloatField(
         null=True,
         blank=True,
         verbose_name="Current Entry Price"
     )
     leverage = models.IntegerField(verbose_name="Leverage")
-    stop_loss = models.DecimalField(
-        max_digits=20, 
-        decimal_places=8,
-        verbose_name="Stop Loss"
-    )
+    stop_loss = models.FloatField(verbose_name="Stop Loss")
     timestamp = models.DateTimeField(verbose_name="Timestamp")
     take_profits = models.JSONField(
         blank=True,

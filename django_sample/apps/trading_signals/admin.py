@@ -37,16 +37,17 @@ class SignalAdmin(admin.ModelAdmin):
     raw_id_fields = ["message", "channel"]
     
     fieldsets = (
-        ("Основная информация", {
+        ("Basic Information", {
             "fields": ("message", "channel", "direction", "ticker")
         }),
-        ("Цены", {
+        ("Prices", {
             "fields": ("entry_price", "entry_price_now", "stop_loss", "take_profits")
         }),
-        ("Параметры", {
+        ("Parameters", {
             "fields": ("leverage", "timestamp")
         }),
-        ("Системные поля", {
+
+        ("System Fields", {
             "fields": ("created_at", "updated_at"),
             "classes": ("collapse",)
         }),

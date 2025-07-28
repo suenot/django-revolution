@@ -29,7 +29,7 @@ class Message(models.Model):
     telegram_message_id = models.CharField(max_length=100)
     date = models.DateTimeField()
     text = models.TextField()
-    media_path = models.JSONField(blank=True, null=True)  # JSON вместо ArrayField для SQLite
+    media_path = models.JSONField(blank=True, null=True)  # Array of strings
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 ```
@@ -41,12 +41,12 @@ class Signal(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE, related_name="signals")
     direction = models.CharField(max_length=10, choices=[("LONG", "Long"), ("SHORT", "Short")])
     ticker = models.CharField(max_length=20)
-    entry_price = models.DecimalField(max_digits=20, decimal_places=8)
-    entry_price_now = models.DecimalField(max_digits=20, decimal_places=8, null=True, blank=True)
+    entry_price = models.FloatField()
+    entry_price_now = models.FloatField(null=True, blank=True)
     leverage = models.IntegerField()
-    stop_loss = models.DecimalField(max_digits=20, decimal_places=8)
+    stop_loss = models.FloatField()
     timestamp = models.DateTimeField()
-    take_profits = models.JSONField(blank=True, null=True)  # JSON вместо ArrayField
+    take_profits = models.JSONField(blank=True, null=True)  # Array of floats
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 ```

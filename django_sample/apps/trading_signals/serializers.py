@@ -3,12 +3,12 @@ from .models import Channel, Message, Signal
 
 
 class ChannelSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели Channel."""
+    """Serializer for Channel model."""
     
     class Meta:
         model = Channel
         fields = [
-            "id", "name", "telegram_id", 
+            "id", "name", "telegram_id",
             "created_at", "updated_at"
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
@@ -29,7 +29,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class SignalSerializer(serializers.ModelSerializer):
-    """Сериализатор для модели Signal."""
+    """Serializer for Signal model."""
     
     channel_name = serializers.CharField(source="channel.name", read_only=True)
     ticker_display = serializers.CharField(source="get_ticker_display", read_only=True)
@@ -47,7 +47,7 @@ class SignalSerializer(serializers.ModelSerializer):
 
 
 class SignalCreateSerializer(serializers.ModelSerializer):
-    """Сериализатор для создания торгового сигнала."""
+    """Serializer for creating trading signal."""
     
     class Meta:
         model = Signal
