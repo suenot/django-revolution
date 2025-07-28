@@ -9,6 +9,10 @@ class ChannelSerializer(serializers.ModelSerializer):
         model = Channel
         fields = [
             "id", "name", "telegram_id",
+            "forward_type", "signal_fn", "signals_only", "leverage",
+            "portfolio_percent", "open_mode", "move_stop_to_breakeven",
+            "allow_signals_without_sl_tp", "max_profit_percent", "review",
+            "position_lifetime", "target_chat_id", "wins", "fails", "wins_ratio",
             "created_at", "updated_at"
         ]
         read_only_fields = ["id", "created_at", "updated_at"]

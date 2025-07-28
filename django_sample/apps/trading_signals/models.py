@@ -7,6 +7,26 @@ class Channel(models.Model):
     
     name = models.CharField(max_length=255, verbose_name="Channel Name")
     telegram_id = models.CharField(max_length=100, unique=True, verbose_name="Telegram Channel ID")
+    
+    # Channel configuration fields
+    forward_type = models.CharField(max_length=50, default="custom", verbose_name="Forward Type")
+    signal_fn = models.CharField(max_length=100, default="signal_analyzer", verbose_name="Signal Function")
+    signals_only = models.BooleanField(default=True, verbose_name="Signals Only")
+    leverage = models.IntegerField(default=1, verbose_name="Leverage")
+    portfolio_percent = models.FloatField(default=0.25, verbose_name="Portfolio Percent")
+    open_mode = models.CharField(max_length=50, default="default", verbose_name="Open Mode")
+    move_stop_to_breakeven = models.BooleanField(default=True, verbose_name="Move Stop to Breakeven")
+    allow_signals_without_sl_tp = models.BooleanField(default=True, verbose_name="Allow Signals Without SL/TP")
+    max_profit_percent = models.FloatField(default=0.0, verbose_name="Max Profit Percent")
+    review = models.BooleanField(default=True, verbose_name="Review")
+    position_lifetime = models.CharField(max_length=20, default="0s", verbose_name="Position Lifetime")
+    target_chat_id = models.BigIntegerField(default=-4984770976, verbose_name="Target Chat ID")
+    
+    # Statistics fields
+    wins = models.IntegerField(default=0, verbose_name="Wins")
+    fails = models.IntegerField(default=0, verbose_name="Fails")
+    wins_ratio = models.FloatField(default=0.0, verbose_name="Wins Ratio")
+    
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated At")
     

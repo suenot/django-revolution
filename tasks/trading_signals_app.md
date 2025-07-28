@@ -18,6 +18,26 @@
 class Channel(models.Model):
     name = models.CharField(max_length=255)
     telegram_id = models.CharField(max_length=100, unique=True)
+    
+    # Configuration fields
+    forward_type = models.CharField(max_length=50, default="custom")
+    signal_fn = models.CharField(max_length=100, default="signal_analyzer")
+    signals_only = models.BooleanField(default=True)
+    leverage = models.IntegerField(default=1)
+    portfolio_percent = models.FloatField(default=0.25)
+    open_mode = models.CharField(max_length=50, default="default")
+    move_stop_to_breakeven = models.BooleanField(default=True)
+    allow_signals_without_sl_tp = models.BooleanField(default=True)
+    max_profit_percent = models.FloatField(default=0.0)
+    review = models.BooleanField(default=True)
+    position_lifetime = models.CharField(max_length=20, default="0s")
+    target_chat_id = models.BigIntegerField(default=-4984770976)
+    
+    # Statistics fields
+    wins = models.IntegerField(default=0)
+    fails = models.IntegerField(default=0)
+    wins_ratio = models.FloatField(default=0.0)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 ```
@@ -89,6 +109,22 @@ environment:
   POSTGRES_DB: ${POSTGRES_DB:-trading_signals}
 ```
 
+### 8. Seed данных
+Создана команда `seed_channels` для загрузки каналов из JSON файла:
+
+```bash
+# Загрузить каналы
+poetry run python manage.py seed_channels
+
+# Очистить и загрузить заново
+poetry run python manage.py seed_channels --clear
+
+# Использовать другой файл
+poetry run python manage.py seed_channels --file /path/to/channels.json
+```
+
+**Результат:** Загружено 52 канала из `source_channels.json` со всеми полями конфигурации и статистики
+
 ## API Endpoints
 
 ### Trading Signals API
@@ -119,10 +155,11 @@ environment:
 
 ## Следующие шаги
 1. ✅ Настроить подключение к PostgreSQL серверу
-2. Добавить тесты для API
-3. Настроить аутентификацию для API
-4. Добавить валидацию данных
-5. Настроить мониторинг и логирование
+2. ✅ Загрузить каналы из source_channels.json
+3. Добавить тесты для API
+4. Настроить аутентификацию для API
+5. Добавить валидацию данных
+6. Настроить мониторинг и логирование
 
 ## Безопасность
 - ✅ Все пароли и чувствительные данные вынесены в .env файл

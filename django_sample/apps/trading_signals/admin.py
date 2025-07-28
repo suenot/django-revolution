@@ -4,11 +4,32 @@ from .models import Channel, Message, Signal
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
-    list_display = ["name", "telegram_id", "created_at", "updated_at"]
-    list_filter = ["created_at", "updated_at"]
+    list_display = ["name", "telegram_id", "leverage", "portfolio_percent", "wins", "fails", "wins_ratio", "created_at"]
+    list_filter = ["signals_only", "review", "move_stop_to_breakeven", "created_at", "updated_at"]
     search_fields = ["name", "telegram_id"]
     readonly_fields = ["created_at", "updated_at"]
     ordering = ["-created_at"]
+    
+    fieldsets = (
+        ("Basic Information", {
+            "fields": ("name", "telegram_id")
+        }),
+        ("Configuration", {
+            "fields": (
+                "forward_type", "signal_fn", "signals_only", "leverage",
+                "portfolio_percent", "open_mode", "move_stop_to_breakeven",
+                "allow_signals_without_sl_tp", "max_profit_percent", "review",
+                "position_lifetime", "target_chat_id"
+            )
+        }),
+        ("Statistics", {
+            "fields": ("wins", "fails", "wins_ratio")
+        }),
+        ("System Fields", {
+            "fields": ("created_at", "updated_at"),
+            "classes": ("collapse",)
+        }),
+    )
 
 
 @admin.register(Message)
